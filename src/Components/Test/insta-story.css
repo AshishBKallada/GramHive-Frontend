@@ -1,0 +1,53 @@
+.story-viewer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 50px;
+  }
+  
+  .story-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .story-preview,
+  .current-story {
+    flex: 0 0 150px; /* Set the width of each story */
+    margin: 0 10px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .previous img,
+  .next img {
+    filter: grayscale(100%);
+  }
+  
+  .previous p,
+  .next p {
+    visibility: hidden;
+  }
+  
+  .current-story {
+    flex: 0 0 300px; /* Set the width of the current story */
+  }
+  
+  .nav-button {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .nav-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .nav-button span {
+    display: block;
+  }
+  
