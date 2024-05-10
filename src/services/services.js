@@ -57,7 +57,28 @@ function base64ToBlob(base64String) {
     return blob;
 }
 
-export function getStories(userId)
-{
+export function getStories(userId) {
     return client.get(`/story/${userId}/getstories`)
+}
+
+export function searchUser(query) {
+    return client.get(`/searchuser/${query}`)
+}
+
+export function fetchUserChats(userId) {
+    return client.post(`/chats`)
+}
+
+export function accessChat(userId) {
+    return client.get(`/chats/${userId}`)
+}
+
+export function getMessages(chatId) {
+    return client.get(`/messages/${chatId}`)
+}
+
+export function sentMessage(chatId,message){
+    return client.post(`/messages/${chatId}`,{
+        content:message
+    })
 }
