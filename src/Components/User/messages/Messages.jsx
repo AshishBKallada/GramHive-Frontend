@@ -427,7 +427,7 @@ function MessageList() {
                 <div
                   onClick={() => setSelectedChat(chat)}
                   className={`entry cursor-pointer transform hover:scale-105 duration-300 transition-transform p-4 flex shadow-md ${
-                    selectedChat === chat ? "bg-blue-800" : "bg-blue-500"
+                    selectedChat === chat ? "bg-yellow-800" : "bg-yellow-400"
                   } mb-4 rounded`}
                 >
                   <div className="flex-2">

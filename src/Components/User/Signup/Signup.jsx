@@ -3,7 +3,6 @@ import OTP from '../OTP/OTP';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GoogleAuth from '../GoogleAuth/GoogleAuth';
-import { Button, Dialog, Card, CardHeader, CardBody, CardFooter, Typography, Input, Checkbox } from "@material-tailwind/react";
 import { useDispatch } from 'react-redux';
 import { userSignup } from '../../../redux/userAuthSlice';
 import { useNavigate } from 'react-router-dom';
@@ -214,7 +213,11 @@ function Signup() {
         )
     }
     return (
-        <div className="h-screen bg-gray-50 flex flex-col justify-center items-center">
+        <div className="h-screen bg-gray-50 flex flex-col justify-center items-center" style={{
+            backgroundImage: `url(https://png.pngtree.com/thumb_back/fw800/background/20230930/pngtree-yellow-background-social-media-illustration-instagram-post-frame-and-icons-in-image_13513220.png)`, 
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        }}>
             <div className="bg-white border border-gray-300 w-80 py-8 flex items-center flex-col mb-3">
                 
             <GoogleAuth type="signup" setUserData={setUserData} />

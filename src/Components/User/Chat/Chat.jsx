@@ -5,11 +5,15 @@ import { getMessages, sentMessage } from "../../../services/services";
 import { useSelector } from "react-redux";
 import {
   getSender,
+  getSenderId,
   getSenderImage,
   isLastMessage,
   isSameSender,
 } from "../../../Config/ChatLogics";
 import { useToast } from "@chakra-ui/react";
+
+import { ZIM } from "zego-zim-web";
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
 const Chat = () => {
   const { selectedChat } = ChatState();
@@ -20,6 +24,8 @@ const Chat = () => {
   const [socketConn, setSocketConn] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [zp, setZp] = useState(null);
+  const [enableCall, setEnableCall] = useState(false);
 
   const userId = useSelector((state) => state.user.user._id);
 
@@ -66,7 +72,7 @@ const Chat = () => {
 
   const handleSentMessage = async () => {
     try {
-      socket.emit('stop typing',selectedChat._id)
+      socket.emit("stop typing", selectedChat._id);
       const { data } = await sentMessage(selectedChat._id, message);
       console.log("DATA RECEIVED", data);
       setMessage("");
@@ -84,7 +90,6 @@ const Chat = () => {
   };
 
   const typingHandler = (e) => {
-
     setMessage(e.target.value);
 
     if (!socketConn) return;
@@ -105,15 +110,66 @@ const Chat = () => {
         setTyping(false);
       }
     }, timerLength);
+  };
 
+  useEffect(() => {
+    const initZego = async () => {
+      const appID = 936448743;
+      const serverSecret = "494beec4b3a9c89f5408d65b260c8b71";
+      const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(
+        appID,
+        serverSecret,
+        null,
+        userId,
+        `userName${userId}`
+      );
+
+      const zegoInstance = ZegoUIKitPrebuilt.create(TOKEN);
+      zegoInstance.addPlugins({ ZIM });
+      if (enableCall) {
+        setZp(zegoInstance);
+      }
+    };
+
+    initZego();
+
+    return () => {
+      if (zp) {
+        zp.destroy();
+      }
+    };
+  }, [userId]);
+
+  async function invite() {
+    const targetUser = {
+      userID: getSenderId(userId, selectedChat.users),
+      userName: getSender(userId, selectedChat.users),
+      image: getSenderImage(userId, selectedChat.users),
+    };
+    zp.sendCallInvitation({
+      callees: [targetUser],
+      callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
+      timeout: 60,
+    })
+      .then((res) => {
+        console.warn(res);
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  }
+
+  const handleCall = () => {
+    setEnableCall(true);
+    invite();
   };
 
   if (!selectedChat) {
     return (
       <>
-        <div class="mt-12 mr-12 ml-6 relative py-14 px-3 bg-black no-chat-selected rounded-3xl">
+        <div class="mt-12 mr-12 ml-6 relative py-14 px-3 bg-yellow-300 no-chat-selected rounded-3xl">
           <img
-            className="w-100 h-100 object-cover rounded-lg"
+            className="w-88 h-88 object-cover rounded-lg"
             src="https://i.pinimg.com/originals/4b/cb/1f/4bcb1fb72d1d08efa44efa5ceb712ec7.gif"
             alt=""
           />
@@ -126,6 +182,8 @@ const Chat = () => {
   }
   return (
     <>
+      <script src="https://unpkg.com/zego-zim-web@2.5.0/index.js"></script>
+      <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
       <div className="py-2 px-3 bg-grey-lighter flex flex-row justify-between items-center bg-gray-200">
         <div className="flex items-center">
           <div>
@@ -164,18 +222,13 @@ const Chat = () => {
             </svg>
           </div>
           <div className="ml-6">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-            >
-              <path
-                fill="#263238"
-                fillOpacity=".5"
-                d="M1.816 15.556v.002c0 1.502.584 2.912 1.646 3.972s2.472 1.647 3.974 1.647a5.58 5.58 0 0 0 3.972-1.645l9.547-9.548c.769-.768 1.147-1.767 1.058-2.817-.079-.968-.548-1.927-1.319-2.698-1.594-1.592-4.068-1.711-5.517-.262l-7.916 7.915c-.881.881-.792 2.25.214 3.261.959.958 2.423 1.053 3.263.215l5.511-5.512c.28-.28.267-.722.053-.936l-.244-.244c-.191-.191-.567-.349-.957.04l-5.506 5.506c-.18.18-.635.127-.976-.214-.098-.097-.576-.613-.213-.973l7.915-7.917c.818-.817 2.267-.699 3.23.262.5.501.802 1.1.849 1.685.051.573-.156 1.111-.589 1.543l-9.547 9.549a3.97 3.97 0 0 1-2.829 1.171 3.975 3.975 0 0 1-2.83-1.173 3.973 3.973 0 0 1-1.172-2.828c0-1.071.415-2.076 1.172-2.83l7.209-7.211c.157-.157.264-.579.028-.814L11.5 4.36a.572.572 0 0 0-.834.018l-7.205 7.207a5.577 5.577 0 0 0-1.645 3.971z"
-              ></path>
-            </svg>
+            <button onClick={handleCall}>
+              <img
+                className="w-6 h-6"
+                src="https://www.iconpacks.net/icons/1/free-phone-icon-505-thumb.png"
+                alt=""
+              />
+            </button>
           </div>
           <div className="ml-6">
             <svg

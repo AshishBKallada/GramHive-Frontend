@@ -12,10 +12,12 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import LikedList from '../LikedList/LikedList';
 import PostEditor from '../PostEditor/postEditor';
+import { useToast } from '@chakra-ui/react';
 
 function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
 
     const author = useSelector((state) => state.user.user._id);
+    const toast = useToast();
 
     const [isHidden, setIsHidden] = useState(true);
     const [comment, setComment] = useState('');
@@ -68,6 +70,15 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
     }
 
     const handleComment = async (e) => {
+        if(comment.trim() === '') {
+            toast({
+                title: 'Comment cannot be empty',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return
+        }
         e.preventDefault();
         try {
             await axios.post(`http://localhost:3000/comment/${postId}/addcomments`, { comment, author })
@@ -151,6 +162,15 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
 
     const handleReply = async () => {
         console.log('Replying to comment:', replyingTo, 'Reply:', reply);
+        if(reply.trim() === '') {
+            toast({
+                title: 'Comment cannot be empty',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return
+        }
 
         try {
             const response = await axios.post(`http://localhost:3000/comment/${postId}/replies/${replyingTo}`, {
@@ -292,7 +312,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
                                         <span class="text-sm font-semibold antialiased block leading-tight">{user.user.username}</span>
                                         <span class="text-gray-600 text-xs block">Asheville, North Carolina</span>
                                     </div>
-                                    <Button
+                                    {/* <Button
                                         id="basic-button"
                                         aria-controls={open ? 'basic-menu' : undefined}
                                         aria-haspopup="true"
@@ -301,8 +321,8 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 6v.01M12 12v.01M12 18v.01"></path>
-                                        </svg>       </Button>
-                                    <Menu
+                                        </svg>       </Button> */}
+                                    {/* <Menu
                                         id="basic-menu"
                                         anchorEl={anchorEl}
                                         open={open}
@@ -320,7 +340,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
                                         <MenuItem onClick={handleEditClick} >
                                             Edit
                                         </MenuItem>
-                                    </Menu>
+                                    </Menu> */}
 
                                 </div>
 
@@ -475,7 +495,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts },) {
                                                                         <div class="bg-gray-100 w-auto rounded-xl px-2 pb-2">
                                                                             <div class="font-medium">
                                                                                 <a href="#" class="hover:underline text-sm">
-                                                                                    <small>{r.author.username}</small>
+                                                                                    <small>{r.author?.username}</small>
                                                                                 </a>
                                                                             </div>
                                                                             <div class="text-xs">

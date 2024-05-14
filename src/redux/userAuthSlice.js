@@ -16,14 +16,6 @@ export const userLogin = createAsyncThunk('user/login', async (loginData, thunkA
         }
 
         const data = await response.json();
-
-        Cookies.set('token', data.token, { expires: 7 });
-        Cookies.set('refreshToken', data.refreshToken, { expires: 7 });
-        console.log('ACCESS TOKEN', data.token);
-
-        console.log('REFRESH TOKEN', data.refreshToken);
-
-
         return data;
     } catch (error) {
         throw error;
@@ -56,6 +48,24 @@ export const userSignup = createAsyncThunk('user/signup', async (signupData, thu
     }
 });
 
+export const userSignupWithEmail = createAsyncThunk('user/signupWithEmail', async (otp) => {
+    try {
+        const response = await fetch(`http://localhost:3000/verifyotp`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ otp }),
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log("USER DATA_____________", data);
+            document.cookie = `token=${data.token}; path=/;`;
+            return data;
+        }
+    } catch (error) {
+
+    }
+});
+
 
 export const updateUserProfile = createAsyncThunk(
     'user/updateProfile',
@@ -85,6 +95,7 @@ export const updateUserProfile = createAsyncThunk(
 
 const initialState = {
     msg: '',
+    token: '',
     user: null,
     loading: false,
     error: null,
@@ -109,49 +120,35 @@ const userSlice = createSlice({
             .addCase(userLogin.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                console.log('State', state);
             })
             .addCase(userLogin.fulfilled, (state, action) => {
-                console.log('fulfilled');
-                console.log(action);
-
                 state.loading = false;
                 state.msg = action.payload.message;
                 state.user = action.payload.user;
                 state.error = null;
-                console.log('State', state.user);
             })
             .addCase(userLogin.rejected, (state, action) => {
                 state.loading = false;
                 console.log(action.error.message);
                 state.error = action.error.message;
-                console.log('Rejected');
-                console.log('State', state.error);
             })
             .addCase(userSignup.pending, (state) => {
                 state.loading = true;
                 state.error = null;
-                console.log('State', state);
             })
             .addCase(userSignup.fulfilled, (state, action) => {
-                console.log('fulfilled');
-                console.log(action);
-
                 state.loading = false;
                 state.msg = action.payload.message;
                 state.user = action.payload.user;
-                console.log('State', state.user);
             })
             .addCase(userSignup.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-                console.log('State', state);
             })
             .addCase(updateUserProfile.pending, (state) => {
                 state.loading = true;
             })
             .addCase(updateUserProfile.fulfilled, (state, action) => {
-                console.log('State', action);
                 state.loading = false;
                 state.user = action.payload.updatedUser;
                 state.msg = action.payload.message;
@@ -160,7 +157,22 @@ const userSlice = createSlice({
             })
             .addCase(updateUserProfile.rejected, (state, action) => {
                 state.error = action.error.message;
-            });
+            })
+            .addCase(userSignupWithEmail.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(userSignupWithEmail.fulfilled, (state, action) => {
+                alert('2')
+                console.log(action);
+                state.loading = false;
+                state.msg = action.payload.message;
+                state.user = action.payload.user;
+            })
+            .addCase(userSignupWithEmail.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
 
     }
 });

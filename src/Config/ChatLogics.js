@@ -1,9 +1,9 @@
 export const getSender = (userId, users) => {
-    return users[0]._id === userId ? users[1].username : users[0].username;
+    return users[0]._id === userId ? users[1]?.username : users[0]?.username;
 }
 
 export const getSenderImage = (userId, users) => {
-    return users[0]._id === userId ? users[1].image : users[0].image;
+    return users[0]._id === userId ? users[1]?.image : users[0]?.image;
 }
 export const isSameSender = (messages, m, i, userId) => {
     return (
@@ -20,4 +20,8 @@ export const isLastMessage = (messages, i, userId) => {
         messages[messages.length - 1].sender._id !== userId &&
         messages[messages.length - 1].sender._id
     );
+}
+
+export const getSenderId = (userId,users) =>{
+    return users[0]._id === userId ? users[1]._id : users[0]._id;
 }

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome, FaSearch, FaCompass, FaRegPlayCircle, FaEnvelope, FaBell, FaPlusSquare, FaUserFriends, FaEllipsisH } from 'react-icons/fa';
 import './Sidebar.css';
@@ -9,6 +9,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import SearchModal from '../../../../dummy';
+import { AuthContext } from '../../../Context/AuthContext';
 
 
 const Sidebar = () => {
@@ -16,6 +17,7 @@ const Sidebar = () => {
   const [create, setshowCreate] = useState(false);
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
+  const { setToken } = useContext(AuthContext)
 
   const handleLogout = () => {
     confirmAlert({
@@ -26,7 +28,8 @@ const Sidebar = () => {
           label: 'Yes',
           onClick: () => {
             Cookies.remove('token');
-            navigate('/')
+            setToken(null);
+            navigate('/login')
           }
 
         },
