@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../Components/User/Sidebar/Sidebar";
 import Story from "../../Components/User/Story/Story";
-const PostCard = React.lazy(() => import('../../Components/User/PostCard/PostCard'));
+import { CardStackDemo } from "../../Components/User/stackCard/stackCard";
+const PostCard = React.lazy(() =>
+  import("../../Components/User/PostCard/PostCard")
+);
 
 function Home() {
- 
-
-
   return (
     <div className="" style={{ position: "relative" }}>
       <Sidebar />
@@ -14,18 +14,27 @@ function Home() {
         <Story />
       </div>
 
+     
       <div
-        className="scroll-smooth static overflow-scroll"
-        style={{
-          marginLeft: "400px",
-          height: "calc(100vh - 8rem)",
-          overflowY: "scroll",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
-      >
-        <PostCard />
-      </div>
+  className="scroll-smooth static overflow-scroll"
+  style={{
+    display: "flex",
+    marginLeft: "400px",
+    overflowY: "scroll",
+    height: "calc(100vh - 8rem)",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
+  }}
+>
+  <div style={{ flex: "1 1 auto", marginRight: "16px" }}>
+    <PostCard />
+  </div>
+  <div style={{ flex: "0 0 auto", position: "sticky", top: "0" }}>
+    <CardStackDemo />
+  </div>
+</div>
+
+
     </div>
   );
 }

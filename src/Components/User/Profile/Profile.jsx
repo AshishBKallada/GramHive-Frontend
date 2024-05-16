@@ -10,7 +10,7 @@ import { useRef } from "react";
 import LoadingSpinner from "../../External/LoadingSpinner";
 import { useLoading } from "../../../Context/LoadingContext";
 import { getProfile, getProfileSaved } from "../../../services/services";
-import { ParallaxScroll } from "../external/acertinity-grid";
+import { ParallaxScroll } from "../../External/acertinity-grid";
 
 function Profile() {
   const user = useSelector((state) => state.user);

@@ -2,7 +2,7 @@
 import { useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { motion } from "framer-motion";
-import { cn } from "../../../../util";
+import { cn } from "../../../util";
 
 export const ParallaxScroll = ({ images, className, handlePostDetails }) => {
   const gridRef = useRef(null);

@@ -77,8 +77,29 @@ export function getMessages(chatId) {
     return client.get(`/messages/${chatId}`)
 }
 
-export function sentMessage(chatId,message){
-    return client.post(`/messages/${chatId}`,{
-        content:message
+export function sentMessage(chatId, message) {
+    return client.post(`/messages/${chatId}`, {
+        content: message
     })
+}
+
+export function commentDelete(postId, commentId) {
+    return client.delete(`/comment/${postId}/${commentId}`)
+}
+
+export function deleteCommentReply(postId, commentId, replyId) {
+    return client.delete(`/comment/${postId}/${commentId}/replies/${replyId}`)
+}
+
+export function ResendOTP(email) {
+    return client.post(`/resendmail/${email}`)
+}
+
+export function likePost(postId, userId) {
+    return client.post(`/posts/${postId}/like`, { userId });
+}
+
+
+export function removePostLike(postId, userId) {
+    return client.put(`/posts/${postId}/unlike`, { userId });
 }

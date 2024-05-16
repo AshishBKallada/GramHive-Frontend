@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { userSignup } from "../../../redux/userAuthSlice";
 import { useNavigate } from "react-router-dom";
 import { Card } from "flowbite-react";
-import { CardBody, Typography } from "@material-tailwind/react";
+import { CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { useToast } from "@chakra-ui/react";
 
 function SignupTest() {
@@ -152,9 +152,15 @@ function SignupTest() {
     try {
       const { name, email, password, username, image } = userData;
       console.log("....................", userData);
-      dispatch(userSignup({ name, email, password, username, image }));
-      console.log("hey vro");
-      toast.success("Successfully Signed in!");
+      dispatch(userSignup({ name, email, password, username, image }))
+        toast({
+            title: "Google signup successfull",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
+          navigate('/')
+          
     } catch (error) {}
   };
 
@@ -268,7 +274,7 @@ function SignupTest() {
     return (
       <>
         <ToastContainer position="top-center" autoClose={1500} />
-        <OTP />
+        <OTP resendemail={signupData.email} />
       </>
     );
   }
@@ -315,7 +321,8 @@ function SignupTest() {
           <form class="bg-white" onSubmit={handleSubmit}>
             <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello there !</h1>
             <p class="text-sm font-normal text-gray-600 mb-7">
-              Welcome To GramHive           <GoogleAuth type="signup" setUserData={setUserData} />
+              Welcome To GramHive     
+                    <GoogleAuth type="signup" setUserData={setUserData} />
 
             </p>
             <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">

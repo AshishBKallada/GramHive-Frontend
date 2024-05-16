@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import HomePostDetail from "../HomePostDetail/HomePostDetail";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { likePost, removePostLike } from "../../../services/services";
 
 function PostCard() {
   const author = useSelector((state) => state.user.user._id);
@@ -13,13 +14,12 @@ function PostCard() {
   const userId = useSelector((state) => state.user.user._id);
 
   const [posts, setPosts] = useState([]);
-  const [likeMap, setLikeMap] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
   const fetchPosts = async () => {
     try {
-       await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const response = await fetch(
         `http://localhost:3000/posts/home/${userId}?page=${page}`
@@ -27,23 +27,13 @@ function PostCard() {
       if (response.ok) {
         const data = await response.json();
         console.log("HOME POSTS", data);
-        let id = [];
-        await data.posts.forEach(async (post) => {
-          console.log("ewrwe");
-          await post.likes.forEach((like) => {
-            console.log(like, "ooertoier");
-            id.push(like.user._id);
-          });
-        });
+
         if (data.posts.length === 0) {
-            setHasMore(false);
-            return;
-          }
-        setLikeMap((prevIds) => [...prevIds, ...id]);
+          setHasMore(false);
+          return;
+        }
         setPosts((prevPosts) => [...prevPosts, ...data.posts]);
         setPage((prevPage) => prevPage + 1);
-
-        
       }
     } catch (error) {}
   };
@@ -54,30 +44,36 @@ function PostCard() {
 
   const handleLike = async (postId, index) => {
     try {
-      await axios.post(`http://localhost:3000/posts/${postId}/like`, {
-        author,
-      });
-      const response = await axios.get(
-        `http://localhost:3000/posts/${postId}/likes`
-      );
-      setLikeMap([...likeMap, author]);
+        const response = await likePost(postId, author);
+        if (response.status === 200) {
+            console.log('1',response.data.post);
+
+        const updatedPost = response.data.post;
+        const updatedPosts = [...posts];
+        updatedPosts[index] = updatedPost;
+        setPosts(updatedPosts);
+        console.log('Updated posts',posts);
+        }
     } catch (error) {
-      console.error("Error toggling like:", error);
+        console.error("Error toggling like:", error);
     }
-  };
+};
+
 
   const handleUnLike = async (postId, index) => {
     try {
-      await axios.delete(`http://localhost:3000/posts/${postId}/unlike`, {
-        author,
-      });
-      const response = await axios.get(
-        `http://localhost:3000/posts/${postId}/likes`
-      );
-      const update = likeMap.filter((like) => {
-        like !== author;
-      });
-      setLikeMap(update);
+
+      const response = await removePostLike(postId, author);
+      if (response.status === 200) {
+        console.log('1',response.data.post);
+
+        const updatedPost = response.data.post;
+        const updatedPosts = [...posts];
+        updatedPosts[index] = updatedPost;
+        setPosts(updatedPosts);
+        console.log('Updated posts',posts);
+
+      }
     } catch (error) {
       console.error("Error toggling like:", error);
     }
@@ -101,7 +97,6 @@ function PostCard() {
     setCurrPost(post);
   };
 
-
   return (
     <div>
       <ToastContainer />
@@ -113,6 +108,7 @@ function PostCard() {
           posts={posts}
         />
       )}
+
       <InfiniteScroll
         dataLength={posts.length}
         next={fetchPosts}
@@ -189,7 +185,8 @@ function PostCard() {
                                         </svg>
                                     </button>
                                 )} */}
-                  {likeMap && likeMap[i] === author ? (
+
+                  {post.likes.some((like) => like.user._id === userId) ? (
                     <button onClick={() => handleUnLike(post._id, i)}>
                       <svg
                         fill="#ff0000"
@@ -212,6 +209,7 @@ function PostCard() {
                       </svg>
                     </button>
                   )}
+
                   <svg
                     onClick={() => handlePostDetails(post)}
                     fill="#262626"

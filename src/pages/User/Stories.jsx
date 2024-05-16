@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { WavyBackground } from "../../Components/User/external/wavy-backgroubd";
+import { WavyBackground } from "../../Components/External/wavy-backgroubd";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import Stories from "react-insta-stories";

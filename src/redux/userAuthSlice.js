@@ -10,6 +10,9 @@ export const userLogin = createAsyncThunk('user/login', async (loginData, thunkA
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)
         });
+        if(response.status === 302){
+            
+        }
         if (response.status === 401) {
             const data = await response.json();
             throw new Error(data.message);
@@ -153,7 +156,6 @@ const userSlice = createSlice({
                 state.user = action.payload.updatedUser;
                 state.msg = action.payload.message;
                 state.error = null;
-
             })
             .addCase(updateUserProfile.rejected, (state, action) => {
                 state.error = action.error.message;
@@ -163,7 +165,6 @@ const userSlice = createSlice({
                 state.error = null;
             })
             .addCase(userSignupWithEmail.fulfilled, (state, action) => {
-                alert('2')
                 console.log(action);
                 state.loading = false;
                 state.msg = action.payload.message;
@@ -171,7 +172,7 @@ const userSlice = createSlice({
             })
             .addCase(userSignupWithEmail.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.message;
             })
 
     }

@@ -26,11 +26,13 @@ const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [zp, setZp] = useState(null);
   const [enableCall, setEnableCall] = useState(false);
+  const [notification, setNotification] = useState([]);
 
   const userId = useSelector((state) => state.user.user._id);
 
   const ENDPOINT = "http://localhost:3000";
   var socket, selectedChatCompare;
+
 
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -48,6 +50,21 @@ const Chat = () => {
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       }
     });
+
+    socket.on("notification received", (res) => {
+      const isChatOpen = selectedChatCompare?.users.some(
+        (user) => user._id === res.senderId
+      );
+      if (isChatOpen) {
+        setNotification((prev) => [{ ...res, isRead: true }, ...prev]);
+      } else {
+        setNotification((prev) => [res, ...prev]);
+      }
+
+      console.log('NOTIFICATION',notification);
+
+    });
+    
   });
 
   useEffect(() => {
@@ -167,13 +184,13 @@ const Chat = () => {
   if (!selectedChat) {
     return (
       <>
-        <div class="mt-12 mr-12 ml-6 relative py-14 px-3 bg-yellow-300 no-chat-selected rounded-3xl">
+        <div class="mt-12 mr-12 ml-6 relative py-14 px-3 bg-blue-500 no-chat-selected rounded-3xl">
           <img
             className="w-88 h-88 object-cover rounded-lg"
-            src="https://i.pinimg.com/originals/4b/cb/1f/4bcb1fb72d1d08efa44efa5ceb712ec7.gif"
+            src="https://cdn.dribbble.com/users/77598/screenshots/16399264/media/d86ceb1ad552398787fb76f343080aa6.gif"
             alt=""
           />
-          <div class="absolute top-2/3 left-1/2 transform -translate-y-1/2 -translate-x-1/2 text-white text-3xl text-center font-bold">
+          <div class="absolute top-2/3 left-1/2 transform -translate-y-1/2 -translate-x-1/2 text-black text-3xl text-center font-bold">
             Select a chat to start messaging !
           </div>
         </div>

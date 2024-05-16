@@ -427,7 +427,7 @@ function MessageList() {
                 <div
                   onClick={() => setSelectedChat(chat)}
                   className={`entry cursor-pointer transform hover:scale-105 duration-300 transition-transform p-4 flex shadow-md ${
-                    selectedChat === chat ? "bg-yellow-800" : "bg-yellow-400"
+                    selectedChat === chat ? "bg-blue-900" : "bg-blue-500"
                   } mb-4 rounded`}
                 >
                   <div className="flex-2">
@@ -472,6 +472,23 @@ function MessageList() {
                     </div>
                   </div>
                 </div>
+            //     <button
+            //     onClick={() => setSelectedChat(chat)}
+            //     class="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50">
+            //     <div class="flex items-center">
+            //         <img 
+                    
+            //         class="rounded-full items-start flex-shrink-0 mr-3" src={getSenderImage(userId, chat.users)} width="32" height="32" alt="Marie Zulfikar" />
+            //         <div>
+            //             <h4 class="text-sm font-semibold text-gray-900"> <span className="text-white">
+            //             {!chat.isGroupChat
+            //               ? getSender(userId, chat.users)
+            //               : chat.latestMessage?.sender.username}
+            //           </span></h4>
+            //             <div class="text-[13px]">The video chat ended · 2hrs</div>
+            //         </div>
+            //     </div>
+            // </button>
               ))}
           </div>
         </div>

@@ -12,9 +12,11 @@ import { LoadingProvider } from "./Context/LoadingContext.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
 import ChatProvider from "./Context/ChatProvider.jsx";
 const persistor = persistStore(store);
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
+    <GoogleOAuthProvider clientId="<your_client_id>">
     <AdminAuthProvider>
       <AuthProvider>
         <LoadingProvider>
@@ -28,5 +30,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </LoadingProvider>
       </AuthProvider>
     </AdminAuthProvider>
+    </GoogleOAuthProvider>
   </ChakraProvider>
 );

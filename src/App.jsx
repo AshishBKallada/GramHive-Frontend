@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import Signup from './Components/User/Signup/Signup';
-
 import AdminHome from './pages/Admin/Home';
 import AdminLogin from './pages/Admin/Login';
 import Users from './pages/Admin/Users';
@@ -16,19 +14,13 @@ import Messages from './pages/User/Messages';
 import RoomPage from './pages/User/Call';
 import Login from './pages/User/Login';
 import UserSignup from './pages/User/Signup';
-import TestScroll from './pages/User/TestScroll';
 import LoadingSpinner from './Components/External/LoadingSpinner';
-import { ParallaxScroll } from './Components/User/external/acertinity-grid';
+import SidebarTest from './Components/Test/SidebarTest';
+import NearbyUsersMap from './Components/Test/NearbyUsers';
 
 function App() {
   const { token, loading } = useContext(AuthContext);
   const { adminToken, setAdminToken, adminLoading, setAdminLoading } = useContext(AdminAuthContext);
-  console.log('00000000000000000000000', adminToken);
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  
 
   if(loading) {
     return <LoadingSpinner/>
@@ -53,7 +45,7 @@ function App() {
           <Route path="/admin/users" element={adminToken ? <Users /> : <AdminLogin />} />
           <Route path="*" element={<Navigate to="/login" />} />
 
-            <Route path = '/test' element={<ParallaxScroll />} />
+            <Route path = '/test' element={<NearbyUsersMap />} />
           <Route path="/room/:roomId" element={<RoomPage />}/>
 
         </Routes>
