@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import MyComponent from "../PostDetail/PostDetails";
+import MyComponent from "../Post/PostDetails";
 import Followers from "../Follower/Follower";
 import { useRef } from "react";
 import LoadingSpinner from "../../External/LoadingSpinner";
@@ -98,7 +98,6 @@ function Profile() {
         const userId = user.user._id;
         const response = await getProfileSaved(userId);
         const savedPosts = response.data.posts;
-        console.log("SAVED POSTS", savedPosts);
         setTabData(savedPosts);
       } catch (error) {
         console.error("Error fetching saved posts:", error);
@@ -106,8 +105,6 @@ function Profile() {
     }
     setActiveTab(tab);
   };
-  console.log("TABDATA", tabData);
-  console.log("ACTIVE TAB", activeTab);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -116,16 +113,17 @@ function Profile() {
   return (
     <>
       {isHovered && (
-        <div className="absolute fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
+        <div className="absolute flex justify-center items-center z-50 bg-black bg-opacity-75 rounded-full shadow-lg transition-transform duration-500 ease-in-out transform scale-75 translate-y-10 hover:scale-100 hover:translate-y-0">
           <img
             onMouseLeave={() => setIsHovered(false)}
             src={user.user.image}
             alt="Profile"
-            className="rounded-full"
-            style={{ width: "600px", height: "600px" }}
+            className="rounded-full shadow-lg"
+            style={{ width: "500px", height: "500px" }}
           />
         </div>
       )}
+
       <div>
         {postDetails && (
           <MyComponent
@@ -209,7 +207,7 @@ function Profile() {
                   </span>
                 </div>
 
-                <div className="text-left pl-4 pt-3">
+                <div className="flex flex-col text-left pl-4 pt-3">
                   <span className="text-lg font-bold text-gray-700 mr-2">
                     {user.user.name}
                   </span>
@@ -217,6 +215,11 @@ function Profile() {
 
                 <div className="text-left pl-4 pt-3">
                   <p className="text-base font-medium text-blue-700 mr-2">
+                    <span className="text-gray-700">Email : </span>
+                    {user.user.email}
+                  </p>
+                  <p className="text-base font-medium text-blue-700 mr-2">
+                    <span className="text-gray-700">Website : </span>
                     {user.user.website}
                   </p>
                   <p className="text-base font-medium text-gray-700 mr-2">
@@ -248,75 +251,15 @@ function Profile() {
               </div>
             </div>
 
-            <div className="inline-flex ml-30 mt-16 z-40">
-              <div className="flex-1 text-center px-4 py-2 m-2">
-                <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                  <img
-                    className="object-cover w-full h-full"
-                    src="https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
-                  />
-                </div>
-                <h1 className="pt-16 text-base font-semibold text-gray-900">
-                  Fun
-                </h1>
-              </div>
-
-              <div className="flex-1 text-center px-4 py-2 m-2">
-                <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                  <img
-                    className="object-cover w-full h-full"
-                    src="https://images.unsplash.com/photo-1456415333674-42b11b9f5b7b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
-                  />
-                </div>
-                <h1 className="pt-16 text-base font-semibold text-gray-900">
-                  Travel
-                </h1>
-              </div>
-
-              <div className="flex-1 text-center px-4 py-2 m-2">
-                <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                  <img
-                    className="object-cover w-full h-full"
-                    src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80"
-                  />
-                </div>
-                <h1 className="pt-16 text-base font-semibold text-gray-900">
-                  Food
-                </h1>
-              </div>
-
-              <div className="flex-1 text-center px-4 py-2 m-2">
-                <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                  <img
-                    className="object-cover w-full h-full"
-                    src="https://images.unsplash.com/photo-1516834474-48c0abc2a902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80"
-                  />
-                </div>
-                <h1 className="pt-16 text-base font-semibold text-gray-900">
-                  Sketch
-                </h1>
-              </div>
-
-              <div className="flex-1 text-center px-4 py-2 m-2">
-                <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                  <img
-                    className="object-cover w-full h-full"
-                    src="https://images.unsplash.com/photo-1444021465936-c6ca81d39b84?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-                  />
-                </div>
-                <h1 className="pt-16 text-base font-semibold text-gray-900">
-                  My Work
-                </h1>
-              </div>
-            </div>
-
             <hr className="border-gray-500 mt-6" />
             <hr className="border-gray-500 w-20 border-t-1 ml-64 border-gray-800" />
 
             <div className="flex flex-row mt-4 justify-center mr-16">
               <div
                 onClick={() => handleActiveTab("POSTS")}
-                className="flex text-gray-700 text-center py-2 m-2 pr-5"
+                className={`flex text-gray-700 text-center py-2 m-2 pr-5 ${
+                  activeTab === "POSTS" ? "text-blue-500" : ""
+                }`}
               >
                 <div className="flex inline-flex">
                   <button
@@ -326,9 +269,9 @@ function Profile() {
                     <svg
                       className="h-6 w-6"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -337,44 +280,21 @@ function Profile() {
                   </button>
                 </div>
                 <div className="flex inline-flex ml-2 mt-1">
-                  <h3 className="text-sm font-bold text-gray-800 mr-2">
+                  <h3
+                    className={`text-sm font-bold ${
+                      activeTab === "POSTS" ? "text-blue-500" : "text-gray-800"
+                    } mr-2`}
+                  >
                     POSTS
                   </h3>
                 </div>
               </div>
 
               <div
-                onClick={() => handleActiveTab("IGTV")}
-                className="flex text-gray-700 text-center py-2 m-2 pr-5"
-              >
-                <div className="flex inline-flex">
-                  <button
-                    className="border-transparent text-gray-600 rounded-full hover:text-blue-600 focus:outline-none focus:text-gray-600"
-                    aria-label="Notifications"
-                  >
-                    <svg
-                      className="h-6 w-6"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="flex inline-flex ml-2 mt-1">
-                  <h3 className="text-sm font-medium text-gray-700 mr-2">
-                    IGTV
-                  </h3>
-                </div>
-              </div>
-
-              <div
                 onClick={() => handleActiveTab("SAVED")}
-                className="flex text-gray-700 text-center py-2 m-2 pr-5"
+                className={`flex text-gray-700 text-center py-2 m-2 pr-5 ${
+                  activeTab === "SAVED" ? "text-blue-500" : ""
+                }`}
               >
                 <div className="flex inline-flex">
                   <button
@@ -384,9 +304,9 @@ function Profile() {
                     <svg
                       className="h-6 w-6"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -395,7 +315,11 @@ function Profile() {
                   </button>
                 </div>
                 <div className="flex inline-flex ml-2 mt-1">
-                  <h3 className="text-sm font-medium text-gray-700 mr-2">
+                  <h3
+                    className={`text-sm font-medium ${
+                      activeTab === "SAVED" ? "text-blue-500" : "text-gray-700"
+                    } mr-2`}
+                  >
                     SAVED
                   </h3>
                 </div>
@@ -403,7 +327,9 @@ function Profile() {
 
               <div
                 onClick={() => handleActiveTab("TAGGED")}
-                className="flex text-gray-700 text-center py-2 m-2 pr-5"
+                className={`flex text-gray-700 text-center py-2 m-2 pr-5 ${
+                  activeTab === "TAGGED" ? "text-blue-500" : ""
+                }`}
               >
                 <div className="flex inline-flex">
                   <button
@@ -413,9 +339,9 @@ function Profile() {
                     <svg
                       className="h-6 w-6"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -424,7 +350,11 @@ function Profile() {
                   </button>
                 </div>
                 <div className="flex inline-flex ml-2 mt-1">
-                  <h3 className="text-sm font-medium text-gray-700 mr-2">
+                  <h3
+                    className={`text-sm font-medium ${
+                      activeTab === "TAGGED" ? "text-blue-500" : "text-gray-700"
+                    } mr-2`}
+                  >
                     TAGGED
                   </h3>
                 </div>

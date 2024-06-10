@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { WavyBackground } from "../../Components/External/wavy-backgroubd";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import Stories from "react-insta-stories";
 import Fade from "react-reveal/Fade";
 import LoadingSpinner from "../../Components/External/LoadingSpinner";
-import 'emoji-picker-element';
+import "emoji-picker-element";
 
 export function Story() {
   const location = useLocation();
@@ -15,11 +15,15 @@ export function Story() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [isPaused, setIsPaused] = useState(false); // State to control story pause/resume
+  const [isPaused, setIsPaused] = useState(false);
 
   const redirectToHome = () => {
     navigate("/");
   };
+
+  // const addSeenBy = () => {
+  //   const response = await  
+  // }
 
   function getStoriesObject() {
     const stories = state.story.stories.map((story, index) => {
@@ -69,7 +73,7 @@ export function Story() {
                 <h4 className="text-lg font-semibold text-center md:text-left">
                   {state.story.user.username}
                 </h4>
-                <p className="dark:text-white">2 hrs ago ...</p>
+                <p className="dark:text-white"></p>
               </div>
             </div>
           </div>
@@ -77,24 +81,26 @@ export function Story() {
           <div className="stories-container w-screen flex-grow">
             <center>
               <Fade>
-                <Stories
-                  stories={getStoriesObject()}
-                  defaultInterval={3000}
-                  width={"450px"}
-                  height="550px"
-                  onAllStoriesEnd={redirectToHome}
-                  onStoryEnd={() => setLoading(true)}
-                  isPaused={isPaused} // Pass the isPaused state to control pause/resume
-                />
+                <div className="relative w-[450px] h-[550px] stories-container">
+                  <Stories
+                    stories={getStoriesObject()}
+                    defaultInterval={5000}
+                    width="100%"
+                    height="100%"
+                    onAllStoriesEnd={redirectToHome}
+                    onStoryEnd={() => setLoading(true)}
+                    isPaused={isPaused}
+                  />
+                </div>
               </Fade>
-              <div class="flex bg-black px-2 w-full max-w-[450px] border border-white">
 
+              <div class="flex bg-black px-2 w-full max-w-[450px] border border-white">
                 <input
                   type="text"
                   class="w-full bg-[#0d1829] flex bg-transparent pl-2 text-[#cccccc] outline-0"
                   placeholder="Reply with a message..."
                 />
-                
+
                 <button
                   class="relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
                   type="button"
@@ -107,7 +113,11 @@ export function Story() {
                   type="submit"
                   class="relative p-2 bg-[#0d1829] rounded-full"
                 >
-                 <img className="w-10 h-10" src="https://cdn-icons-png.freepik.com/256/14720/14720114.png?semt=ais_hybrid" alt="" />
+                  <img
+                    className="w-10 h-10"
+                    src="https://cdn-icons-png.freepik.com/256/14720/14720114.png?semt=ais_hybrid"
+                    alt=""
+                  />
                 </button>
               </div>
             </center>

@@ -1,17 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { userSignup, userSignupWithEmail } from "../../../redux/userAuthSlice";
 import { useToast } from "@chakra-ui/react";
 import { ResendOTP } from "../../../services/services";
 import { formatTime } from "../../../Functions/FormatTime";
+import { AuthContext } from "../../../Context/AuthContext";
+import Cookies from "js-cookie";
 
 function OTP({ resendemail }) {
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [Timer, setTimer] = useState(10);
+  const { setToken } = useContext(AuthContext);
 
   const inputs = useRef([]);
   const dispatch = useDispatch();
@@ -48,26 +51,41 @@ function OTP({ resendemail }) {
 
   const handleOTPsubmit = async () => {
     const otp = otpValues.join("");
-    await dispatch(userSignupWithEmail(otp));
-    if (!user.error) {
+    await dispatch(userSignupWithEmail(otp)).then(({ payload }) => {
+      // if (payload.status) {
+      //   alert(payload.status);
+      //   Cookies.set("token", payload.token, { expires: 7 });
+      //   Cookies.set("refreshToken", payload.refreshToken, { expires: 7 });
+      // }
+      const key = payload.status ? "success" : "error";
       toast({
-        title: "Logged in successfully",
-        status: "success",
+        title: payload.message,
+        status: key,
         duration: 3000,
         isClosable: true,
         position: "top",
       });
-      navigate("/");
-    } else {
-      alert(user.error)
-      toast({
-        title: "Failed to sent successfully",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
-      });
-    }
+      payload.status ? navigate('/login') : undefined;
+    });
+    // if (!user.error) {
+    //   toast({
+    //     title: "Logged in successfully",
+    //     status: "success",
+    //     duration: 3000,
+    //     isClosable: true,
+    //     position: "top",
+    //   });
+    //   navigate("/");
+    // } else {
+    //   alert(user.error);
+    //   toast({
+    //     title: "Failed to sent successfully",
+    //     status: "warning",
+    //     duration: 3000,
+    //     isClosable: true,
+    //     position: "top",
+    //   });
+    // }
   };
 
   const handleResendOTP = async () => {
@@ -97,11 +115,9 @@ function OTP({ resendemail }) {
     }
   };
 
-  
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-50 bg-opacity-90 z-50">
-      <ToastContainer position="top-center" autoClose={1500} />
+      {/* <ToastContainer position="top-center" autoClose={1500} /> */}
       {loading && (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
           <div className="absolute inset-0 bg-white bg-opacity-50"></div>

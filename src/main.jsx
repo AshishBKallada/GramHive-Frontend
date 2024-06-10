@@ -12,24 +12,30 @@ import { LoadingProvider } from "./Context/LoadingContext.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
 import ChatProvider from "./Context/ChatProvider.jsx";
 const persistor = persistStore(store);
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { LocationProvider } from "./Context/LocationContext.jsx";
+import { SocketProvider } from "./Context/socketContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <ChakraProvider>
-    <GoogleOAuthProvider clientId="<your_client_id>">
-    <AdminAuthProvider>
-      <AuthProvider>
-        <LoadingProvider>
-          <ChatProvider>
-            <Provider store={store}>
-              <PersistGate persistor={persistor}>
-                <App />
-              </PersistGate>
-            </Provider>
-          </ChatProvider>
-        </LoadingProvider>
-      </AuthProvider>
-    </AdminAuthProvider>
-    </GoogleOAuthProvider>
-  </ChakraProvider>
+  // <SocketProvider>
+    <ChakraProvider>
+      <GoogleOAuthProvider clientId="<your_client_id>">
+        <LocationProvider>
+          <AdminAuthProvider>
+            <AuthProvider>
+              <LoadingProvider>
+                <ChatProvider>
+                  <Provider store={store}>
+                    <PersistGate persistor={persistor}>
+                      <App />
+                    </PersistGate>
+                  </Provider>
+                </ChatProvider>
+              </LoadingProvider>
+            </AuthProvider>
+          </AdminAuthProvider>
+        </LocationProvider>
+      </GoogleOAuthProvider>
+    </ChakraProvider>
+  // </SocketProvider>
 );

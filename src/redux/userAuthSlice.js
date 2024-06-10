@@ -59,9 +59,9 @@ export const userSignupWithEmail = createAsyncThunk('user/signupWithEmail', asyn
             body: JSON.stringify({ otp }),
         });
         if (response.ok) {
+            console.log('Response-----',response);
             const data = await response.json();
-            console.log("USER DATA_____________", data);
-            document.cookie = `token=${data.token}; path=/;`;
+         
             return data;
         }
     } catch (error) {

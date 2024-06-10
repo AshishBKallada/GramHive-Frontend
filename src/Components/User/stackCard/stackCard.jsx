@@ -1,24 +1,35 @@
 "use client";
+import { useEffect, useState } from "react";
 import { cn } from "../../../../util";
 import { CardStack } from "../../External/card-stack";
+import { getNotes } from "../../../services/services";
 
 export function CardStackDemo() {
+  const [notes, setNotes] = useState(null);
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const fetchNotes = async () => {
+    const response = await getNotes();
+    if (response.data) {
+      setNotes(response.data);
+    } else {
+    }
+  };
   return (
-    <div className="mr-20 h-[20rem] flex items-center justify-center w-full">
-      <CardStack items={CARDS} />
+    <div className="mr-20 h-[16rem] flex items-center justify-center w-full">
+     {notes && <CardStack items={notes} />} 
     </div>
   );
 }
 
-// Small utility to highlight the content of specific section of a testimonial content
-export const Highlight = ({
-  children,
-  className,
-}) => {
+export const Highlight = ({ children, className }) => {
   return (
     <span
       className={cn(
-        "font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-700/[0.2] dark:text-emerald-500 px-1 py-0.5",
+        "font-bold bg-emerald-100 text-teal-300 dark:bg-emerald-700/[0.2] dark:text-emerald-500 px-1 py-0.5",
         className
       )}
     >

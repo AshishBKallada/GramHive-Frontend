@@ -397,7 +397,7 @@ function MessageList() {
 
       <div className=" flex-1 overflow-hidden flex h-full w-500px float-left">
         <div className="pt-2  w-5/5 flex-2 flex-col pr-6">
-          {/* groupbtn & searchuserbtn */}
+          {/* groupbtn & searchuserbtn */} 
           <div className="mt-2 ml-36 mr-6 search flex items-center justify-between pb-6 px-2">
             <button>
               <img
@@ -421,13 +421,15 @@ function MessageList() {
           </div>
           {/* groupbtn & searchuserbtn */}
 
+
+
           <div className="flex-1 h-full overflow-y-scroll px-2 border">
             {chats &&
               chats.map((chat) => (
                 <div
                   onClick={() => setSelectedChat(chat)}
-                  className={`entry cursor-pointer transform hover:scale-105 duration-300 transition-transform p-4 flex shadow-md ${
-                    selectedChat === chat ? "bg-blue-900" : "bg-blue-500"
+                  className={`entry cursor-pointer transform hover:scale-105 duration-300 transition-transform p-1 flex shadow-md ${
+                    selectedChat === chat ? "bg-teal-500" : "bg-teal-500"
                   } mb-4 rounded`}
                 >
                   <div className="flex-2">

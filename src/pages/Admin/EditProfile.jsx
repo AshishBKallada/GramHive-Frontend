@@ -1,5 +1,5 @@
 import React from 'react'
-import EditProfile from '../../Components/User/EditProfile/EditProfile'
+import EditProfile from '../../Components/User/Profile/EditProfile'
 import Sidebar from '../../Components/User/Sidebar/Sidebar'
 
 

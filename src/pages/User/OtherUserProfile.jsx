@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import UserProfiles from '../../Components/User/UserProfiles/UserProfiles'
+import UserProfiles from '../../Components/User/Profile/UserProfiles'
 import { useParams } from 'react-router-dom';
 import Sidebar from '../../Components/User/Sidebar/Sidebar';
 import { useLoading } from '../../Context/LoadingContext';
@@ -10,7 +10,6 @@ function OtherUserProfile() {
     const [userData, setUserData] = useState(null);
     const { isLoading, setLoading } = useLoading();
 
-    console.log('userID', userId);
 
     useEffect(() => {
         setLoading(true)
@@ -27,7 +26,6 @@ function OtherUserProfile() {
         fetchUserData();
 
     }, [])
-    console.log('userData', userData);
     return (
         <div> <Sidebar />
             {isLoading ? <LoadingSpinner /> :

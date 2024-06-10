@@ -15,7 +15,6 @@ function UserTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('before fetch');
         const response = await fetch('http://localhost:3000/admin/users',{
           credentials: 'include', 
         });
@@ -108,7 +107,7 @@ function UserTable() {
                 <th className="text-left p-3 px-5">Actions</th>
               </tr>
               {filteredData.map((user, index) => (
-                <tr key={index} className="border-b hover:bg-orange-100 bg-gray-100">
+                <tr key={index} className="border-b hover:bg-black hover:text-white bg-gray-100">
                   <td className="p-3 px-5">{user.username}</td>
                   <td className="p-3 px-5">{user.name}</td>
                   <td className="p-3 px-5">

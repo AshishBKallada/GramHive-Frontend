@@ -49,6 +49,7 @@ function UserLogin() {
         await dispatch(userLogin({ username, password })).then(
           ({ payload }) => {
             if (payload.status) {
+              alert(payload.status)
               Cookies.set("token", payload.token, { expires: 7 });
               Cookies.set("refreshToken", payload.refreshToken, { expires: 7 });
             }
