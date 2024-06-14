@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Dialog, DialogHeader, DialogBody } from "@material-tailwind/react";
-import { getNotifications } from "../../services/services";
+import { onUpdateNotifications } from "../../services/services";
 import { NotificationSkelton } from "../Skeltons/NotificationSkelton";
+import { NotificationContext } from "../../Context/notificationProvider";
 
 export function Notifications({ open, setOpen }) {
   const handleOpen = () => setOpen(!open);
-  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { notifications, markNotificationAsRead } =
+    useContext(NotificationContext);
 
-  const fetchNotifications = async () => {
-    setLoading(true);
-    setTimeout(async () => {
-      const { data } = await getNotifications();
-      setNotifications(data);
-      setLoading(false);
-    }, 2000);
+  const updateNotifications = async () => {
+    await onUpdateNotifications();
   };
 
   useEffect(() => {
-    fetchNotifications();
-  }, []);
+    if (open) {
+      setLoading(true);
+      setTimeout(() => {
+        updateNotifications();
+        markNotificationAsRead();
+        setLoading(false);
+      }, 2000);
+    }
+  }, [open]);
 
   const placeholders = new Array(5).fill(null);
 
@@ -42,7 +46,6 @@ export function Notifications({ open, setOpen }) {
             role="button"
             aria-label="close modal"
             className="ml-44 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-md cursor-pointer"
-            onclick="notificationHandler(false)"
           >
             <svg
               width="24"
@@ -54,16 +57,16 @@ export function Notifications({ open, setOpen }) {
               <path
                 d="M18 6L6 18"
                 stroke="#4B5563"
-                stroke-width="1.25"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M6 6L18 18"
                 stroke="#4B5563"
-                stroke-width="1.25"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -121,7 +124,7 @@ export function Notifications({ open, setOpen }) {
                           />
                         </svg>
                       )}
-                      {notification.type === "like" && (
+                      {notification?.type === "like" && (
                         <svg
                           width="16"
                           height="16"
@@ -139,17 +142,18 @@ export function Notifications({ open, setOpen }) {
                     <div className="pl-3">
                       <p
                         tabIndex="0"
-                        className="focus:outline-none text-sm leading-none"
+                        className="focus
+                        text-sm leading-none"
                       >
                         <span className="text-indigo-700">
-                          {notification.message}
+                          {notification?.message}
                         </span>
                       </p>
                       <p
                         tabIndex="0"
                         className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
                       >
-                        2 hours ago
+                        {new Date(notification.createdAt).toLocaleString()}
                       </p>
                     </div>
                   </div>

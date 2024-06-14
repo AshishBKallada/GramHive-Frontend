@@ -26,7 +26,7 @@ function OTP({ resendemail }) {
     if (Timer > 0) {
       const timer = setInterval(() => {
         setTimer((prev) => prev - 1);
-      }, 1000);
+      }, 3000);
 
       return () => clearInterval(timer);
     }

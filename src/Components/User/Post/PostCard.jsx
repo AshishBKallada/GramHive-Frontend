@@ -7,14 +7,10 @@ import HomePostDetail from "./HomePostDetail";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { likePost, removePostLike } from "../../../services/services";
 import ShowAds from "../Promotions/ShowAds";
-import {
-  Drawer,
-  Typography,
-  IconButton,
-} from "@material-tailwind/react";
+import { Drawer, Typography, IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { PostSkeleton } from "../../Skeltons/PostSkelton";
-
+import { io } from "socket.io-client";
 
 function PostCard() {
   const author = useSelector((state) => state.user.user._id);
@@ -26,7 +22,8 @@ function PostCard() {
   const [page, setPage] = useState(1);
 
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const socket = io("http://localhost:3000");
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -44,7 +41,6 @@ function PostCard() {
         const data = await response.json();
         console.log("HOME POSTS", data);
         setLoading(false);
-
 
         if (data.posts.length === 0) {
           setHasMore(false);
@@ -64,10 +60,12 @@ function PostCard() {
     try {
       const response = await likePost(postId, author);
       if (response.status === 200) {
-        console.log("1", response.data.likes);
+        const notification = response.data.notification;
+        if (notification.userId !== author) {
+          socket.emit("sentNotification", notification);
+        }
 
         const newLikes = response.data.likes;
-
         const postIndex = posts.findIndex((post) => post._id === postId);
 
         if (postIndex !== -1) {
@@ -144,10 +142,10 @@ function PostCard() {
         hasMore={hasMore}
         loader={
           <div>
-      {[...Array(5)].map((_, index) => (
-        <PostSkeleton key={index} />
-      ))}
-    </div>
+            {[...Array(5)].map((_, index) => (
+              <PostSkeleton key={index} />
+            ))}
+          </div>
         }
         endMessage={
           posts.length < 0 ? (
@@ -159,9 +157,8 @@ function PostCard() {
       >
         {posts.map((post, i) => (
           <div key={post._id} className="mt-5 p-4">
-            <div className="bg-white border rounded-sm max-w-xl">
+            <div className="bg-white border-t-2 border-gray-200 shadow-2xl rounded-lg max-w-xl">
               <div className="flex items-center px-4 py-3">
-
                 <img
                   className="h-8 w-8 rounded-full"
                   src={post.userId?.image}
@@ -302,9 +299,9 @@ function PostCard() {
                 {post?.likes?.length > 0 ? post?.likes.length + " likes" : ""}
               </div>
             </div>
-            <ShowAds />
           </div>
         ))}
+        <ShowAds />
       </InfiniteScroll>
     </div>
   );

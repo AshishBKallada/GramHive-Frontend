@@ -260,6 +260,10 @@ export const getNotifications = () => {
     return client.get(`/notifications`);
 }
 
+export const onUpdateNotifications = () => {
+    return client.put(`/notifications/update`)
+}
+
 export const onFollowUser = (follower_id, followed_id) => {
     return client.post(`/profile/followuser`, {
         follower_id: follower_id,
@@ -319,4 +323,35 @@ export const sharePost = (postId, users) => {
     });
 
 }
+
+export const shareFiles = (chatId, files) => {
+    const formData = new FormData();
+    files.forEach((file) => formData.append("files", file));
+
+
+    return client.post(`/messages/sharefile/${chatId}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+};
+
+export const uploadAudio = (chatId, data) => {
+    const formDataObject = {};
+
+    for (let pair of data.entries()) {
+        formDataObject[pair[0]] = pair[1];
+    }
+    console.log('FormData:', formDataObject);
+    return client.post(`/messages/audio/${chatId}`, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+}
+
+export const checkUserExistsByEmail = (email) => {
+    return client.post(`/check-email`, { email });
+}
+
 

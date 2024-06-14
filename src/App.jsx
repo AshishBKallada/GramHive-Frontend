@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
   Navigate,
-  useNavigate,
 } from "react-router-dom";
 import AdminHome from "./pages/Admin/Home";
 import AdminLogin from "./pages/Admin/Login";
@@ -27,19 +26,14 @@ import NearbyUsers from "./pages/User/NearbyUsers";
 import Feedbacks from "./pages/Admin/Feedbacks";
 import PostReportsPage from "./pages/Admin/PostReportsPage";
 import UserReportsPage from "./pages/Admin/UserReportsPage";
-import { NotificationState } from "./Context/notificationProvider";
+import { NotificationContext } from "./Context/notificationProvider";
 import { useSelector } from "react-redux";
 import io from "socket.io-client";
-import GoogleBot from "./Components/User/ChatBot/GoogleBot";
 import TransactionsPage from "./pages/Admin/transcations";
-import SocketToast from "./SocketToast";
-import MtAlert from "./Components/User/Alert/MtAlert";
 import { useToast } from "@chakra-ui/react";
-const ENDPOINT = "http://localhost:3000";
 
 function App() {
   const { token, loading } = useContext(AuthContext);
-  // const [socket, setSocket] = useState(null);
   const { adminToken, setAdminToken, adminLoading, setAdminLoading } =
     useContext(AdminAuthContext);
 
@@ -48,8 +42,7 @@ function App() {
   }
 
   const userId = useSelector((state) => state.user.user._id);
-  const { addNotification } = NotificationState();
-  const [socket, setSocket] = useState(null);
+  const { addNotification } = useContext(NotificationContext);
   var message;
   const toast = useToast();
 
@@ -70,10 +63,7 @@ function App() {
         duration: 4000,
         isClosable: true,
         position: "top",
-       
       });
-      
-      
       addNotification(notification);
     });
 
@@ -84,7 +74,7 @@ function App() {
 
   return (
     <div>
-      <SocketToast />
+      {/* <SocketToast /> */}
       <Router>
         <Routes>
           <Route
@@ -149,7 +139,6 @@ function App() {
           />
 
           <Route path="*" element={<Navigate to="/login" />} />
-
 
           <Route path="/room/:roomId" element={<RoomPage />} />
         </Routes>

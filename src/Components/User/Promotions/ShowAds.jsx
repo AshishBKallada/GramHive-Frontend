@@ -38,7 +38,7 @@ function ShowAds() {
     <div className="h-96 w-full">
         
       <Carousel slideInterval={2000}>
-        {ads.length > 0 && ads[0].images.map((image, index) => (
+        {ads.length > 0 && ads[ads.length -1].images.map((image, index) => (
           <div
             key={index}
             className="h-full w-full flex items-center justify-center"

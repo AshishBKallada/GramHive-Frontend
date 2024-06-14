@@ -41,8 +41,8 @@ function Suggestions() {
     <div className="mb-2">
       <h2 className=" text-md font-semibold mb-2">Suggested:</h2>
       <div className="flex justify-center space-x-6">
-        {users.length > 0 &&
-          users.map((user) => (
+        {users?.length > 0 &&
+          users?.map((user) => (
             <div className="flex flex-col justify-center max-w-xs p-1 shadow-md rounded-lg sm:p-2 dark:bg-gray-50 dark:text-gray-800 w-28">
               <img
                 src={user?.image}

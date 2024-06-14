@@ -147,6 +147,7 @@ function SignupTest() {
   };
   const handleGoogleSignup = (e) => {
     if (!userData.name) {
+      
     }
     if (!userData.username) {
     }
@@ -218,7 +219,7 @@ function SignupTest() {
               </label>
             </div>
             <Typography className="-mb-2" variant="h6">
-              Your Username.
+              Your Username : 
             </Typography>
             <div class="relative z-0">
               <input
@@ -236,15 +237,7 @@ function SignupTest() {
                 Username
               </label>
             </div>
-            <div className="-ml-2.5">
-              <input
-                type="checkbox"
-                className="ml-2 w-[16px] h-[16px] bg=[#23395d] focus:border-2 focus:border-[#23395d]"
-              />
-              <label htmlFor="checkbox" className="ml-2">
-                Remember Me
-              </label>
-            </div>
+           
           </CardBody>
           <CardFooter className="pt-0">
            
@@ -254,18 +247,7 @@ function SignupTest() {
             >
               Sign In
             </button>
-            <Typography variant="small" className="mt-4 flex justify-center">
-              Don&apos;t have an account?
-              <Typography
-                as="a"
-                href="#signup"
-                variant="small"
-                color="red"
-                className="ml-1 font-bold"
-              >
-                Sign up
-              </Typography>
-            </Typography>
+           
           </CardFooter>
         </Card>
       </>

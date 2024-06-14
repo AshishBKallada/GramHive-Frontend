@@ -25,8 +25,11 @@ import {
 
 import { ZIM } from "zego-zim-web";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
-import MyDropzone from "./DropZone";
 import { useReportUser } from "../../../Functions/reportsHooks/reportUserHook";
+import FilesPreview from "./FilesPreview";
+import RecorderJSDemo from "../../Test/RecorderJsDemo";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 const Chat = () => {
   const { selectedChat, notifications, setNotifications } = ChatState();
@@ -38,6 +41,7 @@ const Chat = () => {
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [zp, setZp] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const [enableCall, setEnableCall] = useState(false);
 
@@ -225,7 +229,39 @@ const Chat = () => {
     const userToReport = getSenderId(userId, selectedChat.users);
     reportuser(userToReport);
   };
-  console.log("MESSAGEA|", messages);
+
+  const renderFilePreview = (file) => {
+    const { url, fileType } = file;
+    const fileName = url.split("-").pop();
+
+    if (fileType === "application/pdf") {
+      return (
+        <div className="flex flex-col items-center w-20">
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/023/234/824/non_2x/pdf-icon-red-and-white-color-for-free-png.png" // Replace with the path to your PDF icon
+            alt="PDF Icon"
+            className="w-20 h-20 mr-2"
+          />
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 w-20 text-sm"
+          >
+            {fileName}
+          </a>
+        </div>
+      );
+    } else if (fileType.startsWith("image/")) {
+      return (
+        <img className="w-44 h-52 object-cover" src={url} alt="Image Preview" />
+      );
+    } else if (fileType.startsWith("video/")) {
+      return <video src={url} className="h-36 w-56" controls />;
+    } else {
+      return <p className="text-sm">Unsupported file type</p>;
+    }
+  };
 
   if (!selectedChat) {
     return (
@@ -243,6 +279,7 @@ const Chat = () => {
       </>
     );
   }
+
   return (
     <>
       <script src="https://unpkg.com/zego-zim-web@2.5.0/index.js"></script>
@@ -321,46 +358,75 @@ const Chat = () => {
         >
           {messages &&
             messages.map((message, i) => {
+              const hasSharedImages = message.sharedPost?.images?.length > 0;
+              const hasFiles = message.files?.length > 0;
+
               return (
-                <div className="h-full">
-                  {message.sender._id !== userId ? (
+                <div className="h-full" key={i}>
+                  {message.sender | (message.sender._id !== userId) ? (
                     <div className="ml-2 grid ">
-                      <div class="flex gap-2.5">
+                      <div className="flex gap-2.5">
                         {(isSameSender(messages, message, i, userId) ||
                           isLastMessage(messages, i, userId)) && (
                           <img
                             src={message.sender.image}
-                            alt="Shanay image"
+                            alt="Sender image"
                             className="w-10 h-10 rounded-full"
                           />
                         )}
-                        <div class="grid">
-                          <h5 class="text-gray-900 text-sm font-semibold leading-snug pb-1">
+                        <div className="grid">
+                          <h5 className="text-gray-900 text-sm font-semibold leading-snug pb-1">
                             {message.sender.username}
                           </h5>
-                          <div class="w-max grid">
-                            <div class="px-3.5 py-2 bg-gray-100 rounded justify-start  items-center gap-3 inline-flex">
-                              <h5 class="text-gray-900 text-sm font-normal leading-snug">
-                                {message.content}
-                              </h5>
-                            </div>
-                            <div className="relative mt-4 h-32 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
-  {message.sharedPost?.images[0] && (
-    <img
-      src={message.sharedPost.images[0]}
-      alt="card-image"
-      className="w-full h-full object-cover"
-    />
-  )}
-  {message.sharedPost?.images.length > 1 && (
-    <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full px-2 py-1 text-xs font-semibold">
-      +{message.sharedPost.images.length - 1}
-    </div>
-  )}
-</div>
-
-                            <div class="justify-end items-center inline-flex mb-2.5">
-                              <h6 class="text-gray-500 text-xs font-normal leading-4 py-1">
+                          <div className="w-max grid">
+                            {!hasFiles && (
+                              <>
+                                {!message?.audio && (
+                                  <div className="px-3.5 mt-2 py-2 bg-gray-100 rounded justify-start items-center gap-3 inline-flex">
+                                    <h5 className="text-gray-900 text-sm font-normal leading-snug">
+                                      {message.content}
+                                    </h5>
+                                  </div>
+                                )}
+                                {message?.audio && (
+                                  <div className="px-3.5 mt-2 py-2 bg-gray-100 rounded justify-start items-center gap-3 inline-flex">
+                                    <h5 className="text-gray-900 text-sm font-normal leading-snug">
+                                      <AudioPlayer
+                                        src={message.audio}
+                                        onPlay={(e) => console.log("onPlay")}
+                                        controls
+                                        className="w-full"
+                                      />
+                                    </h5>
+                                  </div>
+                                )}
+                              </>
+                            )}
+                            {hasSharedImages && (
+                              <div className="relative mt-4 h-32 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
+                                <img
+                                  src={message.sharedPost.images[0]}
+                                  alt="Shared image"
+                                  className="w-full h-full object-cover"
+                                />
+                                {message.sharedPost.images.length > 1 && (
+                                  <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full px-2 py-1 text-xs font-semibold">
+                                    +{message.sharedPost.images.length - 1}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            {hasFiles && (
+                              <div className="relative mt-1 mx-3 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-white shadow-blue-gray-500/40">
+                                {message.files.map((file, index) => (
+                                  <div key={index} className="p-2">
+                                    {renderFilePreview(file)}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            <div className="justify-end items-center inline-flex mb-2.5">
+                              <h6 className="text-gray-500 text-xs font-normal leading-4 py-1">
                                 {new Date(message.createdAt).toLocaleString()}
                               </h6>
                             </div>
@@ -369,13 +435,13 @@ const Chat = () => {
                       </div>
                     </div>
                   ) : (
-                    <div class="flex gap-2.5 justify-end">
-                      <div class="relative group">
-                        <div class="justify-center">
-                          <div class="grid w-fit ml-auto">
+                    <div className="flex gap-2.5 justify-end">
+                      <div className="relative group">
+                        <div className="justify-center">
+                          <div className="grid w-fit ml-auto">
                             <button
                               onClick={() => handleMessageDelete(message._id)}
-                              class="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                              className="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -387,39 +453,61 @@ const Chat = () => {
                                 <path d="M413.7 133.4c-2.4-9-4-14-4-14-2.6-9.3-9.2-9.3-19-10.9l-53.1-6.7c-6.6-1.1-6.6-1.1-9.2-6.8-8.7-19.6-11.4-31-20.9-31h-103c-9.5 0-12.1 11.4-20.8 31.1-2.6 5.6-2.6 5.6-9.2 6.8l-53.2 6.7c-9.7 1.6-16.7 2.5-19.3 11.8 0 0-1.2 4.1-3.7 13-3.2 11.9-4.5 10.6 6.5 10.6h302.4c11 .1 9.8 1.3 6.5-10.6zM379.4 176H132.6c-16.6 0-17.4 2.2-16.4 14.7l18.7 242.6c1.6 12.3 2.8 14.8 17.5 14.8h207.2c14.7 0 15.9-2.5 17.5-14.8l18.7-242.6c1-12.6.2-14.7-16.4-14.7z"></path>
                               </svg>
                             </button>
-                            <div class="px-3 py-2 bg-indigo-600 rounded group-hover:ml-8 transition-all duration-200">
-                              <h2 class="text-white text-sm font-normal leading-snug">
-                                {message.content}
-                              </h2>
-                            </div>
-                            <div className="relative mt-4 h-32 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
-  {message.sharedPost?.images[0] && (
-    <img
-      src={message.sharedPost.images[0]}
-      alt="card-image"
-      className="w-full h-full object-cover"
-    />
-  )}
-  {message.sharedPost?.images.length > 1 && (
-    <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full px-2 py-1 text-xs font-semibold">
-      +{message.sharedPost.images.length - 1}
-    </div>
-  )}
-</div>
-
-
-                            <div class="justify-start items-center inline-flex">
-                              <h3 class="text-gray-500 text-xs font-normal leading-4 py-1">
+                            {!hasFiles && (
+                              <>
+                                {!message.audio && (
+                                  <div className="px-3.5 mt-2 py-2 bg-indigo-600 rounded justify-start items-center gap-3 inline-flex">
+                                    <h5 className="text-white text-sm font-normal leading-snug">
+                                      {message.content}
+                                    </h5>
+                                  </div>
+                                )}
+                                {message?.audio && (
+                                  <div className="px-3.5 mt-2 py-2 bg-gray-100 rounded flex justify-center items-center">
+                                    <AudioPlayer
+                                      src={message.audio}
+                                      onPlay={(e) => console.log("onPlay")}
+                                      controls
+                                      className="w-full"
+                                    />
+                                  </div>
+                                )}
+                              </>
+                            )}
+                            {hasSharedImages && (
+                              <div className="relative mt-4 h-32 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
+                                <img
+                                  src={message.sharedPost.images[0]}
+                                  alt="Shared image"
+                                  className="w-full h-full object-cover"
+                                />
+                                {message.sharedPost.images.length > 1 && (
+                                  <div className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full px-2 py-1 text-xs font-semibold">
+                                    +{message.sharedPost.images.length - 1}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            {hasFiles && (
+                              <div className="relative mt-1 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-indigo-600 shadow-blue-gray-500/40">
+                                {message.files.map((file, index) => (
+                                  <div key={index} className="p-2">
+                                    {renderFilePreview(file)}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            <div className="justify-start items-center inline-flex">
+                              <h3 className="text-gray-500 text-xs font-normal leading-4 py-1">
                                 {new Date(message.createdAt).toLocaleString()}
                               </h3>
                             </div>
                           </div>
                         </div>
                       </div>
-
                       <img
                         src={message.sender.image}
-                        alt="Hailey image"
+                        alt="User image"
                         className="w-10 h-10 rounded-full"
                       />
                     </div>
@@ -427,27 +515,13 @@ const Chat = () => {
                 </div>
               );
             })}
+
           <div ref={messagesEndRef} />
         </div>
         {isTyping ? <p>typing... </p> : null}
         <div class="w-full pl-3 pr-1 py-1 rounded-3xl border-4 border-teal-300 items-center gap-2 inline-flex justify-between mt-0">
           <div class="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-            >
-              <g id="User Circle">
-                <path
-                  id="icon"
-                  d="M6.05 17.6C6.05 15.3218 8.26619 13.475 11 13.475C13.7338 13.475 15.95 15.3218 15.95 17.6M13.475 8.525C13.475 9.89191 12.3669 11 11 11C9.6331 11 8.525 9.89191 8.525 8.525C8.525 7.1581 9.6331 6.05 11 6.05C12.3669 6.05 13.475 7.1581 13.475 8.525ZM19.25 11C19.25 15.5563 15.5563 19.25 11 19.25C6.44365 19.25 2.75 15.5563 2.75 11C2.75 6.44365 6.44365 2.75 11 2.75C15.5563 2.75 19.25 6.44365 19.25 11Z"
-                  stroke="teal"
-                  stroke-width="1.6"
-                />
-              </g>
-            </svg>
+            <RecorderJSDemo setMessages={setMessages} />
             <input
               onChange={typingHandler}
               value={message}
@@ -456,7 +530,29 @@ const Chat = () => {
             />
           </div>
           <div class="flex items-center gap-2">
-            <MyDropzone />
+            <button onClick={() => setIsOpen(true)}>
+              {" "}
+              <svg
+                className="mx-auto mt-4"
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+              >
+                <g id="Attach 01">
+                  <g id="Vector">
+                    <path
+                      d="M14.9332 7.79175L8.77551 14.323C8.23854 14.8925 7.36794 14.8926 6.83097 14.323C6.294 13.7535 6.294 12.83 6.83097 12.2605L12.9887 5.72925M12.3423 6.41676L13.6387 5.04176C14.7126 3.90267 16.4538 3.90267 17.5277 5.04176C18.6017 6.18085 18.6017 8.02767 17.5277 9.16676L16.2314 10.5418M16.8778 9.85425L10.72 16.3855C9.10912 18.0941 6.49732 18.0941 4.88641 16.3855C3.27549 14.6769 3.27549 11.9066 4.88641 10.198L11.0441 3.66675"
+                      stroke="#9CA3AF"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </button>
 
             <button
               onClick={handleSentMessage}
@@ -486,6 +582,15 @@ const Chat = () => {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <FilesPreview
+          socket={socket}
+          messages={messages}
+          setMessages={setMessages}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
+      )}
     </>
   );
 };

@@ -1,22 +1,22 @@
-import { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const NotificationContext = createContext([]);
 
 const NotificationProvider = ({ children }) => {
-  const [notifications, setNotifications] = useState();
+  const [notifications, setNotifications] = useState([]);
 
   const addNotification = (notification) => {
+    console.log("notification", notification);
     setNotifications((prevNotifications) => [
-      ...prevNotifications,
       notification,
+      ...prevNotifications,
     ]);
   };
+  console.log("updated notification", notifications);
 
-  const markNotificationAsRead = (id) => {
+  const markNotificationAsRead = () => {
     setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification
-      )
+      prevNotifications.map((notification) => ({ ...notification, read: true }))
     );
   };
 
@@ -26,8 +26,17 @@ const NotificationProvider = ({ children }) => {
     );
   };
 
+  const setStateNotifications = (data) => {
+    setNotifications(data);
+  };
+  const getUnreadCount = () => {
+    return notifications.filter((notification) => !notification.read).length;
+  };
+
   const contextValue = {
     notifications,
+    setStateNotifications,
+    getUnreadCount,
     addNotification,
     markNotificationAsRead,
     removeNotification,
@@ -39,8 +48,15 @@ const NotificationProvider = ({ children }) => {
     </NotificationContext.Provider>
   );
 };
-export const NotificationState = () => {
-  return useContext(NotificationContext);
+
+export const useNotificationState = () => {
+  const context = useContext(NotificationContext);
+  if (context === undefined) {
+    throw new Error(
+      "useNotificationState must be used within a NotificationProvider"
+    );
+  }
+  return context;
 };
 
 export default NotificationProvider;

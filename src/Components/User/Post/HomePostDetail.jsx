@@ -77,7 +77,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
         }
       );
       const notification = response.data.notification;
-      if (notification) {
+      if (notification.userId !== author) {
         socket.emit("sentNotification", notification);
       }
       const res = await axios.get(
@@ -152,7 +152,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
         setCurrPost(updatedPost);
 
         const notification = response.data.notification;
-        if (notification) {
+        if (notification.userId !== author) {
           socket.emit("sentNotification", notification);
         }
 

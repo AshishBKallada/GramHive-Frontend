@@ -3,10 +3,12 @@ import { GoogleLogin } from "react-google-login";
 import { loadAuth2 } from "gapi-script";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../../redux/userAuthSlice";
+import { checkUserExistsByEmail } from "../../../services/services";
+import { useToast } from "@chakra-ui/react";
 
 const GoogleAuth = ({ type, setUserData }) => {
   const dispatch = useDispatch();
-
+  const toast = useToast();
   useEffect(() => {
     loadAuth2(
       window.gapi,
@@ -21,23 +23,34 @@ const GoogleAuth = ({ type, setUserData }) => {
       });
   }, []);
 
-  const responseGoogle = (response) => {
+  const responseGoogle = async (response) => {
     const {
       wt: { Ad: username, cu: email },
       tokenObj: { access_token: password },
       profileObj: { imageUrl: image },
     } = response;
     if (type === "signup") {
-      setUserData({
-        next: true,
-        name: username,
-        email: email,
-        password: password,
-        image: image,
-      });
+      const response = await checkUserExistsByEmail(email);
+      if (response.data.success) {
+        toast({
+          title: "Account already exists.",
+          description: "A user with that email already exists.",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        setUserData({
+          next: true,
+          name: username,
+          email: email,
+          password: password,
+          image: image,
+        });
+      }
     } else {
       console.log("we", email, password);
-      dispatch(userLogin({ username: email, password }))
+      dispatch(userLogin({ username: email, password }));
     }
   };
 

@@ -75,12 +75,6 @@ function Home() {
                   alt=""
                 />
               </button>
-              <button className="w-20 h-20" onClick={() => setShowBot(true)}>
-                <img
-                  src="https://static.vecteezy.com/system/resources/thumbnails/007/225/199/small_2x/robot-chat-bot-concept-illustration-vector.jpg"
-                  alt=""
-                />
-              </button>
             </div>
           </div>
         </div>
@@ -99,9 +93,10 @@ function Home() {
           <div style={{ flex: "1 1 auto", marginRight: "16px" }}>
             <PostCard />
           </div>
-          <div style={{ flex: "0 0 auto", position: "sticky", top: "0" }}>
-            <Suggestions />
-            <CardStackDemo />
+          <div style={{ position: "relative" }}>
+            <div style={{ flex: "0 0 auto", position: "sticky", top: "0" }}>
+              <CardStackDemo />
+            </div>
           </div>
           {showBot && <ChatBot showBot={showBot} setShowBot={setShowBot} />}
           {showNoteModal && (
@@ -112,6 +107,22 @@ function Home() {
           )}
         </div>
       </div>
+      <button
+        className="w-20 h-20 rounded-full"
+        style={{
+          position: "fixed",
+          bottom: "4px",
+          right: "0px",
+          zIndex: 1000,
+        }}
+        onClick={() => setShowBot(true)}
+      >
+        <img
+          src="https://static.vecteezy.com/system/resources/thumbnails/007/225/199/small_2x/robot-chat-bot-concept-illustration-vector.jpg"
+          alt="AI Bot"
+          className="w-full h-full"
+        />
+      </button>
       <Dialog open={open} size="xs" handler={handleOpen}>
         <div className="flex items-center justify-between">
           <DialogHeader>

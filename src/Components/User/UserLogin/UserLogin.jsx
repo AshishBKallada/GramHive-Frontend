@@ -140,7 +140,7 @@ function UserLogin() {
                   <span className="error text-red-600">{passwordError}</span>
                 )}
 
-                <div className="flex flex-row justify-between mb-8">
+                {/* <div className="flex flex-row justify-between mb-8">
                   <label className="relative inline-flex items-center mr-3 cursor-pointer select-none">
                     <input
                       type="checkbox"
@@ -165,10 +165,10 @@ function UserLogin() {
                   >
                     Forget password?
                   </a>
-                </div>
+                </div> */}
                 <button
                   onClick={handleLogin}
-                  className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none bg-fuchsia-600 text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-purple-blue-500"
+                  className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none bg-indigo-500 text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-purple-blue-500"
                 >
                   Sign In
                 </button>

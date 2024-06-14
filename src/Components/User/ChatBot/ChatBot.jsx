@@ -77,15 +77,26 @@ function ChatBot({ showBot, setShowBot }) {
   };
 
   return (
-    <Dialog open={showBot} handler={() => setShowBot(prev => !prev)}>
-<DialogHeader className="bg-teal-500 text-white relative">
-  Turbo GPT 
+    <Dialog 
+    open={showBot} 
+    handler={() => setShowBot(prev => !prev)}
+    size="xs"
+    className="fixed top-0 -right-5 mt-16 mr-16 w-80"
+  ><DialogHeader className="bg-teal-500 text-white relative flex items-start justify-between">
+  <div>
+    <div className="relative">
+      TurboGram
+    </div>
+    <span className="ml-4 text-sm">powered by GramHive</span>
+  </div>
   <img 
-    className="w-10 h-10 absolute top-1/2 transform -translate-y-1/2 right-4"
+    className="w-10 h-10 rounded-full"
     src="https://t4.ftcdn.net/jpg/05/22/45/47/360_F_522454763_AhlOA9VzGEoAdc7jrGk2HIYUBIRU1WFd.jpg"
     alt=""
   />
 </DialogHeader>
+
+
       <DialogBody>
         <div style={{ height: '500px' }}>
           <MainContainer>

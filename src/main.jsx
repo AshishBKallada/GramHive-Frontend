@@ -15,9 +15,11 @@ const persistor = persistStore(store);
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LocationProvider } from "./Context/LocationContext.jsx";
 import { SocketProvider } from "./Context/socketContext.jsx";
+import NotificationProvider from "./Context/notificationProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <SocketProvider>
+  <NotificationProvider>
     <ChakraProvider>
       <GoogleOAuthProvider clientId="<your_client_id>">
         <LocationProvider>
@@ -37,5 +39,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </LocationProvider>
       </GoogleOAuthProvider>
     </ChakraProvider>
+    </NotificationProvider>
   // </SocketProvider>
 );
