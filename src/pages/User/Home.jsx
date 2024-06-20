@@ -94,7 +94,7 @@ function Home() {
             <PostCard />
           </div>
           <div style={{ position: "relative" }}>
-            <div style={{ flex: "0 0 auto", position: "sticky", top: "0" }}>
+            <div style={{ flex: "0 0 auto" }} className="fixed top-[250px] right-[50px]">
               <CardStackDemo />
             </div>
           </div>

@@ -7,20 +7,23 @@ const BASE_URL = 'http://localhost:3000'
 
 
 function getCurrentAccessToken() {
-    return Cookies.get('token')
+    return Cookies.get('accessToken')
 }
 
 function getCurrentRefreshToken() {
-    return Cookies.get('refreshToken');
+    const refreshToken= Cookies.get('refreshToken');
+    return refreshToken;
 }
 
 
 function setRefreshedTokens(tokens) {
+    Cookies.set('accessToken', tokens.accessToken);
+
     Cookies.set('refreshToken', tokens.refreshToken);
 }
 
 async function logout() {
-    Cookies.remove('token');
+    Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
     Swal.fire({
         icon: 'error',

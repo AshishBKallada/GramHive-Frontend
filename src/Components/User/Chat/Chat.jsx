@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ChatState } from "../../../Context/ChatProvider";
 import {
   getMessages,
@@ -30,6 +29,7 @@ import FilesPreview from "./FilesPreview";
 import RecorderJSDemo from "../../Test/RecorderJsDemo";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
+import { SocketContext } from "../../../Context/socketContext";
 
 const Chat = () => {
   const { selectedChat, notifications, setNotifications } = ChatState();
@@ -47,17 +47,11 @@ const Chat = () => {
 
   const userId = useSelector((state) => state.user.user._id);
 
-  const ENDPOINT = "http://localhost:3000";
-  var socket, selectedChatCompare;
-  console.log("notifications", notifications);
-
+  var selectedChatCompare;
+ var socket = useContext(SocketContext);
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", userId);
-    socket.on("connected", () => setSocketConn(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
-
     socket.on("message received", (newMessage) => {
       if (
         !selectedChatCompare ||
@@ -584,7 +578,7 @@ const Chat = () => {
       </div>
       {isOpen && (
         <FilesPreview
-          socket={socket}
+
           messages={messages}
           setMessages={setMessages}
           isOpen={isOpen}

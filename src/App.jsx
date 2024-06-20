@@ -28,9 +28,10 @@ import PostReportsPage from "./pages/Admin/PostReportsPage";
 import UserReportsPage from "./pages/Admin/UserReportsPage";
 import { NotificationContext } from "./Context/notificationProvider";
 import { useSelector } from "react-redux";
-import io from "socket.io-client";
 import TransactionsPage from "./pages/Admin/transcations";
 import { useToast } from "@chakra-ui/react";
+import ErrorPage from "./pages/User/ErrorPage";
+import { SocketContext } from "./Context/socketContext";
 
 function App() {
   const { token, loading } = useContext(AuthContext);
@@ -41,19 +42,14 @@ function App() {
     return <LoadingSpinner />;
   }
 
-  const userId = useSelector((state) => state.user.user._id);
+  const user = useSelector((state) => state.user.user);
+  const userId = user ? user._id : null
   const { addNotification } = useContext(NotificationContext);
   var message;
   const toast = useToast();
 
+ const socket = useContext(SocketContext);
   useEffect(() => {
-    const socket = io("http://localhost:3000");
-
-    socket.on("connect", () => {
-      console.log("User connected to socket");
-      socket.emit("setup", userId);
-    });
-
     socket.on("abcd", (data) => {
       const { notification } = data;
       message = notification.message;
@@ -138,7 +134,7 @@ function App() {
             element={adminToken ? <TransactionsPage /> : <AdminLogin />}
           />
 
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route path="*" element={<ErrorPage />} />
 
           <Route path="/room/:roomId" element={<RoomPage />} />
         </Routes>

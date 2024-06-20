@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies.get("accessToken");
     setToken(token);
     setLoading(false);
   }, []);

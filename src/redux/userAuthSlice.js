@@ -3,15 +3,13 @@ import Cookies from 'js-cookie';
 
 export const userLogin = createAsyncThunk('user/login', async (loginData, thunkAPI) => {
     try {
-        console.log('11');
-        console.log(loginData);
         const response = await fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData)
         });
-        if(response.status === 302){
-            
+        if (response.status === 302) {
+
         }
         if (response.status === 401) {
             const data = await response.json();
@@ -25,29 +23,27 @@ export const userLogin = createAsyncThunk('user/login', async (loginData, thunkA
     }
 });
 
-export const userSignup = createAsyncThunk('user/signup', async (signupData, thunkAPI) => {
+export const userSignup = createAsyncThunk('user/signup', async ({ token, isSignup }, thunkAPI) => {
     try {
-        console.log('11');
-        console.log('SignupData', signupData);
-        const response = await fetch('http://localhost:3000/signup', {
+        const response = await fetch('http://localhost:3000/auth/google', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(signupData)
+            body: JSON.stringify({ token, isSignup }),
         });
+
         if (!response.ok) {
-            console.log('Failed to login');
-            throw new Error('Invalid login credentials');
+            const errorData = await response.json();
+            return thunkAPI.rejectWithValue(errorData);
         }
 
-        console.log(response)
         const data = await response.json();
-        console.log('User successfully signed up ', data);
-
-        Cookies.set('token', data.token, { expires: 7 });
+        console.log('data9999',data);
+        Cookies.set('accessToken', data.tokens.accessToken, { expires: 7 });
+        Cookies.set('refreshToken', data.tokens.refreshToken, { expires: 7 });
 
         return data;
     } catch (error) {
-        throw error;
+        return thunkAPI.rejectWithValue({ message: error.message });
     }
 });
 
@@ -59,9 +55,8 @@ export const userSignupWithEmail = createAsyncThunk('user/signupWithEmail', asyn
             body: JSON.stringify({ otp }),
         });
         if (response.ok) {
-            console.log('Response-----',response);
             const data = await response.json();
-         
+
             return data;
         }
     } catch (error) {
@@ -86,7 +81,6 @@ export const updateUserProfile = createAsyncThunk(
             }
 
             const data = await response.json();
-            console.log('UPDATED Data', data);
             return data;
         } catch (error) {
             throw error;

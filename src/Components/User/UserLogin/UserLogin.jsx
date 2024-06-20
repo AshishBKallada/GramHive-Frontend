@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { userLogin, userLoginFailure } from "../../../redux/userAuthSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GoogleAuth from "../GoogleAuth/GoogleAuth";
+import GoogleAuthTest from "../GoogleAuth/GoogleAuthTest";
 import Cookies from "js-cookie";
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
+import { useLoginSuccess } from "../../../Functions/GoogleSignup/LoginSuccess";
 
 function UserLogin() {
   const [username, setUsername] = useState("");
@@ -18,6 +19,8 @@ function UserLogin() {
   const error = useSelector((state) => state.user.error);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const showToastAndNavigate = useLoginSuccess();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -93,7 +96,7 @@ function UserLogin() {
                   Sign In
                 </h3>
 
-                <GoogleAuth type={"login"} />
+                <GoogleAuthTest onLoginSuccess={showToastAndNavigate} />
 
                 <div className="flex items-center mb-3">
                   <hr className="h-0 border-b border-solid border-grey-500 grow" />

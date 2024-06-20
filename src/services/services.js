@@ -23,6 +23,16 @@ export function unfollowUser(followerId, userId) {
     });
 }
 
+export const addPost = (formData,onUploadProgress)=>{
+    return client.post('/posts/addpost',
+        formData,{
+         headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress,
+    })
+}
+
 export function uploadStory(userId, story) {
     const formData = new FormData();
     let file;
@@ -123,9 +133,6 @@ export function messageDelete(Id) {
 export function sendReport(report) {
     return client.post('/reports/content', { content: report });
 }
-
-
-
 
 export function addNewAd(Ad) {
     const formData = new FormData();
@@ -354,4 +361,6 @@ export const checkUserExistsByEmail = (email) => {
     return client.post(`/check-email`, { email });
 }
 
-
+export const getExplorePosts = () => {
+    return client.get('/posts/explore');
+}

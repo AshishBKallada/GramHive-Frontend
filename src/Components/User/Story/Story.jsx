@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../../External/LoadingSpinner";
-import { io } from "socket.io-client";
 
 import {
   Button,
@@ -16,6 +15,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import LiveModal from "../Live/LiveCarosuel";
+import { SocketContext } from "../../../Context/socketContext";
 
 function Story() {
   const userId = useSelector((state) => state.user.user._id);
@@ -28,22 +28,16 @@ function Story() {
 
   const [loading, setLoading] = useState(false);
   const [liveModal, setLiveModal] = useState(false);
-  const [socketConn, setSocketConn] = useState(false);
 
   const [streamers, setStreamers] = useState([]);
 
   const handleStoryModal1 = () => {
     () => setStoryModal1((prev) => !prev);
   };
-  const ENDPOINT = "http://localhost:3000";
-  var socket;
 
+const socket = useContext(SocketContext);
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", userId);
-
-    socket.on("connected", () => setSocketConn(true));
-
+if(socket){
     socket.on("liveStreamStarted", (data) => {
       const { liveStreamData } = data;
       console.log("userId", liveStreamData);
@@ -52,6 +46,7 @@ function Story() {
         socket.disconnect();
       };
     });
+  }
   }, []);
 
   useEffect(() => {
@@ -68,8 +63,6 @@ function Story() {
       console.error(error);
     }
   }, []);
-
-  console.log("Storties", stories);
 
   const handleShowCam = (cam, modal) => {
     setShowCam(cam);
@@ -189,7 +182,7 @@ function Story() {
                   key={story.id || story.user.username}
                   className="flex flex-col items-center space-y-1"
                 >
-                  <div className="bg-gradient-to-tr from-teal-500 to-fuchsia-600 p-1 rounded-full">
+                  <div className="bg-gradient-to-tr from-teal-500 to-fuchsia-800 p-1 rounded-full">
                     <Link to="/stories" state={{ story }}>
                       <a className=" bg-white block rounded-full p-1 hover:-rotate-6 transform transition">
                         <img

@@ -26,6 +26,7 @@ import {
 import { ReportModal } from "../Reports/reportModal";
 import { io } from "socket.io-client";
 import { ShareModal } from "./ShareModal";
+import { isVideo } from "../../../Functions/isVideo";
 
 function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
   const author = useSelector((state) => state.user.user._id);
@@ -406,10 +407,25 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
 
                 <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
                   <Carousel slideInterval={1500}>
-                    {post &&
-                      post.images.map((image, index) => (
-                        <img key={index} src={image} alt={`Image ${index}`} />
-                      ))}
+                  {post.images.map((media, index) => (
+                    <div key={index} className="h-full w-full">
+                      {isVideo(media) ? (
+                        <video
+                          onClick={() => handlePostDetails(post)}
+                          src={media}
+                          controls
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => handlePostDetails(post)}
+                          src={media}
+                          alt={`Media ${index}`}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+                  ))}
                   </Carousel>
                 </div>
                 <p>{post && post.caption}</p>

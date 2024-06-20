@@ -16,29 +16,32 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LocationProvider } from "./Context/LocationContext.jsx";
 import { SocketProvider } from "./Context/socketContext.jsx";
 import NotificationProvider from "./Context/notificationProvider.jsx";
+import ErrorBoundary from "./Components/External/ErrorBoundary.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <SocketProvider>
-  <NotificationProvider>
-    <ChakraProvider>
-      <GoogleOAuthProvider clientId="<your_client_id>">
-        <LocationProvider>
-          <AdminAuthProvider>
-            <AuthProvider>
-              <LoadingProvider>
-                <ChatProvider>
-                  <Provider store={store}>
-                    <PersistGate persistor={persistor}>
-                      <App />
-                    </PersistGate>
-                  </Provider>
-                </ChatProvider>
-              </LoadingProvider>
-            </AuthProvider>
-          </AdminAuthProvider>
-        </LocationProvider>
-      </GoogleOAuthProvider>
-    </ChakraProvider>
+  <ErrorBoundary>
+    <NotificationProvider>
+      <ChakraProvider>
+        <GoogleOAuthProvider clientId="502311807627-9l05a15r47opss1cehl23s5sdn976dmv.apps.googleusercontent.com">
+          <LocationProvider>
+            <AdminAuthProvider>
+              <AuthProvider>
+                <LoadingProvider>
+                  <ChatProvider>
+                    <Provider store={store}>
+                      <PersistGate persistor={persistor}>
+                        <SocketProvider>
+                          <App />
+                        </SocketProvider>
+                      </PersistGate>
+                    </Provider>
+                  </ChatProvider>
+                </LoadingProvider>
+              </AuthProvider>
+            </AdminAuthProvider>
+          </LocationProvider>
+        </GoogleOAuthProvider>
+      </ChakraProvider>
     </NotificationProvider>
-  // </SocketProvider>
+  </ErrorBoundary>
 );

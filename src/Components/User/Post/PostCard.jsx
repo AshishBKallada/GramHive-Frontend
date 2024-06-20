@@ -11,6 +11,7 @@ import { Drawer, Typography, IconButton } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { PostSkeleton } from "../../Skeltons/PostSkelton";
 import { io } from "socket.io-client";
+import { isVideo } from "../../../Functions/isVideo";
 
 function PostCard() {
   const author = useSelector((state) => state.user.user._id);
@@ -175,14 +176,23 @@ function PostCard() {
               </div>
               <div className="relative h-56 sm:h-64 xl:h-80 2xl:h-96">
                 <Carousel slideInterval={1500}>
-                  {post.images.map((image, index) => (
+                  {post.images.map((media, index) => (
                     <div key={index} className="h-full w-full">
-                      <img
-                        onClick={() => handlePostDetails(post)}
-                        src={image}
-                        alt={`Image ${index}`}
-                        className="w-full h-full object-cover"
-                      />
+                      {isVideo(media) ? (
+                        <video
+                          onClick={() => handlePostDetails(post)}
+                          src={media}
+                          controls
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => handlePostDetails(post)}
+                          src={media}
+                          alt={`Media ${index}`}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
                     </div>
                   ))}
                 </Carousel>
@@ -196,7 +206,7 @@ function PostCard() {
                 <Drawer
                   open={openDrawer}
                   onClose={toggleDrawer}
-                  className="absolute top-0 right-0 w-full max-w-md p-4 bg-white border border-white"
+                  className="absolute top-0 right-0 w-full max-w-md p-4 bg-transparent border-0"
                   overlayClassName="absolute top-0 right-0 h-full w-full"
                   zIndex={999}
                 >
@@ -206,29 +216,14 @@ function PostCard() {
                     </Typography>
                     <IconButton
                       variant="text"
-                      color="black"
+                      color="white"
                       onClick={toggleDrawer}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                        className="h-5 w-5"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </IconButton>
+                    ></IconButton>
                   </div>
                   <Typography color="gray" className="mb-8 pr-4 font-normal">
                     {post.tags.map((user, index) => (
                       <Link to={`/userprofile/${user._id}`} key={index}>
-                        <div className="flex gap-4 bg-teal-300 rounded-xl border-b border-gray-300 mb-2 text-white pl-12 p-2 transition-transform hover:scale-105 hover:bg-teal-500 hover:text-white">
+                        <div className="flex gap-4 bg-gray-300 rounded-xl border-b border-gray-300 mb-2 text-black pl-12 p-2 transition-transform hover:scale-105 hover:bg-teal-500 hover:text-white">
                           <img
                             className="w-10 h-10 rounded-full"
                             src={user.image}
@@ -242,7 +237,7 @@ function PostCard() {
                 </Drawer>
               </div>
 
-              <p className="ml-2 text-gray-400">" {post.caption} "</p>
+              <p className="ml-2 text-gray-600">{post.caption}</p>
               <div className="flex items-center justify-between mx-4 mt-3 mb-2">
                 <div className="flex gap-5">
                   {post &&
@@ -301,7 +296,7 @@ function PostCard() {
             </div>
           </div>
         ))}
-        <ShowAds />
+        {posts.length > 0 && posts.length % 2 === 0 && <ShowAds />}
       </InfiniteScroll>
     </div>
   );

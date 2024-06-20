@@ -4,7 +4,7 @@ import { PinContainer } from "./3d-pin";
 
 export function AnimatedPinDemo({ image }) {
   return (
-    <div className="h-[25rem] w-full flex items-center justify-center mb-6  ">
+    <div className="h-[25rem] w-2/4 ml-5 flex justify-center mb-6  ">
         <a href={image.url}><PinContainer
         title="Myntra Fashion Sale"
         href={image.url}

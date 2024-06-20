@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -12,20 +12,11 @@ import { useToast } from "@chakra-ui/react";
 import { shareFiles } from "../../../services/services";
 import { ChatState } from "../../../Context/ChatProvider";
 import FileShareLoading from "../../Loading/FileShareLoading";
-import { io } from "socket.io-client";
-import { useSelector } from "react-redux";
+import { SocketContext } from "../../../Context/socketContext";
 
-function FilesPreview({ socket, setMessages, isOpen, setIsOpen }) {
-  const ENDPOINT = "http://localhost:3000";
-  var socket;
-const userId = useSelector((state)=>state.user.user._id);
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", userId);
-    socket.on("connected", () => console.log('connection true'));
-  
-  });
-  console.log("SOCKET------", socket);
+function FilesPreview({ setMessages, isOpen, setIsOpen }) {
+
+  const socket = useContext(SocketContext);
 
   const [files, setFiles] = useState([]);
   const handleOpen = () => setIsOpen(false);
@@ -56,7 +47,7 @@ const userId = useSelector((state)=>state.user.user._id);
           isClosable: true,
         });
 
-         socket.emit("new message", newMessage);
+        socket.emit("new message", newMessage);
 
         handleOpen();
         setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -64,7 +55,7 @@ const userId = useSelector((state)=>state.user.user._id);
         setLoading(false);
         toast({
           title: "An unknown error occurred!",
-        status: "warning",
+          status: "warning",
           duration: 3000,
           isClosable: true,
         });

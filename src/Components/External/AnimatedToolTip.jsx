@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 
 export const AnimatedTooltip = ({ users }) => {
-  const [hoveredIndex, setHoveredIndex] = useState(null); 
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const springConfig = { stiffness: 100, damping: 5 };
   const x = useMotionValue(0);
 
@@ -25,7 +25,7 @@ export const AnimatedTooltip = ({ users }) => {
 
   const handleMouseMove = (event) => {
     const halfWidth = event.target.offsetWidth / 2;
-    x.set(event.nativeEvent.offsetX - halfWidth); 
+    x.set(event.nativeEvent.offsetX - halfWidth);
   };
 
   return (
@@ -33,7 +33,7 @@ export const AnimatedTooltip = ({ users }) => {
       {users.map((user) => (
         <div
           className="-mr-4 relative group"
-          key={user.author._id} 
+          key={user.author._id}
           onMouseEnter={() => setHoveredIndex(user.author._id)}
           onMouseLeave={() => setHoveredIndex(null)}
         >

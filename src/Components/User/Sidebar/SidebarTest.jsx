@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import CreatePost from "../CreatePost/CreatePost";
 import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 import { confirmAlert } from "react-confirm-alert";
@@ -11,6 +10,7 @@ import { AuthContext } from "../../../Context/AuthContext";
 import { Notifications } from "../../Test/notification";
 import { NotificationContext } from "../../../Context/notificationProvider";
 import { getNotifications } from "../../../services/services";
+import AddPost1 from "../CreatePost/AddPost1";
 
 function SidebarTest() {
   const user = useSelector((state) => state.user.user);
@@ -295,7 +295,7 @@ function SidebarTest() {
           </div>
         </div>
       </div>
-      {open && <CreatePost handleOpen={handleOpen} />}
+      {open && <AddPost1 handleOpen={handleOpen} />}
       {showSearch && (
         <Search
           onClickOutside={() => setShowSearch((prev) => !prev)}

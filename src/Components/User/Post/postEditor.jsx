@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import TagsInput from '../TagsInput/tagsInput';
+import TagsInput from '../CreatePost/tagsInput';
 import { useNavigate } from 'react-router-dom';
 
 const PostEditor = ({ post, setEditModal }) => {

@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import OTP from "../OTP/OTP";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GoogleAuth from "../GoogleAuth/GoogleAuth";
-import { useDispatch } from "react-redux";
-import { userSignup } from "../../../redux/userAuthSlice";
 import { useNavigate } from "react-router-dom";
-import { Card } from "flowbite-react";
-import { CardBody, CardFooter, Typography } from "@material-tailwind/react";
+
 import { useToast } from "@chakra-ui/react";
+import GoogleAuthTest from "../GoogleAuth/GoogleAuthTest";
+import { useSignupSuccess } from "../../../Functions/GoogleSignup/SignupSuccess";
 
 function SignupTest() {
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -24,23 +23,12 @@ function SignupTest() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const toast = useToast();
-
-
-  const [userData, setUserData] = useState({
-    next: false,
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    image: "",
-  });
 
   const [showOTP, setShowOTP] = useState(false);
 
   const signupData = { email, name, username, password };
-
+  const showToastAndNavigate = useSignupSuccess();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -119,7 +107,7 @@ function SignupTest() {
           });
           setShowOTP(true);
         } else if (response.status === 400) {
-            setLoading(false);
+          setLoading(false);
           toast({
             title: "Account already exists.",
             description: "A user with that email already exists.",
@@ -142,117 +130,7 @@ function SignupTest() {
       }
     }
   };
-  const handleChange = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
-  const handleGoogleSignup = (e) => {
-    if (!userData.name) {
-      
-    }
-    if (!userData.username) {
-    }
-    try {
-      const { name, email, password, username, image } = userData;
-      console.log("....................", userData);
-      dispatch(userSignup({ name, email, password, username, image }))
-        toast({
-            title: "Google signup successfull",
-            status: "success",
-            duration: 2000,
-            isClosable: true,
-          })
-          navigate('/')
-          
-    } catch (error) {}
-  };
 
-  if (userData.next) {
-    return (
-      <>
-        <ToastContainer position="top-center" autoClose={1500} />
-        <Card className="mx-auto mt-[80px] shadow-md bg-blend-overlay w-full max-w-[24rem]">
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="blue-gray">
-              <center>
-                <img
-                  src="https://fontmeme.com/permalink/240410/fd6559317aad827d444e4eb8ec6b6469.png"
-                  alt=""
-                />
-              </center>
-              <center>
-                <b className="text-2xl">Sign In</b>
-              </center>
-            </Typography>
-            <div className="w-full h-auto">
-              <center>
-                <img
-                  src={userData.image.toString()}
-                  className="w-28 h-28 rounded-full border-2  p-1 shadow-lg shadow-[#23395d]"
-                  alt=""
-                />
-              </center>
-            </div>
-            <center>
-              <p className="text-[#451093] font-medium">
-                Welcome <span className="underline">{userData.email}</span>
-              </p>
-            </center>
-            <Typography className="-mb-2" variant="h6">
-              Your Account Name
-            </Typography>
-            {/* <Input size="lg" /> */}
-            <div class="relative z-0">
-              <input
-                type="text"
-                name="name"
-                onChange={handleChange}
-                value={userData.name}
-                id="floating_standard"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-              />
-              <label
-                for="floating_standard"
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-              >
-                Account Name
-              </label>
-            </div>
-            <Typography className="-mb-2" variant="h6">
-              Your Username : 
-            </Typography>
-            <div class="relative z-0">
-              <input
-                type="text"
-                name="username"
-                onChange={handleChange}
-                id="floating_standard"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-              />
-              <label
-                for="floating_standard"
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-              >
-                Username
-              </label>
-            </div>
-           
-          </CardBody>
-          <CardFooter className="pt-0">
-           
-            <button
-              onClick={handleGoogleSignup}
-              className="bg-[#23395d] rounded-sm text-white font-medium w-full p-2 px-3"
-            >
-              Sign In
-            </button>
-           
-          </CardFooter>
-        </Card>
-      </>
-    );
-  }
   if (showOTP) {
     return (
       <>
@@ -300,13 +178,11 @@ function SignupTest() {
           <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
         <div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
-
           <form class="bg-white" onSubmit={handleSubmit}>
             <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello there !</h1>
             <p class="text-sm font-normal text-gray-600 mb-7">
-              Welcome To GramHive     
-                    <GoogleAuth type="signup" setUserData={setUserData} />
-
+              Welcome To GramHive
+              <GoogleAuthTest isSignup onLoginSuccess={showToastAndNavigate} />
             </p>
             <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
               <svg
@@ -329,12 +205,11 @@ function SignupTest() {
                 id=""
                 placeholder="Enter email"
               />
-             {emailError && (
+              {emailError && (
                 <p className="text-xs text-red-500">{emailError}</p>
               )}
             </div>
-            
-            
+
             <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

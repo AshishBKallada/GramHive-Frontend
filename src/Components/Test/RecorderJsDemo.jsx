@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import RecordRTC from "recordrtc";
 import { uploadAudio } from "../../services/services";
 import { ChatState } from "../../Context/ChatProvider";
+import { SocketContext } from "../../Context/socketContext";
 
 let recorder = null;
 let stream = null;
 
 function RecorderJSDemo({ setMessages }) {
+  const socket = useContext(SocketContext);
+
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState(null);
   const { selectedChat } = ChatState();
@@ -46,8 +49,13 @@ function RecorderJSDemo({ setMessages }) {
     try {
       const response = await uploadAudio(selectedChat._id, data);
       if (response.data) {
-        const newAudio = response.data.data;
-        setMessages((prevMessages) => [...prevMessages, newAudio]);
+        const newMessage = response.data.data;
+        if (socket) {
+          socket.emit("new message", newMessage);
+        } else {
+          console.error("Socket not initialized");
+        }
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
       }
     } catch (error) {
       setError("Failed to upload audio: " + error.message);

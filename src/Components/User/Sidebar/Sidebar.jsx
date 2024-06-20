@@ -12,7 +12,6 @@ import {
   FaEllipsisH,
 } from "react-icons/fa";
 import "./Sidebar.css";
-import CreatePost from "../CreatePost/CreatePost";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import Cookies from "js-cookie";
@@ -20,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import SearchModal from "../../../../dummy";
 import { AuthContext } from "../../../Context/AuthContext";
 import Search from "../Search/Search";
+import AddPost1 from "../CreatePost/AddPost1";
 
 const Sidebar = () => {
   const [create, setshowCreate] = useState(false);
@@ -218,7 +218,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
-      {create && <CreatePost setshowCreate={setshowCreate} />}
+      {create && <AddPost1 setshowCreate={setshowCreate} />}
       {showSearch && (
         <Search showSearch={showSearch} setShowSearch={setShowSearch} />
       )}
