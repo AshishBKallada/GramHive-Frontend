@@ -23,7 +23,7 @@ function FeedBackCards() {
 
   return (
     <div className="bg-gray-950 flex justify-center items-center min-h-screen -mt-12">
-      <div className="md:w-full w-full px-10 flex flex-col gap-2 p-5 bg-gray-800 text-white">
+      <div className="md:w-full w-full px-10 flex flex-col gap-2 p-5 bg-black text-white">
         <h1 className="py-5 text-2xl font-bold">Reviews</h1>
         <div className="flex bg-gray-600 bg-opacity-20 border border-gray-200 rounded-md">
           <ion-icon className="py-4 p-3" name="search-outline"></ion-icon>

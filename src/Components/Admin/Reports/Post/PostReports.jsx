@@ -1,4 +1,3 @@
-// PostReports.js
 import React, { useEffect, useState } from "react";
 import { getPostReports } from "../../../../services/services";
 import { Carousel } from "flowbite-react";
@@ -22,7 +21,6 @@ function PostReports() {
   const fetchReports = async () => {
     try {
       const response = await getPostReports();
-      console.log("data", response.data);
       setReports(response.data);
     } catch (err) {
       setError("Failed to fetch reports.");
@@ -62,7 +60,7 @@ function PostReports() {
             reports.map((report) => (
               <div
                 key={report._id}
-                className="flex flex-col h-96 w-80 bg-gray-800 rounded-lg"
+                className="flex flex-col h-96 w-80 bg-gray-900 rounded-lg"
               >
                 <Carousel slideInterval={1500}>
                   {report.reportedPost.images &&

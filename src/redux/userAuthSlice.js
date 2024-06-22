@@ -1,27 +1,42 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from 'js-cookie';
 
-export const userLogin = createAsyncThunk('user/login', async (loginData, thunkAPI) => {
-    try {
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginData)
-        });
-        if (response.status === 302) {
 
-        }
-        if (response.status === 401) {
+export const userLogin = createAsyncThunk(
+    'user/login',
+    async (loginData, thunkAPI) => {
+        try {
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(loginData)
+            });
+            if (response.status === 401) {
+                const data = await response.json();
+                return thunkAPI.rejectWithValue(data);
+            }
+            if (response.status === 302) {
+                const data = await response.json();
+                return thunkAPI.rejectWithValue(data);
+            }
+            if (response.status >= 400 && response.status < 500) {
+                const data = await response.json();
+                return thunkAPI.rejectWithValue(data);
+            }
+            if (response.status >= 500) {
+                throw new Error('Internal server error');
+            }
+
             const data = await response.json();
-            throw new Error(data.message);
-        }
+            Cookies.set('accessToken', data.token, { expires: 7 });
+            Cookies.set('refreshToken', data.refreshToken, { expires: 7 });
 
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw error;
+            return data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue({ message: error.message });
+        }
     }
-});
+);
 
 export const userSignup = createAsyncThunk('user/signup', async ({ token, isSignup }, thunkAPI) => {
     try {
@@ -37,7 +52,6 @@ export const userSignup = createAsyncThunk('user/signup', async ({ token, isSign
         }
 
         const data = await response.json();
-        console.log('data9999',data);
         Cookies.set('accessToken', data.tokens.accessToken, { expires: 7 });
         Cookies.set('refreshToken', data.tokens.refreshToken, { expires: 7 });
 
@@ -114,21 +128,22 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(userLogin.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(userLogin.fulfilled, (state, action) => {
-                state.loading = false;
-                state.msg = action.payload.message;
-                state.user = action.payload.user;
-                state.error = null;
-            })
-            .addCase(userLogin.rejected, (state, action) => {
-                state.loading = false;
-                console.log(action.error.message);
-                state.error = action.error.message;
-            })
+        .addCase(userLogin.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(userLogin.fulfilled, (state, action) => {
+            alert('Login successful');
+            state.loading = false;
+            state.msg = action.payload.message;
+            state.user = action.payload.user;
+            state.error = null;
+        })
+        .addCase(userLogin.rejected, (state, action) => {
+            state.loading = false;
+            console.log(action.payload.message || action.error.message);
+            state.error = action.payload.message || action.error.message;
+        })
             .addCase(userSignup.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -159,14 +174,13 @@ const userSlice = createSlice({
                 state.error = null;
             })
             .addCase(userSignupWithEmail.fulfilled, (state, action) => {
-                console.log(action);
                 state.loading = false;
                 state.msg = action.payload.message;
                 state.user = action.payload.user;
             })
             .addCase(userSignupWithEmail.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.message;
+                state.error = action.error.message;
             })
 
     }

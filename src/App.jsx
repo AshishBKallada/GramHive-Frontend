@@ -32,62 +32,62 @@ import TransactionsPage from "./pages/Admin/transcations";
 import { useToast } from "@chakra-ui/react";
 import ErrorPage from "./pages/User/ErrorPage";
 import { SocketContext } from "./Context/socketContext";
+import ResetPassword from "./Components/User/SignupTest/resetpassword";
 
 function App() {
   const { token, loading } = useContext(AuthContext);
-  const { adminToken, setAdminToken, adminLoading, setAdminLoading } =
-    useContext(AdminAuthContext);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
+  const { adminToken, adminLoading } = useContext(AdminAuthContext);
   const user = useSelector((state) => state.user.user);
-  const userId = user ? user._id : null
+  const userId = user ? user._id : null;
   const { addNotification } = useContext(NotificationContext);
-  var message;
   const toast = useToast();
+  const socket = useContext(SocketContext);
 
- const socket = useContext(SocketContext);
   useEffect(() => {
-    socket.on("abcd", (data) => {
+    if (!socket) return;
+
+    const handleNotification = (data) => {
       const { notification } = data;
-      message = notification.message;
       toast({
-        title: message,
+        title: notification.message,
         status: "success",
         duration: 4000,
         isClosable: true,
         position: "top",
       });
       addNotification(notification);
-    });
+    };
+
+    socket.on("abcd", handleNotification);
 
     return () => {
-      socket.disconnect();
+      socket.off("abcd", handleNotification);
     };
-  }, [userId, addNotification]);
+  }, [socket, addNotification, toast]);
+
+  if (loading || adminLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div>
-      {/* <SocketToast /> */}
       <Router>
         <Routes>
           <Route
             path="/signup"
-            element={token ? <Navigate to={"/"} /> : <UserSignup />}
+            element={token ? <Navigate to="/" /> : <UserSignup />}
           />
           <Route
             path="/"
-            element={token ? <Home /> : <Navigate to={"/login"} />}
+            element={token ? <Home /> : <Navigate to="/login" />}
           />
           <Route
             path="/login"
-            element={token ? <Navigate to={"/"} /> : <Login />}
+            element={token ? <Navigate to="/" /> : <Login />}
           />
           <Route
             path="/profile"
-            element={token ? <UserProfile /> : <Navigate to={"/login"} />}
+            element={token ? <UserProfile /> : <Navigate to="/login" />}
           />
           <Route
             path="/editprofile"
@@ -102,6 +102,7 @@ function App() {
           <Route path="/live" element={<Live />} />
           <Route path="/promotions" element={<Promotions />} />
           <Route path="/nearbyusers" element={<NearbyUsers />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route
             path="/admin"
@@ -133,9 +134,7 @@ function App() {
             path="/admin/transactions"
             element={adminToken ? <TransactionsPage /> : <AdminLogin />}
           />
-
           <Route path="*" element={<ErrorPage />} />
-
           <Route path="/room/:roomId" element={<RoomPage />} />
         </Routes>
       </Router>

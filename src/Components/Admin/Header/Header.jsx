@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { AdminAuthContext } from '../../../Context/AdminAuthContext';
 
 const Header = () => {
     const navigate = useNavigate();
+    const { setAdminToken } = useContext(AdminAuthContext);
 
     const handleLogout = () => {
         Cookies.remove('adminToken');
+        setAdminToken(null)
         navigate('/admin')
     }
     return (
-        <header className="text-gray-100 bg-black body-font shadow w-full">
+        <header className="text-gray-100 bg-[#303030] body-font shadow w-full">
             <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                 <nav className="flex lg:w-2/5 flex-wrap items-center text-base md:ml-auto">
                     <a
@@ -24,7 +27,7 @@ const Header = () => {
                 </nav>
               
                 <div className="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
-                    <a onClick={handleLogout} className="bg-indigo-700 hover:bg-indigo-500 text-white ml-4 py-2 px-3 rounded-lg">
+                    <a onClick={handleLogout} className="bg-red-700 hover:bg-red-500 text-white ml-4 py-2 px-3 rounded-lg">
                         Logout
                     </a>
                 </div>

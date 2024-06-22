@@ -23,10 +23,10 @@ export function unfollowUser(followerId, userId) {
     });
 }
 
-export const addPost = (formData,onUploadProgress)=>{
+export const addPost = (formData, onUploadProgress) => {
     return client.post('/posts/addpost',
-        formData,{
-         headers: {
+        formData, {
+        headers: {
             'Content-Type': 'multipart/form-data'
         },
         onUploadProgress,
@@ -363,4 +363,12 @@ export const checkUserExistsByEmail = (email) => {
 
 export const getExplorePosts = () => {
     return client.get('/posts/explore');
+}
+
+export const sendResetPassMail = (email) => {
+    return client.post('/forgot-pass', { email });
+}
+
+export const resetPassword = (token, newPassword) => {
+    return client.put('/reset-password', { token, newPassword });
 }

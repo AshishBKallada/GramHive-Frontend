@@ -23,7 +23,8 @@ function SidebarTest() {
   const [showSearch, setShowSearch] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
-  const { getUnreadCount,setStateNotifications } = useContext(NotificationContext);
+  const { getUnreadCount, setStateNotifications } =
+    useContext(NotificationContext);
 
   const notificationHandler = (state) => {
     setIsOpen(state);
@@ -37,7 +38,8 @@ function SidebarTest() {
         {
           label: "Yes",
           onClick: () => {
-            Cookies.remove("token");
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
             setToken(null);
             navigate("/login");
           },
@@ -52,13 +54,13 @@ function SidebarTest() {
   const fetchNotifications = async () => {
     setTimeout(async () => {
       const { data } = await getNotifications();
-      console.log('NOTIFICATIONS',data);
+      console.log("NOTIFICATIONS", data);
       setStateNotifications(data);
     }, 2000);
   };
   useEffect(() => {
     fetchNotifications();
-  },[]);
+  }, []);
   return (
     <div>
       {isOpen && <Notifications open={isOpen} setOpen={setIsOpen} />}
@@ -204,28 +206,28 @@ function SidebarTest() {
                   <span className="ml-4">Messages</span>
                 </Link>
                 <Link
-      onClick={() => notificationHandler(true)}
-      className="relative text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
-    >
-      <svg
-        className="w-6 h-6 fill-current inline-block"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-          clipRule="evenodd"
-        ></path>
-      </svg>
-      <span className="ml-4">Notifications</span>
-      {getUnreadCount() > 0 && (
-        <span className="absolute top-0 right-12 inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
-          {getUnreadCount()}
-        </span>
-      )}
-    </Link>
+                  onClick={() => notificationHandler(true)}
+                  className="relative text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
+                >
+                  <svg
+                    className="w-6 h-6 fill-current inline-block"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  <span className="ml-4">Notifications</span>
+                  {getUnreadCount() > 0 && (
+                    <span className="absolute top-0 right-12 inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                      {getUnreadCount()}
+                    </span>
+                  )}
+                </Link>
                 <Link
                   to="/promotions"
                   className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"

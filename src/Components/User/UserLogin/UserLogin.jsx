@@ -9,6 +9,8 @@ import Cookies from "js-cookie";
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthContext";
 import { useLoginSuccess } from "../../../Functions/GoogleSignup/LoginSuccess";
+import ForgotPasswordModal from "./forgotpass";
+import { Button } from "flowbite-react";
 
 function UserLogin() {
   const [username, setUsername] = useState("");
@@ -19,6 +21,7 @@ function UserLogin() {
   const error = useSelector((state) => state.user.error);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [passModal,setPassModal] = useState(false);
 
   const showToastAndNavigate = useLoginSuccess();
 
@@ -53,6 +56,7 @@ function UserLogin() {
           ({ payload }) => {
             if (payload.status) {
               alert(payload.status)
+            
               Cookies.set("token", payload.token, { expires: 7 });
               Cookies.set("refreshToken", payload.refreshToken, { expires: 7 });
             }
@@ -76,8 +80,13 @@ function UserLogin() {
     }
   };
 
+  const handlePassModal =()=>{
+    setPassModal(prev=>!prev);
+  }
+
   return (
     <div>
+      {passModal && <ForgotPasswordModal handleOpen={handlePassModal} />}
       <ToastContainer />
 
       <div
@@ -143,32 +152,14 @@ function UserLogin() {
                   <span className="error text-red-600">{passwordError}</span>
                 )}
 
-                {/* <div className="flex flex-row justify-between mb-8">
-                  <label className="relative inline-flex items-center mr-3 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked
-                      value=""
-                      className="sr-only peer"
-                    />
-                    <div className="w-5 h-5 bg-white border-2 rounded-sm border-grey-500 peer peer-checked:border-0 peer-checked:bg-purple-blue-500">
-                      <img
-                        className=""
-                        src="https://raw.githubusercontent.com/Loopple/loopple-public-assets/main/motion-tailwind/img/icons/check.png"
-                        alt="tick"
-                      />
-                    </div>
-                    <span className="ml-3 text-sm font-normal text-grey-900">
-                      Keep me logged in
-                    </span>
-                  </label>
-                  <a
-                    href="javascript:void(0)"
+                <div className="flex flex-row justify-between mb-8 items-end justify-end">
+                 
+                  <Button onClick={handlePassModal}
                     className="mr-4 text-sm font-medium text-purple-blue-500"
                   >
                     Forget password?
-                  </a>
-                </div> */}
+                  </Button>
+                </div>
                 <button
                   onClick={handleLogin}
                   className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none bg-indigo-500 text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-purple-blue-500"

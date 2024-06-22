@@ -15,7 +15,7 @@ function Feedbacks() {
           overflowX: "hidden",
         }}
       >
-        <Header />
+       
         <div style={{ flex: 1, overflowY: "auto" }}>
           <FeedBackCards />
         </div>

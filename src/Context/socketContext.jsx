@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
@@ -15,9 +9,9 @@ export const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const user = useSelector((state) => state.user.user);
-  var socketInstance;
+
   useEffect(() => {
-     socketInstance = io(ENDPOINT);
+    const socketInstance = io(ENDPOINT);
     if (socketInstance) {
       setSocket(socketInstance);
     }
@@ -29,15 +23,16 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (socket && user) {
-      const userId = user._id
-      socketInstance?.on("connect", () => {
+      const userId = user._id;
+      socket.on("connect", () => {
         console.log("Connected to socket server");
       });
 
-      socketInstance?.on("connected", () => {
+      socket.on("connected", () => {
         console.log("connection true");
       });
-      socket.emit("setup",userId)
+
+      socket.emit("setup", userId);
     }
   }, [socket, user]);
 

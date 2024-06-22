@@ -238,7 +238,7 @@ function Profile() {
                     aria-haspopup="true"
                   >
                     <img
-                      className="h-40 w-40 rounded-full border-2 shadow-gray-500 shadow-xl"
+                      className="h-58 w-58 rounded-full border-2 shadow-gray-500 shadow-xl"
                       src={
                         user.user.image
                           ? user.user.image.toString()

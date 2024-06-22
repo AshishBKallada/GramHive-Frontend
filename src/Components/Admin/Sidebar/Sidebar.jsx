@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
-import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiMessageSquare, FiFolder } from "react-icons/fi";
@@ -15,9 +14,13 @@ const Sidebar = () => {
     { name: "dashboard", link: "/admin/home", icon: MdOutlineDashboard },
     { name: "user", link: "/admin/users", icon: AiOutlineUser },
     { name: "Reports", link: "/", icon: FiMessageSquare, isDropdown: true },
-    { name: "Transactions", link: "/admin/transactions", icon: TbReportAnalytics, margin: true },
+    {
+      name: "Transactions",
+      link: "/admin/transactions",
+      icon: TbReportAnalytics,
+      margin: true,
+    },
     { name: "Feedbacks", link: "/admin/feedbacks", icon: FiFolder },
-    { name: "Setting", link: "/", icon: RiSettings4Line },
   ];
 
   const reportSubLinks = [
@@ -28,7 +31,7 @@ const Sidebar = () => {
   return (
     <section className="flex gap-6">
       <div
-        className={`bg-[#0e0e0e] min-h-screen ${
+        className={`bg-gray-900 min-h-screen ${
           open ? "w-72" : "w-16"
         } duration-500 text-gray-100 px-4`}
       >
@@ -40,16 +43,17 @@ const Sidebar = () => {
           />
         </div>
         <div className="mt-4 flex flex-col gap-4 relative">
-          <h1 className="font-bold text-4xl text-center md:hidden">
-            D<span className="text-teal-600">.</span>
-          </h1>
-          <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
-            <img
-              className="ml-6 mb-6"
-              src="https://fontmeme.com/permalink/240528/22b9675bf28cd25f7e478893edac5ea4.png"
-              alt=""
-            />
-          </h1>
+          {open ? (
+            <h1 className="hidden md:block font-bold text-sm md:text-xl text-center">
+              <img
+                className="ml-6 mb-6"
+                src="https://fontmeme.com/permalink/240528/22b9675bf28cd25f7e478893edac5ea4.png"
+                alt="Logo"
+              />
+            </h1>
+          ) : (
+            <h1 className="font-bold text-4xl text-center md:hidden">G</h1>
+          )}
           {menus.map((menu, i) => (
             <div key={i} className={`${menu.margin && "mt-5"} relative`}>
               {menu.isDropdown ? (
