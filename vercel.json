@@ -17,5 +17,6 @@
       "NPM_FLAGS": "--legacy-peer-deps"
     }
   },
-  "buildCommand":"npm install --legacy-peer-deps"
+  "buildCommand":"vite build",
+  "installCommand": "npm install --legacy-peer-deps"
 }
