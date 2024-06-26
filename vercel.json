@@ -6,17 +6,20 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
-      }
+      },
+      "buildCommand": "vite build",
+      "installCommand": "npm install --legacy-peer-deps"
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ],
   "build": {
     "env": {
       "NPM_FLAGS": "--legacy-peer-deps"
     }
   },
-  "buildCommand":"vite build",
-  "installCommand": "npm install --legacy-peer-deps"
 }
