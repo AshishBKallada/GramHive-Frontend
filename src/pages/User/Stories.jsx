@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { WavyBackground } from "../../Components/External/wavy-backgroubd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Stories from "react-insta-stories";
-import Fade from "react-reveal/Fade";
+import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 import { useSelector } from "react-redux";
 
@@ -73,7 +73,12 @@ export function Story() {
 
             <div className="stories-container w-full flex-grow">
               <center>
-                <Fade>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   <div className="relative w-[370px] h-[435px] stories-container">
                     <Stories
                       stories={getStoriesObject()}
@@ -85,7 +90,7 @@ export function Story() {
                       isPaused={isPaused}
                     />
                   </div>
-                </Fade>
+                </motion.div>
               </center>
             </div>
 
@@ -110,4 +115,3 @@ export function Story() {
     </>
   );
 }
-
