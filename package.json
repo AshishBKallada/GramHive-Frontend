@@ -69,12 +69,13 @@
     "use-places-autocomplete": "^4.0.1",
     "zego-zim-web": "^2.5.0"
   },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "install": "npm install --legacy-peer-deps"
-  },
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+  
+  
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "daisyui": "^4.10.2",
