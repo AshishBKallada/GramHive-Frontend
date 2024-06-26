@@ -1,20 +1,20 @@
 {
   "version": 2,
-  "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "vite build",
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
-      }
+      },
+      "buildCommand": "vite build",
+      "installCommand": "npm install --legacy-peer-deps"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
