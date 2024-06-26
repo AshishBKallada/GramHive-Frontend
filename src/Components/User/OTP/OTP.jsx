@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { userSignup, userSignupWithEmail } from "../../../redux/userAuthSlice";
 import { useToast } from "@chakra-ui/react";
@@ -52,11 +51,7 @@ function OTP({ resendemail }) {
   const handleOTPsubmit = async () => {
     const otp = otpValues.join("");
     await dispatch(userSignupWithEmail(otp)).then(({ payload }) => {
-      // if (payload.status) {
-      //   alert(payload.status);
-      //   Cookies.set("token", payload.token, { expires: 7 });
-      //   Cookies.set("refreshToken", payload.refreshToken, { expires: 7 });
-      // }
+   
       const key = payload.status ? "success" : "error";
       toast({
         title: payload.message,
@@ -67,25 +62,7 @@ function OTP({ resendemail }) {
       });
       payload.status ? navigate('/login') : undefined;
     });
-    // if (!user.error) {
-    //   toast({
-    //     title: "Logged in successfully",
-    //     status: "success",
-    //     duration: 3000,
-    //     isClosable: true,
-    //     position: "top",
-    //   });
-    //   navigate("/");
-    // } else {
-    //   alert(user.error);
-    //   toast({
-    //     title: "Failed to sent successfully",
-    //     status: "warning",
-    //     duration: 3000,
-    //     isClosable: true,
-    //     position: "top",
-    //   });
-    // }
+ 
   };
 
   const handleResendOTP = async () => {

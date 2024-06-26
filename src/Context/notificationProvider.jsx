@@ -12,6 +12,9 @@ const NotificationProvider = ({ children }) => {
       ...prevNotifications,
     ]);
   };
+  const appendNotifications = (data) => {
+    setNotifications([...notifications, data]);
+  }
   console.log("updated notification", notifications);
 
   const markNotificationAsRead = () => {
@@ -40,6 +43,7 @@ const NotificationProvider = ({ children }) => {
     addNotification,
     markNotificationAsRead,
     removeNotification,
+    appendNotifications
   };
 
   return (

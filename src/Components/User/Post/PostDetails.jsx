@@ -13,7 +13,6 @@ import {
   MenuItem,
   Button,
 } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
 import LikedList from "../LikedList/LikedList";
 import PostEditor from "./postEditor";
 import { useToast } from "@chakra-ui/react";
@@ -32,17 +31,16 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
   const [reply, setReply] = useState("");
 
   const replyTextareaRef = useRef(null);
-  const navigate = useNavigate();
   const postId = post._id;
 
   const [isSaved, setisSaved] = useState(post.isSaved);
-  console.log("isSaved", isSaved);
   const [showLike, setShowLike] = useState(false);
   const [reportModal, setReportModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -159,14 +157,12 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
         });
         setLikes((prevLikes) => prevLikes + 1);
         setLiked(true);
-
       } else {
         await axios.delete(`http://localhost:3000/posts/${postId}/unlike`, {
           author,
         });
         setLikes((prevLikes) => prevLikes - 1);
         setLiked(false);
-
       }
       setLiked(!liked);
     } catch (error) {
@@ -275,36 +271,9 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
       console.error(error);
     }
   };
-  console.log("showlike", showLike);
-
-  const handleReportClick = () => {
-    handleClose();
-    setReportModal(true);
-  };
-  const handleReport = async () => {
-    try {
-      const userId = user.user._id;
-      const response = await axios.post(
-        `http://localhost:3000/posts/report/${postId}`,
-        {
-          author: author,
-          userId: userId,
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("POST Reported");
-        toast.success("Post was successfully reported", { autoClose: 1500 });
-        setReportModal(false);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleEditClick = () => {
     setEditModal(true);
-    handleClose();
   };
 
   const handleCommentDelete = async (commentId) => {
@@ -361,8 +330,10 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
 
   return (
     <>
-      <ToastContainer />
-      {isHidden && (
+      {editModal ? (
+    <PostEditor post={post} setEditModal={setEditModal} />
+      ):(
+      isHidden && (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="bg-white w-full md:w-3/4 lg:w-2/3 xl:w-3/4 rounded-lg p-4 flex flex-col relative">
             {/* Close Button Icon */}
@@ -398,7 +369,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
                       Asheville, North Carolina
                     </span>
                   </div>
-                 
+
                   <Menu>
                     <MenuHandler>
                       <Button className="bg-white">
@@ -412,16 +383,9 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
                     <MenuList>
                       <MenuItem onClick={handleEditClick}>Edit</MenuItem>
                       <MenuItem onClick={handlePostDelete}>Delete </MenuItem>
-                      <MenuItem onClick={handleReportClick}>Report</MenuItem>
                     </MenuList>
                   </Menu>
                 </div>
-
-                {editModal && (
-                  <div class="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog ">
-                    <PostEditor post={post} setEditModal={setEditModal} />
-                  </div>
-                )}
 
                 {reportModal && (
                   <div class="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog ">
@@ -582,7 +546,8 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
                               </div>
                               <div
                                 onClick={() => handleCommentDelete(comment._id)}
-                                class="self-stretch flex justify-center items-center transform transition-opacity duration-200 opacity-0 hover:opacity-100">
+                                class="self-stretch flex justify-center items-center transform transition-opacity duration-200 opacity-0 hover:opacity-100"
+                              >
                                 <a href="#" class="">
                                   <div class="text-xs cursor-pointer flex h-6 w-6 transform transition-colors duration-200 hover:bg-gray-100 rounded-full items-center justify-center">
                                     <svg
@@ -686,7 +651,8 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
                                         r._id
                                       )
                                     }
-                                    class="self-stretch flex justify-center items-center transform transition-opacity duration-200 opacity-0 translate -translate-y-2 hover:opacity-100">
+                                    class="self-stretch flex justify-center items-center transform transition-opacity duration-200 opacity-0 translate -translate-y-2 hover:opacity-100"
+                                  >
                                     <a href="#" class="">
                                       <div class="text-xs cursor-pointer flex h-6 w-6 transform transition-colors duration-200 hover:bg-gray-100 rounded-full items-center justify-center">
                                         <svg
@@ -831,7 +797,10 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
             </div>
           </div>
         </div>
-      )}
+      ))}
+    
+      <ToastContainer />
+     
     </>
   );
 }

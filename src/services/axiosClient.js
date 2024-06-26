@@ -18,7 +18,6 @@ function getCurrentRefreshToken() {
 
 function setRefreshedTokens(tokens) {
     Cookies.set('accessToken', tokens.accessToken);
-
     Cookies.set('refreshToken', tokens.refreshToken);
 }
 

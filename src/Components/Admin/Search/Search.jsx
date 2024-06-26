@@ -10,12 +10,7 @@ function Search({handleSearch}) {
                 </svg>
                 <input className="bg-gray-100 outline-none text-sm" type="text" onChange={handleSearch} placeholder="Search a user ..." />
               </div>
-              <div className="flex py-2 px-3 rounded-lg text-gray-500 font-semibold cursor-pointer text-sm">
-                <span>All categories</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
+             
               <div className="bg-gray-800 py-2 px-3 text-white font-semibold rounded-lg hover:shadow-lg transition duration-3000 cursor-pointer text-sm">
                 <span>Search</span>
               </div>

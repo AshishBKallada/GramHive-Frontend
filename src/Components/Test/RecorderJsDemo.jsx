@@ -72,8 +72,8 @@ function RecorderJSDemo({ setMessages }) {
       >
         {isRecording ? (
           <div className="absolute inset-0 flex items-center justify-center">
-            <img
-              src="https://media4.giphy.com/media/ZXrNrJBa5ETQHH2fMr/200w.gif?cid=6c09b952sxdenxze699o1dbouq3ecqxae3bas92xufe2df3l&ep=v1_gifs_search&rid=200w.gif&ct=g"
+            <video
+              src="https://cdnl.iconscout.com/lottie/premium/preview-watermark/microphone-7369708-6019229.mp4"
               alt="Recording"
               className="w-8 h-8"
             />

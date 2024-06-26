@@ -99,9 +99,9 @@ const Map = () => {
           <Popup>
             <img src={user.image} alt={user.name} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
             <br />
-            {user.name}
+            {user.username}
             <br />
-            {user.email}
+            {user.name}
           </Popup>
         </Marker>
       ))}

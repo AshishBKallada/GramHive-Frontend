@@ -53,8 +53,7 @@ function SidebarTest() {
   };
   const fetchNotifications = async () => {
     setTimeout(async () => {
-      const { data } = await getNotifications();
-      console.log("NOTIFICATIONS", data);
+      const { data } = await getNotifications(1);
       setStateNotifications(data);
     }, 2000);
   };

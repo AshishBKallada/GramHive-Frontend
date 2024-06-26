@@ -468,9 +468,9 @@ function MessageList() {
                       </small>
                     </div>
                     <div>
-                      <small className="text-xs bg-red-500 text-white rounded-full h-6 w-6 leading-6 text-center inline-block">
+                      {/* <small className="text-xs bg-red-500 text-white rounded-full h-6 w-6 leading-6 text-center inline-block">
                         23
-                      </small>
+                      </small> */}
                     </div>
                   </div>
                 </div>

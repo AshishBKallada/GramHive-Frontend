@@ -21,7 +21,7 @@ function UserLogin() {
   const error = useSelector((state) => state.user.error);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [passModal,setPassModal] = useState(false);
+  const [passModal, setPassModal] = useState(false);
 
   const showToastAndNavigate = useLoginSuccess();
 
@@ -55,8 +55,6 @@ function UserLogin() {
         await dispatch(userLogin({ username, password })).then(
           ({ payload }) => {
             if (payload.status) {
-              alert(payload.status)
-            
               Cookies.set("token", payload.token, { expires: 7 });
               Cookies.set("refreshToken", payload.refreshToken, { expires: 7 });
             }
@@ -80,9 +78,9 @@ function UserLogin() {
     }
   };
 
-  const handlePassModal =()=>{
-    setPassModal(prev=>!prev);
-  }
+  const handlePassModal = () => {
+    setPassModal((prev) => !prev);
+  };
 
   return (
     <div>
@@ -93,7 +91,7 @@ function UserLogin() {
         style={{
           backgroundImage: `url('https://static.vecteezy.com/system/resources/previews/030/758/966/non_2x/creative-animal-concept-cheetah-wearing-sunglasses-on-yellow-background-copy-space-generative-ai-free-photo.jpg')`,
           backgroundSize: "cover",
-          scrollbarWidth:'none'
+          scrollbarWidth: "none",
         }}
         className="w-screen flex bg-right flex-col h-screen overflow-y-hidden"
       >
@@ -153,8 +151,8 @@ function UserLogin() {
                 )}
 
                 <div className="flex flex-row justify-between mb-8 items-end justify-end">
-                 
-                  <Button onClick={handlePassModal}
+                  <Button
+                    onClick={handlePassModal}
                     className="mr-4 text-sm font-medium text-purple-blue-500"
                   >
                     Forget password?

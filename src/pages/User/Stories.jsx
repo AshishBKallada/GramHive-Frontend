@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Stories from "react-insta-stories";
 import Fade from "react-reveal/Fade";
 import { formatDistanceToNow } from "date-fns";
+import { useSelector } from "react-redux";
 
 export function Story() {
   const location = useLocation();

@@ -28,7 +28,7 @@ import PostReportsPage from "./pages/Admin/PostReportsPage";
 import UserReportsPage from "./pages/Admin/UserReportsPage";
 import { NotificationContext } from "./Context/notificationProvider";
 import { useSelector } from "react-redux";
-import TransactionsPage from "./pages/Admin/transcations";
+import TransactionsPage from "./pages/Admin/Transactions";
 import { useToast } from "@chakra-ui/react";
 import ErrorPage from "./pages/User/ErrorPage";
 import { SocketContext } from "./Context/socketContext";

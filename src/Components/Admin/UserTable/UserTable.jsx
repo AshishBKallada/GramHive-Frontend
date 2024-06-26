@@ -9,7 +9,6 @@ import Search from "../Search/Search";
 function UserTable() {
   const [userData, setUserData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [userProfile, setUserProfile] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
@@ -44,7 +43,7 @@ function UserTable() {
 
   const handleViewProfile = (user) => {
     setSelectedUser(user);
-    setUserProfile(true);
+   
   };
 
   const handleBanUser = async (user) => {
@@ -89,8 +88,8 @@ function UserTable() {
 
   return (
     <div className="relative min-h-screen bg-black text-gray-500">
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gray-900 p-4 flex justify-between items-center">
-        <h1 className="text-3xl text-gray-200 ml-4">Users</h1>
+      <div style={{marginLeft:'300px'}} className="fixed top-0 left-0 right-0 z-50 bg-gray-900 p-4 flex justify-between items-center">
+        <h1 className="text-4xl font-bold text-gray-200 ml-4">Users</h1>
         <ToastContainer position="top-center" autoClose={1500} />
         <div className="mr-4">
           <Search handleSearch={handleSearch} />
@@ -100,7 +99,7 @@ function UserTable() {
         <div className="w-full">
           <div className="overflow-y-auto max-h-[calc(100vh-5rem)]">
             <table className="w-full text-md bg-gray-900 shadow-md rounded mb-4">
-              <thead className="sticky top-0 bg-gray-900">
+              <thead className="sticky top-0 bg-gray-800">
                 <tr className="border-b">
                   <th className="text-left p-6 px-5">Username</th>
                   <th className="text-left p-3 px-5">Account name</th>
@@ -150,29 +149,9 @@ function UserTable() {
           </div>
         </div>
       </div>
-      {userProfile && (
-        <div className="absolute top-0 left-0 w-full h-full bg-gray-900 bg-opacity-75 flex justify-center items-center z-50">
-          <button
-            onClick={() => setUserProfile(false)}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 focus:outline-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          <UserProfile user={selectedUser} />
-        </div>
+      {selectedUser && (
+          <UserProfile setSelectedUser={setSelectedUser} user={selectedUser} />
+      
       )}
     </div>
   );

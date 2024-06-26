@@ -133,7 +133,6 @@ const userSlice = createSlice({
             state.error = null;
         })
         .addCase(userLogin.fulfilled, (state, action) => {
-            alert('Login successful');
             state.loading = false;
             state.msg = action.payload.message;
             state.user = action.payload.user;

@@ -263,8 +263,8 @@ export const sentReportFeedback = (data) => {
     return client.post(`/reports/addfeedback`, data);
 }
 
-export const getNotifications = () => {
-    return client.get(`/notifications`);
+export const getNotifications = (page) => {
+    return client.get(`/notifications/${page}`);
 }
 
 export const onUpdateNotifications = () => {

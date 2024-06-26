@@ -61,13 +61,17 @@ function Search({ onClickOutside, showSearch, setShowSearch }) {
 
   return (
     <div>
-      <Dialog open={showSearch} handler={() => setShowSearch((prev) => !prev)}>
+      <Dialog
+        size="sm"
+        open={showSearch}
+        handler={() => setShowSearch((prev) => !prev)}
+      >
         <DialogHeader>Search a user..</DialogHeader>
         <DialogBody>
           <div ref={ref} className="p-4 border-b border-gray-200">
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500"
               placeholder="Search..."
               value={searchQuery}
               onChange={handleChange}
@@ -76,7 +80,7 @@ function Search({ onClickOutside, showSearch, setShowSearch }) {
           <div className="p-6 max-h-[15rem] overflow-y-auto bg-white">
             {loading
               ? placeholders.map((_, index) => (
-                  <div className="mb-4">
+                  <div key={index} className="mb-4">
                     <SearchSkelton />
                   </div>
                 ))
@@ -86,15 +90,15 @@ function Search({ onClickOutside, showSearch, setShowSearch }) {
                     to={`/userprofile/${user._id}`}
                     className="block"
                   >
-                    <div className="flex items-center border-b hover:border-gray-400 hover:bg-teal-400 hover:text-white rounded-lg p-2 h-20">
+                    <div className="flex items-center border-b-2 hover:border-gray-400 hover:bg-teal-300 hover:text-white rounded-lg p-2 h-20 transition ease-in-out duration-300 hover:scale-105">
                       <img
                         src={user.image}
                         alt={user.username}
-                        className="w-12 h-12 rounded-full mr-4"
+                        className="w-12 h-12 rounded-full mr-4 transition transform ease-in-out duration-300 hover:scale-110"
                       />
                       <div style={{ display: "flex", flexDirection: "column" }}>
                         <span>{user.username}</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs">
                           {user.name}
                         </span>
                       </div>

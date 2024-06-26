@@ -30,6 +30,7 @@ import RecorderJSDemo from "../../Test/RecorderJsDemo";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { SocketContext } from "../../../Context/socketContext";
+import CustomAudioPlayer from "./AudioPlayer.jsx";
 
 const Chat = () => {
   const { selectedChat, notifications, setNotifications } = ChatState();
@@ -48,7 +49,7 @@ const Chat = () => {
   const userId = useSelector((state) => state.user.user._id);
 
   var selectedChatCompare;
- var socket = useContext(SocketContext);
+  var socket = useContext(SocketContext);
   useEffect(() => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
@@ -266,9 +267,6 @@ const Chat = () => {
             src="https://actionmarketingco.com/wp-content/uploads/2022/12/how-Chatbot-can-help-grow-your-business.png"
             alt=""
           />
-          {/* <div class="absolute top-2/3 left-1/2 transform -translate-y-1/2 -translate-x-1/2 text-gray-300 text-3xl text-center font-bold">
-            Select a chat to start messaging !
-          </div> */}
         </div>
       </>
     );
@@ -457,14 +455,7 @@ const Chat = () => {
                                   </div>
                                 )}
                                 {message?.audio && (
-                                  <div className="px-3.5 mt-2 py-2 bg-gray-100 rounded flex justify-center items-center">
-                                    <AudioPlayer
-                                      src={message.audio}
-                                      onPlay={(e) => console.log("onPlay")}
-                                      controls
-                                      className="w-full"
-                                    />
-                                  </div>
+                                  <CustomAudioPlayer src={message.audio} />
                                 )}
                               </>
                             )}
@@ -514,18 +505,17 @@ const Chat = () => {
         </div>
         {isTyping ? <p>typing... </p> : null}
         <div class="w-full pl-3 pr-1 py-1 rounded-3xl border-4 border-teal-300 items-center gap-2 inline-flex justify-between mt-0">
-          <div class="flex items-center">
+          <div class="flex items-center w-full">
             <RecorderJSDemo setMessages={setMessages} />
             <input
               onChange={typingHandler}
               value={message}
-              class="grow shrink basis-0 text-black text-xs font-medium leading-4 focus:outline-non "
+              class="grow shrink basis-0 w-full text-black text-sm font-medium leading-4 focus:outline-none ml-2"
               placeholder="Type here..."
             />
           </div>
           <div class="flex items-center gap-2">
-            <button onClick={() => setIsOpen(true)}>
-              {" "}
+            <button onClick={() => setIsOpen(true)} title="Share files">
               <svg
                 className="mx-auto mt-4"
                 xmlns="http://www.w3.org/2000/svg"
@@ -550,7 +540,7 @@ const Chat = () => {
 
             <button
               onClick={handleSentMessage}
-              class="items-center flex px-3 py-2 bg-teal-600 rounded-full shadow "
+              className="items-center flex px-3 py-2 bg-teal-600 rounded-full shadow transition duration-300 ease-in-out transform hover:scale-105 hover:bg-teal-700"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -564,12 +554,12 @@ const Chat = () => {
                     id="icon"
                     d="M9.04071 6.959L6.54227 9.45744M6.89902 10.0724L7.03391 10.3054C8.31034 12.5102 8.94855 13.6125 9.80584 13.5252C10.6631 13.4379 11.0659 12.2295 11.8715 9.81261L13.0272 6.34566C13.7631 4.13794 14.1311 3.03408 13.5484 2.45139C12.9657 1.8687 11.8618 2.23666 9.65409 2.97257L6.18714 4.12822C3.77029 4.93383 2.56187 5.33664 2.47454 6.19392C2.38721 7.0512 3.48957 7.68941 5.69431 8.96584L5.92731 9.10074C6.23326 9.27786 6.38623 9.36643 6.50978 9.48998C6.63333 9.61352 6.72189 9.7665 6.89902 10.0724Z"
                     stroke="white"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
                   />
                 </g>
               </svg>
-              <h3 class="text-white text-xs font-semibold leading-4 px-2">
+              <h3 className="text-white text-xs font-semibold leading-4 px-2">
                 Send
               </h3>
             </button>
@@ -578,7 +568,6 @@ const Chat = () => {
       </div>
       {isOpen && (
         <FilesPreview
-
           messages={messages}
           setMessages={setMessages}
           isOpen={isOpen}

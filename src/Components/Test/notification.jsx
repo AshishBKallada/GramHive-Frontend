@@ -1,17 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Dialog, DialogHeader, DialogBody } from "@material-tailwind/react";
-import { onUpdateNotifications } from "../../services/services";
+import {
+  getNotifications,
+  onUpdateNotifications,
+} from "../../services/services";
 import { NotificationSkelton } from "../Skeltons/NotificationSkelton";
 import { NotificationContext } from "../../Context/notificationProvider";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export function Notifications({ open, setOpen }) {
   const handleOpen = () => setOpen(!open);
   const [loading, setLoading] = useState(false);
-  const { notifications, markNotificationAsRead } =
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const { notifications, markNotificationAsRead, appendNotifications } =
     useContext(NotificationContext);
 
   const updateNotifications = async () => {
-    await onUpdateNotifications();
+    try {
+      await onUpdateNotifications();
+    } catch (error) {
+      console.error("Error updating notifications:", error);
+    }
   };
 
   useEffect(() => {
@@ -24,6 +35,24 @@ export function Notifications({ open, setOpen }) {
       }, 2000);
     }
   }, [open]);
+
+  const fetchMoreData = async () => {
+    try {
+      console.log("Fetching more data...");
+      alert('fething dara')
+      const { data } = await getNotifications(page + 1);
+      console.log("Fetched data:", data);
+      if (data.length === 0) {
+        setHasMore(false);
+      } else {
+        appendNotifications(data);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      console.error("Error fetching more data:", error);
+      setHasMore(false);
+    }
+  };
 
   const placeholders = new Array(5).fill(null);
 
@@ -79,12 +108,33 @@ export function Notifications({ open, setOpen }) {
               </div>
             ))
           ) : (
-            <>
+            <InfiniteScroll
+              dataLength={notifications.length}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              loader={placeholders.map((_, index) => (
+                <div key={index} className="mb-4">
+                  <NotificationSkelton />
+                </div>
+              ))}
+              endMessage={
+                <div className="flex items-center justify-between">
+                  <hr className="w-full" />
+                  <p
+                    tabIndex="0"
+                    className="focus:outline-none text-sm flex flex-shrink-0 leading-normal px-3 py-16 text-gray-500"
+                  >
+                    That's it for now :)
+                  </p>
+                  <hr className="w-full" />
+                </div>
+              }
+            >
               {notifications.length > 0 ? (
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className="w-full p-3 mt-4 bg-white rounded flex"
+                    className="w-full p-3 mt-4 bg-white rounded flex transform transition-transform ease-in-out duration-300 hover:scale-105 shadow-lg"
                   >
                     <div
                       tabIndex="0"
@@ -119,7 +169,8 @@ export function Notifications({ open, setOpen }) {
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M1.33325 14.6667C1.33325 13.2522 1.89516 11.8956 2.89535 10.8954C3.89554 9.89523 5.2521 9.33333 6.66659 9.33333C8.08107 9.33333 9.43763 9.89523 10.4378 10.8954C11.438 11.8956 11.9999 13.2522 11.9999 14.6667H1.33325ZM6.66659 8.66666C4.45659 8.66666 2.66659 6.87666 2.66659 4.66666C2.66659 2.45666 4.45659 0.666664 6.66659 0.666664C8.87659 0.666664 10.6666 2.45666 10.6666 4.66666C10.6666 6.87666 8.87659 8.66666 6.66659 8.66666ZM11.5753 10.1553C12.595 10.4174 13.5061 10.9946 14.1788 11.8046C14.8515 12.6145 15.2515 13.6161 15.3219 14.6667H13.3333C13.3333 12.9267 12.6666 11.3427 11.5753 10.1553ZM10.2266 8.638C10.7852 8.13831 11.232 7.52622 11.5376 6.84183C11.8432 6.15743 12.0008 5.41619 11.9999 4.66666C12.0013 3.75564 11.7683 2.85958 11.3233 2.06466C12.0783 2.21639 12.7576 2.62491 13.2456 3.2208C13.7335 3.81668 14.0001 4.56315 13.9999 5.33333C14.0001 5.80831 13.8987 6.27784 13.7027 6.71045C13.5066 7.14306 13.2203 7.52876 12.863 7.84169C12.5056 8.15463 12.0856 8.38757 11.6309 8.52491C11.1762 8.66224 10.6974 8.7008 10.2266 8.638Z"
+                            d="M1.33325 14.6667C1.33325 13.2522 1.89516 11.8956 2.89535 10.8954C3.89554 9.89523 5.2521 9.33333 6.66659 9.33333C8.08107 9.33333 9.43763 9.89523 10.4378 10.8954C11.438 11.8956 11.9999 13.2522 11.9999 14.6667H1.33325ZM6.66659 8.66666C4.45659 8.66666 2.66659 6.87666 2.66659 4.66666C2.66659 2.45666 4.45659 0.666664 6.66659 0.666664C8.87659 0.666664 10.6666 2.45666 10.6666 4.66666C10.6666 6.87666 8.87659 8.66666 6.66659 8.66666ZM11.5753 10.1553C12.595 10.4174 13.5061 10.9946 14.1788 11.8046C14.8515 12.6145 15.2515 13.6161 15.3219 14.6667H13.3333C13.3333 12.9267 12.6666 11.3427 11.5753 10.1553ZM10.2266 8.638C10.7852 8.13831 11.232 7.52622 11.5376 6.84183C11.8432 6.157
+                            43 12.0008 5.41619 11.9999 4.66666C12.0013 3.75564 11.7683 2.85958 11.3233 2.06466C12.0783 2.21639 12.7576 2.62491 13.2456 3.2208C13.7335 3.81668 14.0001 4.56315 13.9999 5.33333C14.0001 5.80831 13.8987 6.27784 13.7027 6.71045C13.5066 7.14306 13.2203 7.52876 12.863 7.84169C12.5056 8.15463 12.0856 8.38757 11.6309 8.52491C11.1762 8.66224 10.6974 8.7008 10.2266 8.638Z"
                             fill="#047857"
                           />
                         </svg>
@@ -142,8 +193,7 @@ export function Notifications({ open, setOpen }) {
                     <div className="pl-3">
                       <p
                         tabIndex="0"
-                        className="focus
-                        text-sm leading-none"
+                        className="focus:outline-none text-sm leading-none"
                       >
                         <span className="text-indigo-700">
                           {notification?.message}
@@ -159,18 +209,11 @@ export function Notifications({ open, setOpen }) {
                   </div>
                 ))
               ) : (
-                <div className="flex items-center justify-between">
-                  <hr className="w-full" />
-                  <p
-                    tabIndex="0"
-                    className="focus:outline-none text-sm flex flex-shrink-0 leading-normal px-3 py-16 text-gray-500"
-                  >
-                    That's it for now :)
-                  </p>
-                  <hr className="w-full" />
+                <div className="flex items-center justify-center text-gray-500 py-10">
+                  No notifications to display.
                 </div>
               )}
-            </>
+            </InfiniteScroll>
           )}
         </DialogBody>
       </Dialog>

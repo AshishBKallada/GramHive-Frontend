@@ -5,15 +5,10 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-// import { Square3Stack3DIcon } from "@heroicons/react/24/outline"
-
-// If you're using Next.js please use the dynamic import for react-apexcharts and remove the import from the top for the react-apexcharts
-// import dynamic from "next/dynamic";
-// const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const chartConfig = {
   type: "line",
-  height: 240,
+  height: "100%", 
   series: [
     {
       name: "Sales",
@@ -25,14 +20,15 @@ const chartConfig = {
       toolbar: {
         show: false,
       },
+      responsive: true, 
     },
     title: {
-      show: "",
+      show: false, 
     },
     dataLabels: {
       enabled: false,
     },
-    colors: ["#020617"],
+    colors: ["#FFFFFF"],
     stroke: {
       lineCap: "round",
       curve: "smooth",
@@ -49,7 +45,7 @@ const chartConfig = {
       },
       labels: {
         style: {
-          colors: "#616161",
+          colors: "#B0BEC5",
           fontSize: "12px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -70,7 +66,7 @@ const chartConfig = {
     yaxis: {
       labels: {
         style: {
-          colors: "#616161",
+          colors: "#B0BEC5",
           fontSize: "12px",
           fontFamily: "inherit",
           fontWeight: 400,
@@ -79,7 +75,7 @@ const chartConfig = {
     },
     grid: {
       show: true,
-      borderColor: "#dddddd",
+      borderColor: "#424242",
       strokeDashArray: 5,
       xaxis: {
         lines: {
@@ -102,27 +98,25 @@ const chartConfig = {
 
 export default function ChartOne() {
   return (
-    <Card>
+    <Card className="bg-gray-900 w-full h-full">
       <CardHeader
         floated={false}
         shadow={false}
         color="transparent"
         className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
       >
-        <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
-          {/* <Square3Stack3DIcon className="h-6 w-6" /> */}
+        <div className="w-max rounded-lg bg-black p-5 text-white">
           <center>
             <i className="fa fa-trash h-6 w-6 text-white"></i>
           </center>
         </div>
         <div>
-          <Typography variant="h6" color="blue-gray">
-            Line Chart
+          <Typography variant="h6" color="white">
+            User Registeration Chart
           </Typography>
           <Typography
             variant="small"
-            color="gray"
-            className="max-w-sm font-normal"
+            className="max-w-sm font-normal text-gray-400"
           >
             Visualize your data in a simple way using the
             @material-tailwind/react chart plugin.

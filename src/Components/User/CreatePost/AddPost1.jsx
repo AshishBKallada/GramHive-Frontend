@@ -105,36 +105,37 @@ function AddPost1({ handleOpen }) {
                   const fileURL = URL.createObjectURL(file);
                   return (
                     <div
-                      key={index}
-                      className="relative flex justify-center border-4 border-gray-300 rounded-lg p-1 transform transition-transform ease-in-out duration-300 hover:scale-105 hover:border-teal-300 group"
+                    key={index}
+                    className="relative flex justify-center rounded-lg p-1 transform transition-transform ease-in-out duration-300 group shadow-3xl hover:shadow-2xl hover:scale-105"
                     >
-                      {file.type.startsWith("image/") && (
-                        <img
-                          src={fileURL}
-                          alt={`preview-${index}`}
-                          className="h-32 w-28"
-                        />
-                      )}
-                      {file.type.startsWith("video/") && (
-                        <video
-                          src={fileURL}
-                          controls
-                          className="h-32 w-28 object-contain"
-                        />
-                      )}
-                      <button
-                        onClick={() => handleDelete(index)}
-                        className="absolute top-1 right-1 text-red-500 rounded-full p-1 opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100"
+                    {file.type.startsWith("image/") && (
+                      <img
+                        src={fileURL}
+                        alt={`preview-${index}`}
+                        className="h-32 w-28"
+                      />
+                    )}
+                    {file.type.startsWith("video/") && (
+                      <video
+                        src={fileURL}
+                        controls
+                        className="h-32 w-28 object-contain"
+                      />
+                    )}
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="absolute top-1 right-1 text-red-500 rounded-full p-1 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"
+                        className="w-4 h-4 fill-current"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 448 512"
-                          className="w-4 h-4 fill-current"
-                        >
-                          <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
-                        </svg>
-                      </button>
-                    </div>
+                        <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                      </svg>
+                    </button>
+                  </div>
+                  
                   );
                 })}
             </div>

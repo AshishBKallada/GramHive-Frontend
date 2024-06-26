@@ -55,7 +55,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const [shareModal,setShareModal] = useState(false);
+  const [shareModal, setShareModal] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -331,13 +331,19 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
     }
   };
 
- const handleShareClick = () => {
-        setShareModal(prev=>!prev);
- }
+  const handleShareClick = () => {
+    setShareModal((prev) => !prev);
+  };
 
   return (
     <>
-    {shareModal && <ShareModal handleOpen = {()=>setShareModal(prev=>!prev)} open = {shareModal} postId ={postId} />}
+      {shareModal && (
+        <ShareModal
+          handleOpen={() => setShareModal((prev) => !prev)}
+          open={shareModal}
+          postId={postId}
+        />
+      )}
       <ToastContainer />
       {isHidden && (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
@@ -385,9 +391,10 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
                       </Button>
                     </MenuHandler>
                     <MenuList>
-                      <MenuItem onClick={handleReportClick}>Report</MenuItem>
+                      {post?.userId?._id !== author && (
+                        <MenuItem onClick={handleReportClick}>Report</MenuItem>
+                      )}
                       <MenuItem onClick={handleShareClick}>Share</MenuItem>
-
                     </MenuList>
                   </Menu>
                 </div>
@@ -407,25 +414,25 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
 
                 <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
                   <Carousel slideInterval={1500}>
-                  {post.images.map((media, index) => (
-                    <div key={index} className="h-full w-full">
-                      {isVideo(media) ? (
-                        <video
-                          onClick={() => handlePostDetails(post)}
-                          src={media}
-                          controls
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <img
-                          onClick={() => handlePostDetails(post)}
-                          src={media}
-                          alt={`Media ${index}`}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                  ))}
+                    {post.images.map((media, index) => (
+                      <div key={index} className="h-full w-full">
+                        {isVideo(media) ? (
+                          <video
+                            onClick={() => handlePostDetails(post)}
+                            src={media}
+                            controls
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <img
+                            onClick={() => handlePostDetails(post)}
+                            src={media}
+                            alt={`Media ${index}`}
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                      </div>
+                    ))}
                   </Carousel>
                 </div>
                 <p>{post && post.caption}</p>
