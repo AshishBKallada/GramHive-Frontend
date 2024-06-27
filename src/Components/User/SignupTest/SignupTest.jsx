@@ -110,7 +110,6 @@ function SignupTest() {
           },
           body: JSON.stringify(signupData),
         });
-
         if (response.status === 200) {
           setLoading(false);
           toast({
