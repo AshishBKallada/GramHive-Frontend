@@ -84,7 +84,8 @@
     "zego-zim-web": "^2.5.0"
   },
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
