@@ -12,7 +12,6 @@ function SocketToast() {
   useEffect(() => {
     if (!socket && userId) {
       const newSocket = io(ENDPOINT);
-
       newSocket.on("connect", () => {
         console.log("User connected to socket");
         setSocket(newSocket);

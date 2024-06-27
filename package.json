@@ -85,8 +85,12 @@
   },
   "scripts": {
     "dev": "vite",
+<<<<<<< HEAD
     "build": "vite build",
     "preview": "vite preview"
+=======
+    "build": "vite build"
+>>>>>>> test
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
