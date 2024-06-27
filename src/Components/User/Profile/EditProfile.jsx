@@ -12,11 +12,10 @@ function EditProfile() {
   const user = useSelector((state) => state.user);
 
   const loading = useSelector((state) => state.user.loading);
-  console.log('LOAD(NGGGGG', loading);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log('User', user);
   const [userData, setUserData] = useState({
     userId: user.user._id,
     username: user.user.username,
@@ -26,8 +25,6 @@ function EditProfile() {
     image: '',
     gender: user.user.gender,
   });
-
-  console.log('USERDATA', userData);
 
   const handleChange = (e) => {
     if (e.target.name === 'image') {
