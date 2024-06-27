@@ -46,7 +46,7 @@ function Signup() {
         {
             const email = userData.email;
             try {
-                const response = await fetch(`https://gramhive6.vercel.app/sendmail/${email}`)
+                const response = await fetch(`https://bassheads.shop/sendmail/${email}`)
                 if(response.ok)
                 {
                     console.log('SEND MAIL success');

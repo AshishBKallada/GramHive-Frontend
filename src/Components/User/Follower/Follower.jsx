@@ -53,7 +53,7 @@ const Followers = ({ type, users, setFollowers, following, setFollowing, showRem
 
   const handleFollowerRemove = async (follower_id, follower_name) => {
     try {
-      const response = await fetch('https://gramhive6.vercel.app/profile/unfollowuser', {
+      const response = await fetch('https://bassheads.shop/profile/unfollowuser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ follower_id: userId, followed_id: follower_id })

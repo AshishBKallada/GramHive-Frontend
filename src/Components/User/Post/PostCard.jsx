@@ -24,7 +24,7 @@ function PostCard() {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [loading, setLoading] = useState(false);
-  const socket = io("https://gramhive6.vercel.app");
+  const socket = io("https://bassheads.shop");
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -36,7 +36,7 @@ function PostCard() {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const response = await fetch(
-        `https://gramhive6.vercel.app/posts/home/${userId}?page=${page}`
+        `https://bassheads.shop/posts/home/${userId}?page=${page}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -110,7 +110,7 @@ function PostCard() {
   const handleSave = async (postId) => {
     try {
       const response = await fetch(
-        `https://gramhive6.vercel.app/posts/${postId}/save/${author}`,
+        `https://bassheads.shop/posts/${postId}/save/${author}`,
         { method: "POST" }
       );
       if (response.ok) {

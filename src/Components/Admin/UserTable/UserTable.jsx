@@ -14,7 +14,7 @@ function UserTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://gramhive6.vercel.app/admin/users", {
+        const response = await fetch("https://bassheads.shop/admin/users", {
         credentials: "include",
         });
         if (!response.ok) {
@@ -57,7 +57,7 @@ function UserTable() {
           onClick: async () => {
             try {
               const response = await fetch(
-                `https://gramhive6.vercel.app/admin/blockuser/${user._id}`
+                `https://bassheads.shop/admin/blockuser/${user._id}`
               );
               if (response.ok) {
                 const status = await response.json();

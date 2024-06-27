@@ -48,7 +48,7 @@ export function uploadStory(userId, story) {
             'Content-Type': 'multipart/form-data'
         }
     };
-    return axios.post(`https://gramhive6.vercel.app/story/upload/${userId}`, formData, config)
+    return axios.post(`https://bassheads.shop/story/upload/${userId}`, formData, config)
 }
 
 function base64ToBlob(base64String) {

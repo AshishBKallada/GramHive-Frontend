@@ -34,7 +34,7 @@ function Search({ onClickOutside, showSearch, setShowSearch }) {
       setLoading(true);
       setTimeout(async () => {
         const response = await fetch(
-          `https://gramhive6.vercel.app/searchuser/${query}`
+          `https://bassheads.shop/searchuser/${query}`
         );
         if (response.ok) {
           const userData = await response.json();

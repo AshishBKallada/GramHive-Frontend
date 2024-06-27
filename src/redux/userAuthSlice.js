@@ -81,7 +81,7 @@ export const updateUserProfile = createAsyncThunk(
     'user/updateProfile',
     async (formData, thunkAPI) => {
         try {
-            const response = await fetch('https://gramhive6.vercel.app/profile/update', {
+            const response = await fetch('https://bassheads.shop/profile/update', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'

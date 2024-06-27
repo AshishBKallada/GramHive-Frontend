@@ -35,7 +35,7 @@ const PostEditor = ({ post, setEditModal }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://gramhive6.vercel.app/admin/users");
+        const response = await fetch("https://bassheads.shop/admin/users");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -53,7 +53,7 @@ const PostEditor = ({ post, setEditModal }) => {
     try {
       const postId = post._id;
       const response = await axios.put(
-        `https://gramhive6.vercel.app/posts/update/${postId}`,
+        `https://bassheads.shop/posts/update/${postId}`,
         {
           description,
           images,

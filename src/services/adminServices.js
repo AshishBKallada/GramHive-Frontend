@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://gramhive6.vercel.app',
+    baseURL: 'https://bassheads.shop',
 });
 
 export const fetchDashboardData = async () => {

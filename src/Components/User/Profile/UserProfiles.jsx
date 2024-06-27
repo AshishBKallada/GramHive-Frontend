@@ -63,7 +63,7 @@ function UserProfiles({ userData }) {
     };
   }, [userData]);
 
-  const socket = io("https://gramhive6.vercel.app");
+  const socket = io("https://bassheads.shop");
 
   const handleFollow = async () => {
     try {

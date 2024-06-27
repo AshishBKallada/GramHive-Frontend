@@ -6,7 +6,7 @@ export const adminLogin = createAsyncThunk(
     'admin/login',
     async (loginData, thunkAPI) => {
         try {
-            const response = await axios.post('https://gramhive6.vercel.app/admin/login', loginData, {
+            const response = await axios.post('https://bassheads.shop/admin/login', loginData, {
                 headers: { 'Content-Type': 'application/json' }
             });
             
