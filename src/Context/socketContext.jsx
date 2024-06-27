@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "https://bassheads.shop";
 
 export const SocketContext = createContext();
 
@@ -15,7 +15,6 @@ export const SocketProvider = ({ children }) => {
     if (socketInstance) {
       setSocket(socketInstance);
     }
-
     return () => {
       socketInstance?.disconnect();
     };
