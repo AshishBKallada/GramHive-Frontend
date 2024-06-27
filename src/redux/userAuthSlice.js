@@ -6,7 +6,7 @@ export const userLogin = createAsyncThunk(
     'user/login',
     async (loginData, thunkAPI) => {
         try {
-            const response = await fetch('https://www.bassheads.shop/login', {
+            const response = await fetch('https://bassheads.shop//login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData)
@@ -40,7 +40,7 @@ export const userLogin = createAsyncThunk(
 
 export const userSignup = createAsyncThunk('user/signup', async ({ token, isSignup }, thunkAPI) => {
     try {
-        const response = await fetch('https://www.bassheads.shop/auth/google', {
+        const response = await fetch('https://bassheads.shop//auth/google', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token, isSignup }),
@@ -63,7 +63,7 @@ export const userSignup = createAsyncThunk('user/signup', async ({ token, isSign
 
 export const userSignupWithEmail = createAsyncThunk('user/signupWithEmail', async (otp) => {
     try {
-        const response = await fetch(`https://www.bassheads.shop/verifyotp`, {
+        const response = await fetch(`https://bassheads.shop//verifyotp`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ otp }),

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 
 const REFRESH_TOKEN_URL = 'http://localhost:3000/auth/refresh-token'
-const BASE_URL = 'https://www.bassheads.shop'
+const BASE_URL = 'https://bassheads.shop'
 
 
 function getCurrentAccessToken() {
