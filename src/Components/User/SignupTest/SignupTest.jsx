@@ -103,7 +103,7 @@ function SignupTest() {
     if (!hasError) {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3000/sendmail", {
+        const response = await fetch("https://bassheads.shop", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
