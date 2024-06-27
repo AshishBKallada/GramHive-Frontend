@@ -99,7 +99,6 @@ function SignupTest() {
     } else {
       setPasswordError("");
     }
-
     if (!hasError) {
       try {
         setLoading(true);
