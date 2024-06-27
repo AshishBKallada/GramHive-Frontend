@@ -65,13 +65,13 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
     setAnchorEl(null);
   };
 
-  const socket = io("http://localhost:3000");
+  const socket = io("https://gramhive6.vercel.app");
 
   const handleComment = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment/${postId}/addcomments`,
+        `https://gramhive6.vercel.app/comment/${postId}/addcomments`,
         {
           comment,
           author,
@@ -82,7 +82,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
         socket.emit("sentNotification", notification);
       }
       const res = await axios.get(
-        `http://localhost:3000/comment/${postId}/comments`
+        `https://gramhive6.vercel.app/comment/${postId}/comments`
       );
       if (res.status === 200) {
         setComments(res.data.comments);
@@ -97,7 +97,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/comment/${postId}/comments`
+          `https://gramhive6.vercel.app/comment/${postId}/comments`
         );
         if (response.status === 200) {
           console.log("set set ", response.data.comments);
@@ -112,7 +112,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
     const fetchLikes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/posts/${postId}/likes`
+          `https://gramhive6.vercel.app/posts/${postId}/likes`
         );
         if (response.status === 200) {
           console.log("LIKES FIRST CALL", response.data.likes);
@@ -214,7 +214,7 @@ function HomePostDetail({ post, setCurrPost, setPosts, posts }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment/${postId}/replies/${replyingTo}`,
+        `https://gramhive6.vercel.app/comment/${postId}/replies/${replyingTo}`,
         {
           reply,
           author,

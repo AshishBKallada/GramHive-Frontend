@@ -51,7 +51,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
   const handlePostDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/posts/${postId}/delete`,
+        `https://gramhive6.vercel.app/posts/${postId}/delete`,
         {
           method: "DELETE",
         }
@@ -83,12 +83,12 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
     }
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3000/comment/${postId}/addcomments`, {
+      await axios.post(`https://gramhive6.vercel.app/comment/${postId}/addcomments`, {
         comment,
         author,
       });
       const response = await axios.get(
-        `http://localhost:3000/comment/${postId}/comments`
+        `https://gramhive6.vercel.app/comment/${postId}/comments`
       );
       if (response.status === 200) {
         setComments(response.data.comments);
@@ -103,7 +103,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/comment/${postId}/comments`
+          `https://gramhive6.vercel.app/comment/${postId}/comments`
         );
         if (response.status === 200) {
           console.log("set set ", response.data.comments);
@@ -118,7 +118,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
     const fetchLikes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/posts/${postId}/likes`
+          `https://gramhive6.vercel.app/posts/${postId}/likes`
         );
         if (response.status === 200) {
           console.log("LIKES FIRST CALL", response.data.likes);
@@ -152,13 +152,13 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
     try {
       if (!liked) {
         console.log("postId", postId, author);
-        await axios.post(`http://localhost:3000/posts/${postId}/like`, {
+        await axios.post(`https://gramhive6.vercel.app/posts/${postId}/like`, {
           author,
         });
         setLikes((prevLikes) => prevLikes + 1);
         setLiked(true);
       } else {
-        await axios.delete(`http://localhost:3000/posts/${postId}/unlike`, {
+        await axios.delete(`https://gramhive6.vercel.app/posts/${postId}/unlike`, {
           author,
         });
         setLikes((prevLikes) => prevLikes - 1);
@@ -188,7 +188,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/comment/${postId}/replies/${replyingTo}`,
+        `https://gramhive6.vercel.app/comment/${postId}/replies/${replyingTo}`,
         {
           reply,
           author,
@@ -232,7 +232,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
     try {
       console.log(postId, author);
       const response = await fetch(
-        `http://localhost:3000/posts/${postId}/save/${author}`,
+        `https://gramhive6.vercel.app/posts/${postId}/save/${author}`,
         { method: "POST" }
       );
       if (response.ok) {
@@ -254,7 +254,7 @@ function PostDetail({ user, post, setpostDetails, posts, setPosts }) {
     try {
       console.log(postId, author);
       const response = await fetch(
-        `http://localhost:3000/posts/${postId}/unsave/${author}`,
+        `https://gramhive6.vercel.app/posts/${postId}/unsave/${author}`,
         { method: "POST" }
       );
       if (response.ok) {

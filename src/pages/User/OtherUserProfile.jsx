@@ -14,7 +14,7 @@ function OtherUserProfile() {
     useEffect(() => {
         setLoading(true)
         const fetchUserData = async () => {
-            const response = await fetch(`http://localhost:3000/getsearchuser/${userId}`)
+            const response = await fetch(`https://gramhive6.vercel.app/getsearchuser/${userId}`)
             if (response.ok) {
                 const userData = await response.json();
                 console.log('userData', userData)

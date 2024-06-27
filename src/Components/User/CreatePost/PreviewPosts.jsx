@@ -25,7 +25,7 @@ function PreviewPosts({ posts, setPreviewModal, handleOpen }) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/admin/users");
+      const response = await fetch("https://gramhive6.vercel.app/admin/users");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

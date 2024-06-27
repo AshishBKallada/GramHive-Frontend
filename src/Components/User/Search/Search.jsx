@@ -34,7 +34,7 @@ function Search({ onClickOutside, showSearch, setShowSearch }) {
       setLoading(true);
       setTimeout(async () => {
         const response = await fetch(
-          `http://localhost:3000/searchuser/${query}`
+          `https://gramhive6.vercel.app/searchuser/${query}`
         );
         if (response.ok) {
           const userData = await response.json();

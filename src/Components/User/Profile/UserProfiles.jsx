@@ -63,7 +63,7 @@ function UserProfiles({ userData }) {
     };
   }, [userData]);
 
-  const socket = io("http://localhost:3000");
+  const socket = io("https://gramhive6.vercel.app");
 
   const handleFollow = async () => {
     try {

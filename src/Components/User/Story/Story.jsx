@@ -165,7 +165,7 @@ function Story() {
                       <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-red-500"></div>
                       <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
                         <a
-                          href={`http://localhost:5173/live?roomID=${streamer.roomID}&role=audience`}
+                          href={`https://gramhive6.vercel.app/live?roomID=${streamer.roomID}&role=audience`}
                           className="block"
                         >
                           <img

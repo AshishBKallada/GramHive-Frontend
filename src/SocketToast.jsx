@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 
 function SocketToast() {
   const userId = useSelector((state) => state.user._id);
-  const ENDPOINT = "http://localhost:3000";
+  const ENDPOINT = "https://gramhive6.vercel.app";
   const { addNotification } = NotificationState();
   const [socket, setSocket] = useState(null);
 

@@ -22,7 +22,7 @@ function SearchModal({ onClickOutside }) {
 
   const handleSearch = async (query) => {
     try {
-      const response = await fetch(`http://localhost:3000/searchuser/${query}`);
+      const response = await fetch(`https://gramhive6.vercel.app/searchuser/${query}`);
       if (response.ok) {
         const userData = await response.json();
         setSearchResults(userData);
