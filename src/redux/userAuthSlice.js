@@ -53,7 +53,6 @@ export const userSignup = createAsyncThunk('user/signup', async ({ token, isSign
         const data = await response.json();
         Cookies.set('accessToken', data.tokens.accessToken, { expires: 7 });
         Cookies.set('refreshToken', data.tokens.refreshToken, { expires: 7 });
-
         return data;
     } catch (error) {
         return thunkAPI.rejectWithValue({ message: error.message });
