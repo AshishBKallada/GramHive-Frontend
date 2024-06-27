@@ -19,12 +19,10 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { ReportModal } from "../Reports/reportModal";
-import Test from "../../Test/Test";
 import { io } from "socket.io-client";
 
 function UserProfiles({ userData }) {
   const follower_id = useSelector((state) => state.user.user._id);
-  const follower_name = useSelector((state) => state.user.user.username);
 
   const [user, setUser] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
