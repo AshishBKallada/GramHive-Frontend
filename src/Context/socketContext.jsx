@@ -7,6 +7,7 @@ const ENDPOINT = "https://bassheads.shop";
 export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
+
   const [socket, setSocket] = useState(null);
   const user = useSelector((state) => state.user.user);
 
