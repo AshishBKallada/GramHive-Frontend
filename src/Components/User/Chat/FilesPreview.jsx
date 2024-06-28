@@ -17,12 +17,11 @@ import { SocketContext } from "../../../Context/socketContext";
 function FilesPreview({ setMessages, isOpen, setIsOpen }) {
   const socket = useContext(SocketContext);
 
-  const { setChats } = ChatState();
-
   const [files, setFiles] = useState([]);
   const handleOpen = () => setIsOpen(false);
   const toast = useToast();
-  const { selectedChat } = ChatState();
+  
+  const { selectedChat, setChats } = ChatState();
   const [loading, setLoading] = useState(false);
 
   const handleFilesChange = (event) => {
@@ -48,21 +47,14 @@ function FilesPreview({ setMessages, isOpen, setIsOpen }) {
           isClosable: true,
         });
 
-        setChats((prevChats) =>
-          prevChats.map((chat) =>
-            chat._id === selectedChat._id
-              ? { ...chat, latestMessage: newMessage }
-              : chat
-          )
-        );
-
         setChats((prevChats) => {
-          const updatedChat = { ...selectedChat, latestMessage: data };
+          const updatedChat = { ...selectedChat, latestMessage: newMessage };
           const filteredChats = prevChats.filter(
             (chat) => chat._id !== selectedChat._id
           );
           return [updatedChat, ...filteredChats];
         });
+
         socket.emit("new message", newMessage);
 
         handleOpen();
