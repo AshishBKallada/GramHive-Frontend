@@ -112,9 +112,12 @@ const Chat = () => {
 
       setSelectedChat(prevChat => ({
         ...prevChat,
-        latestMessage: data.content
+        latestMessage: {
+          ...prevChat.latestMessage,
+          content: data.content
+        }
       }));
-      
+
       setMessage("");
       setSelectedChat()
       socket.emit("new message", data);
