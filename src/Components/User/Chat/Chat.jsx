@@ -114,7 +114,14 @@ const Chat = () => {
         ...prevChat,
         latestMessage: {
           ...prevChat.latestMessage,
-          content: data.content
+          chat: prevChat._id, 
+          content: data.content, 
+          createdAt: data.createdAt, 
+          files: data.files,
+          sender: data.sender,  
+          updatedAt: data.updatedAt, 
+          __v: data.__v, 
+          _id: data._id 
         }
       }));
 
