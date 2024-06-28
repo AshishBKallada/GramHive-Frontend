@@ -9,8 +9,8 @@ function EditUserProfile() {
         <div className=" max-w-[300px]">
           <SidebarTest />
         </div>
-        <div style={{ marginTop: "100px" }}>
-          <EditProfile />
+        <div className="flex flex-shrink-0" style={{ marginTop: "100px" }}>
+        <EditProfile />
         </div>
       </div>
     </>
