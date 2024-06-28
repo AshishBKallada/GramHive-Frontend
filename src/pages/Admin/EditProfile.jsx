@@ -5,8 +5,10 @@ import SidebarTest from "../../Components/User/Sidebar/SidebarTest";
 function EditUserProfile() {
   return (
     <>
-      <div className="flex max-w-[300px]">
-        <SidebarTest />
+      <div className="flex">
+        <div className=" max-w-[300px]">
+          <SidebarTest />
+        </div>
         <div style={{ marginTop: "100px" }}>
           <EditProfile />
         </div>
