@@ -56,7 +56,7 @@ function FilesPreview({ setMessages, isOpen, setIsOpen }) {
           )
         );
 
-        setChats((prev)=>[selectedChat, ...prev].filter((chat,i,arr) => arr.indexOf(chat) === i));
+        setChats((prev)=>[selectedChat, ...prev].filter((chat,i,arr) => arr.indexOf(chat) !== i));
 
         socket.emit("new message", newMessage);
 
