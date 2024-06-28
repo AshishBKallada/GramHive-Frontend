@@ -52,13 +52,13 @@ function RecorderJSDemo({ setMessages }) {
         console.log('inaa PIDICHO DATA', response.data);
         const newMessage = response.data.data;
 
-        setChats(prevChats =>
-          prevChats.map(chat =>
-            chat._id === selectedChat._id
-              ? { ...chat, latestMessage: newMessage }
-              : chat
-          )
-        );
+        setChats((prevChats) => {
+          const updatedChat = { ...selectedChat, latestMessage: data };
+          const filteredChats = prevChats.filter(
+            (chat) => chat._id !== selectedChat._id
+          );
+          return [updatedChat, ...filteredChats];
+        });
         if (socket) {
           socket.emit("new message", newMessage);
         } else {
