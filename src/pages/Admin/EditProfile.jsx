@@ -4,12 +4,11 @@ import SidebarTest from "../../Components/User/Sidebar/SidebarTest";
 
 function EditUserProfile() {
   return (
-    <div>
-    <div className="float-left fixed">
+    <div className="flex">
+    <div className="w-[300px] fixed h-screen">
       <SidebarTest />
     </div>
-
-    <div style={{ marginLeft: "200px" }}>
+    <div className="ml-[300px] w-full h-screen overflow-y-auto mt-4 p-4">
       <EditProfile />
     </div>
   </div>
