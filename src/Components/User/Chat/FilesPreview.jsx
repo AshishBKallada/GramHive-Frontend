@@ -49,12 +49,15 @@ function FilesPreview({ setMessages, isOpen, setIsOpen }) {
         });
 
         setChats((prevChats) =>
-          prevChats.map((chat) =>
-            chat._id === selectedChat._id
-              ? { ...chat, latestMessage: newMessage }
-              : chat
-          )
-        );
+          prevChats.map((chat) => chat)
+              .sort((a, b) => (b.latestMessage?.createdAt || 0) - (a.latestMessage?.createdAt || 0))
+              .map((chat) =>
+                  chat._id === selectedChat._id
+                      ? { ...chat, latestMessage: newMessage }
+                      : chat
+              )
+      );
+      
 
         socket.emit("new message", newMessage);
 
