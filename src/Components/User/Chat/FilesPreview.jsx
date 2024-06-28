@@ -48,11 +48,15 @@ function FilesPreview({ setMessages, isOpen, setIsOpen }) {
           isClosable: true,
         });
 
-        setChats(prevChats => {
-          const updatedChat = { ...selectedChat, latestMessage: newMessage };
-          const filteredChats = prevChats.filter(chat => chat._id !== selectedChat._id);
-          return [updatedChat, ...filteredChats];
-        });
+        setChats((prevChats) =>
+          prevChats.map((chat) =>
+            chat._id === selectedChat._id
+              ? { ...chat, latestMessage: newMessage }
+              : chat
+          )
+        );
+
+        setChats((prev)=>[selectedChat, ...prev].filter((chat,i,arr) => arr.indexOf(chat) === i));
 
         socket.emit("new message", newMessage);
 
