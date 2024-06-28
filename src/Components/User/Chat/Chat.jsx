@@ -33,7 +33,7 @@ import { SocketContext } from "../../../Context/socketContext";
 import CustomAudioPlayer from "./AudioPlayer.jsx";
 
 const Chat = () => {
-  const { selectedChat,setSelectedChat, notifications, setNotifications } = ChatState();
+  const { selectedChat,setChats, notifications, setNotifications } = ChatState();
   const messagesEndRef = useRef(null);
   const toast = useToast();
   const [messages, setMessages] = useState([]);
@@ -109,24 +109,15 @@ const Chat = () => {
       socket.emit("stop typing", selectedChat._id);
       const { data } = await sentMessage(selectedChat._id, message);
       console.log("DATA RECEIVED", data);
-
-      setSelectedChat(prevChat => ({
-        ...prevChat,
-        latestMessage: {
-          ...prevChat.latestMessage,
-          chat: prevChat._id, 
-          content: data.content, 
-          createdAt: data.createdAt, 
-          files: data.files,
-          sender: data.sender,  
-          updatedAt: data.updatedAt, 
-          __v: data.__v, 
-          _id: data._id 
-        }
-      }));
-
+      
+      setChats(prevChats =>
+        prevChats.map(chat =>
+          chat._id === selectedChat._id
+            ? { ...chat, latestMessage: data }
+            : chat
+        )
+      );
       setMessage("");
-      setSelectedChat()
       socket.emit("new message", data);
       setMessages([...messages, data]);
     } catch (error) {
