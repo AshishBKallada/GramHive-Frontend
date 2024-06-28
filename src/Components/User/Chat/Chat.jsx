@@ -109,7 +109,6 @@ const Chat = () => {
     try {
       socket.emit("stop typing", selectedChat._id);
       const { data } = await sentMessage(selectedChat._id, message);
-      console.log("DATA RECEIVED", data);
 
       setChats((prevChats) => {
         const updatedChat = { ...selectedChat, latestMessage: data };
