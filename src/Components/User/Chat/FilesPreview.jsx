@@ -15,8 +15,9 @@ import FileShareLoading from "../../Loading/FileShareLoading";
 import { SocketContext } from "../../../Context/socketContext";
 
 function FilesPreview({ setMessages, isOpen, setIsOpen }) {
-
   const socket = useContext(SocketContext);
+
+  const { setChats } = ChatState();
 
   const [files, setFiles] = useState([]);
   const handleOpen = () => setIsOpen(false);
@@ -46,6 +47,14 @@ function FilesPreview({ setMessages, isOpen, setIsOpen }) {
           duration: 3000,
           isClosable: true,
         });
+
+        setChats((prevChats) =>
+          prevChats.map((chat) =>
+            chat._id === selectedChat._id
+              ? { ...chat, latestMessage: newMessage }
+              : chat
+          )
+        );
 
         socket.emit("new message", newMessage);
 
