@@ -5,11 +5,11 @@ import SidebarTest from "../../Components/User/Sidebar/SidebarTest";
 function EditUserProfile() {
   return (
     <>
-      <div className="flex">
+      <div className="flex justify-between">
         <div className=" max-w-[300px]">
           <SidebarTest />
         </div>
-        <div className="flex flex-shrink-0 justify-between" style={{ marginTop: "100px" }}>
+        <div className="flex flex-shrink-0" style={{ marginTop: "100px" }}>
         <EditProfile />
         </div>
       </div>
