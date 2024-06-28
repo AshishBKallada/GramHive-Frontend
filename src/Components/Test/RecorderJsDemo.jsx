@@ -12,7 +12,7 @@ function RecorderJSDemo({ setMessages }) {
 
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState(null);
-  const { selectedChat } = ChatState();
+  const { selectedChat,setChats } = ChatState();
 
   const startRecording = async () => {
     setError(null);
@@ -49,7 +49,16 @@ function RecorderJSDemo({ setMessages }) {
     try {
       const response = await uploadAudio(selectedChat._id, data);
       if (response.data) {
+        console.log('inaa PIDICHO DATA', response.data);
         const newMessage = response.data.data;
+
+        setChats(prevChats =>
+          prevChats.map(chat =>
+            chat._id === selectedChat._id
+              ? { ...chat, latestMessage: newMessage }
+              : chat
+          )
+        );
         if (socket) {
           socket.emit("new message", newMessage);
         } else {
