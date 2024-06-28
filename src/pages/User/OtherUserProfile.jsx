@@ -39,7 +39,7 @@ function OtherUserProfile() {
         <LoadingSpinner />
       ) : (
         <div className="ml-[300px] w-full h-screen overflow-y-auto mt-4 p-4">
-         {userData && <UserProfiles userData={userData} />
+         {userData && <UserProfiles userData={userData} />}
         </div>
       )}
     </div>
