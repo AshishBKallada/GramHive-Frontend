@@ -61,8 +61,8 @@ function PostCard() {
     try {
       const response = await likePost(postId, author);
       if (response.status === 200) {
-        const notification = response.data.notification;
-        if (notification.userId !== author) {
+        const notification = response?.data?.notification;
+        if (notification && notification.userId !== author) {
           socket.emit("sentNotification", notification);
         }
 
@@ -89,7 +89,6 @@ function PostCard() {
     try {
       const response = await removePostLike(postId, author);
       if (response.status === 200) {
-        console.log("1", response.data.post);
 
         const updatedPost = response.data.post;
         const updatedPosts = [...posts];

@@ -97,11 +97,11 @@ function App() {
             path="/userprofile/:userId"
             element={token ? <OtherUserProfile /> : <Navigate to="/login" />}
           />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/stories" element={<Story />} />
-          <Route path="/live" element={<Live />} />
-          <Route path="/promotions" element={<Promotions />} />
-          <Route path="/nearbyusers" element={<NearbyUsers />} />
+          <Route path="/messages" element={token ?<Messages />: <Navigate to="/login" />} />
+          <Route path="/stories" element={token ?<Story />: <Navigate to="/login" />} />
+          <Route path="/live" element={token ?<Live />: <Navigate to="/login" />} />
+          <Route path="/promotions" element={token ?<Promotions />: <Navigate to="/login" />} />
+          <Route path="/nearbyusers" element={token ?<NearbyUsers />: <Navigate to="/login" />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           <Route
