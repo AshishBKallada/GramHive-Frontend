@@ -281,68 +281,6 @@ function UserProfiles({ userData }) {
             </div>
           </div>
 
-          <div className="inline-flex ml-36 mt-16">
-            <div className="flex-1 text-center px-4 py-2 m-2">
-              <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
-                />
-              </div>
-              <h1 className="pt-16 text-base font-semibold text-gray-900">
-                Fun
-              </h1>
-            </div>
-
-            <div className="flex-1 text-center px-4 py-2 m-2">
-              <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://images.unsplash.com/photo-1456415333674-42b11b9f5b7b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80"
-                />
-              </div>
-              <h1 className="pt-16 text-base font-semibold text-gray-900">
-                Travel
-              </h1>
-            </div>
-
-            <div className="flex-1 text-center px-4 py-2 m-2">
-              <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80"
-                />
-              </div>
-              <h1 className="pt-16 text-base font-semibold text-gray-900">
-                Food
-              </h1>
-            </div>
-
-            <div className="flex-1 text-center px-4 py-2 m-2">
-              <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://images.unsplash.com/photo-1516834474-48c0abc2a902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80"
-                />
-              </div>
-              <h1 className="pt-16 text-base font-semibold text-gray-900">
-                Sketch
-              </h1>
-            </div>
-
-            <div className="flex-1 text-center px-4 py-2 m-2">
-              <div className="relative shadow-xl mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-                <img
-                  className="object-cover w-full h-full"
-                  src="https://images.unsplash.com/photo-1444021465936-c6ca81d39b84?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
-                />
-              </div>
-              <h1 className="pt-16 text-base font-semibold text-gray-900">
-                My Work
-              </h1>
-            </div>
-          </div>
-
           <hr className="border-gray-500 mt-6" />
           <hr className="border-gray-500 w-20 border-t-1 ml-64 border-gray-800" />
 
