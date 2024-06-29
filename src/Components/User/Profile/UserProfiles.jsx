@@ -204,7 +204,7 @@ function UserProfiles({ userData }) {
 
               <div className="text-left pl-4 pt-3">
                 <span className="text-base font-semibold text-gray-700 mr-2">
-                  <b>220</b> posts
+                  <b>2</b> posts
                 </span>
                 <span
                   onClick={handleFollowers}
