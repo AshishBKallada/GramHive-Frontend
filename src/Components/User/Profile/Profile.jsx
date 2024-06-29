@@ -229,26 +229,27 @@ function Profile() {
               </div>
 
               <div className="w-full md:w-1/4 p-4 text-center">
-                <div className=" relative text-center mt-8 h-58 w-58">
-                  <button
-                    onMouseOver={() => setIsHovered((prev) => !prev)}
-                    className="flex rounded-full"
-                    id="user-menu"
-                    aria-label="User menu"
-                    aria-haspopup="true"
-                  >
-                    <img
-                      className="h-58 w-58 rounded-full border-2 shadow-gray-500 shadow-xl"
-                      src={
-                        user.user.image
-                          ? user.user.image.toString()
-                          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5OqxMapgWmHOW5iRqRICrYi0ozrogweWlzvoLPEuHnQ&s"
-                      }
-                      alt=""
-                    />
-                  </button>
-                </div>
-              </div>
+  <div className="relative text-center mt-8 h-58 w-58">
+    <button
+      onMouseOver={() => setIsHovered((prev) => !prev)}
+      className="flex rounded-full"
+      id="user-menu"
+      aria-label="User menu"
+      aria-haspopup="true"
+    >
+      <img
+        className="h-58 w-58 rounded-full border-2 shadow-gray-500 shadow-xl object-cover"
+        src={
+          user.user.image
+            ? user.user.image.toString()
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5OqxMapgWmHOW5iRqRICrYi0ozrogweWlzvoLPEuHnQ&s"
+        }
+        alt=""
+      />
+    </button>
+  </div>
+</div>
+
             </div>
 
             <hr className="border-gray-500 mt-6" />
