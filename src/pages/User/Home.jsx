@@ -107,7 +107,7 @@ function Home() {
           )}
         </div>
       </div>
-      <img src="/src/assets/emoji.gif" alt="" />
+      <img className="w-64 h-64" src="/src/assets/emoji.gif" alt="" />
 
       <button
         className="w-20 h-20 rounded-full"
