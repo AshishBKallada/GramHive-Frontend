@@ -392,12 +392,7 @@ const Chat = () => {
                                 {message?.audio && (
                                   <div className="px-3.5 mt-2 py-2 bg-gray-100 rounded justify-start items-center gap-3 inline-flex">
                                     <h5 className="text-gray-900 text-sm font-normal leading-snug">
-                                      <AudioPlayer
-                                        src={message.audio}
-                                        onPlay={(e) => console.log("onPlay")}
-                                        controls
-                                        className="w-full"
-                                      />
+                                    <CustomAudioPlayer src={message.audio} />
                                     </h5>
                                   </div>
                                 )}
