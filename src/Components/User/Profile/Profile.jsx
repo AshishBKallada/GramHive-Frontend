@@ -229,7 +229,7 @@ function Profile() {
               </div>
 
               <div className="w-full md:w-1/4 p-4 text-center">
-                <div className="w-full relative md:w-full text-center mt-8">
+                <div className=" relative text-center mt-8 h-58 w-58">
                   <button
                     onMouseOver={() => setIsHovered((prev) => !prev)}
                     className="flex rounded-full"
