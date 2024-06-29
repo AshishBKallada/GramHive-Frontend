@@ -5,23 +5,26 @@ import Stories from "react-insta-stories";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
 import { useSelector } from "react-redux";
+import { onUpdateStory } from "../../services/services";
 
 export function Story() {
 
   const userId = useSelector((state)=>state.user.user._id);
-
-// useEffect(()=>{
-//   updateStoryView(userId,);
-//   },[])
-
-//   const updateStoryView = async ()=>{
-//     const response = await onUpdateStory()
-//   }
-
   const location = useLocation();
   const { state } = location;
   const user = state?.story?.user;
-  console.log('story Owner',user);
+
+  console.log('story Owner',user._id);
+
+useEffect(()=>{
+  updateStoryView(userId,user._id);
+  },[])
+
+  const updateStoryView = async (userId,viewer)=>{
+     await onUpdateStory(viewer,userId);
+  }
+
+ 
 
   const navigate = useNavigate();
 

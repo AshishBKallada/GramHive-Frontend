@@ -372,3 +372,9 @@ export const sendResetPassMail = (email) => {
 export const resetPassword = (token, newPassword) => {
     return client.put('/reset-password', { token, newPassword });
 }
+
+export const onUpdateStory = (userId,viewer) =>{
+    alert(userId)
+    alert(viewer)
+    return client.put('/updateview', { userId,viewer });
+}
