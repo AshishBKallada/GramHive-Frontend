@@ -376,5 +376,5 @@ export const resetPassword = (token, newPassword) => {
 export const onUpdateStory = (userId,viewer) =>{
     alert(userId)
     alert(viewer)
-    return client.put('/updateview', { userId,viewer });
+    return client.put('/story/updateview', { userId,viewer });
 }
