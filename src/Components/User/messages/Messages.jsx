@@ -439,7 +439,7 @@ function MessageList() {
                         src={getSenderImage(userId, chat.users)}
                         alt="chat-user"
                       />
-                      <span className="absolute w-4 h-4 bg-green-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
+                      {/* <span className="absolute w-4 h-4 bg-green-400 rounded-full right-0 bottom-0 border-2 border-white"></span> */}
                     </div>
                   </div>
                   <div className="flex-1 px-2">
