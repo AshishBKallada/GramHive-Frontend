@@ -95,7 +95,7 @@ export function Story() {
             </div>
 
             <div></div>
-            <div className="w-96">
+            {/* <div className="w-96">
               <div className="relative w-full min-w-[200px] h-14  bg-white shadow-2xl">
                 <div className="absolute grid w-5 h-5 place-items-center text-blue-500 top-2/4 right-3 -translate-y-2/4">
                   <i className="fa fa-paper-plane" aria-hidden="true"></i>
@@ -108,7 +108,7 @@ export function Story() {
                   Send Reply...
                 </label>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </WavyBackground>

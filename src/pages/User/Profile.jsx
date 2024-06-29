@@ -8,7 +8,6 @@ function UserProfile() {
       <div className="float-left fixed">
         <SidebarTest />
       </div>
-
       <div style={{ marginLeft: "200px" }}>
         <Profile />
       </div>
