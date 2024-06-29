@@ -117,6 +117,7 @@ function Home() {
         }}
         onClick={() => setShowBot(true)}
       >
+        <img src="/src/assets/emoji.gif" alt="" />
         <img
           src="https://static.vecteezy.com/system/resources/thumbnails/007/225/199/small_2x/robot-chat-bot-concept-illustration-vector.jpg"
           alt="AI Bot"
