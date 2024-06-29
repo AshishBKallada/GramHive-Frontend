@@ -7,9 +7,21 @@ import { formatDistanceToNow } from "date-fns";
 import { useSelector } from "react-redux";
 
 export function Story() {
+
+  const userId = useSelector((state)=>state.user.user._id);
+
+// useEffect(()=>{
+//   updateStoryView(userId,);
+//   },[])
+
+//   const updateStoryView = async ()=>{
+//     const response = await onUpdateStory()
+//   }
+
   const location = useLocation();
   const { state } = location;
   const user = state?.story?.user;
+  console.log('story Owner',user);
 
   const navigate = useNavigate();
 
