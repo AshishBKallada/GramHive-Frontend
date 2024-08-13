@@ -16,7 +16,7 @@ import { isVideo } from "../../../Functions/isVideo";
 function PostCard() {
   const author = useSelector((state) => state.user.user._id);
   const [currPost, setCurrPost] = useState(null);
-  const userId = useSelector((state) => state.user.user._id);
+  const userId = useSelector((state) => state.user._id);
 
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
