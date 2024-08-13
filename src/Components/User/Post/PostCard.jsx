@@ -175,7 +175,7 @@ function PostCard() {
               </div>
               <div className="relative h-56 sm:h-64 xl:h-80 2xl:h-96">
                 <Carousel slideInterval={1500}>
-                  {post.images.map((media, index) => (
+                  {post?.images.map((media, index) => (
                     <div key={index} className="h-full w-full">
                       {isVideo(media) ? (
                         <video
@@ -225,10 +225,10 @@ function PostCard() {
                         <div className="flex gap-4 bg-gray-300 rounded-xl border-b border-gray-300 mb-2 text-black pl-12 p-2 transition-transform hover:scale-105 hover:bg-teal-500 hover:text-white">
                           <img
                             className="w-10 h-10 rounded-full"
-                            src={user.image}
+                            src={user?.image}
                             alt=""
                           />
-                          <span>{user.username || 'Unknown User'}</span>
+                          <span>{user?.username || 'Unknown User'}</span>
                           </div>
                       </Link>
                     ))}
