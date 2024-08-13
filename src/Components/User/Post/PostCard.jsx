@@ -240,7 +240,7 @@ function PostCard() {
               <div className="flex items-center justify-between mx-4 mt-3 mb-2">
                 <div className="flex gap-5">
                   {post &&
-                  post?.likes?.includes((like) => {
+                  post?.likes?.find((like) => {
                     return like.user._id.toString() === author.toString();
                   }) ? (
                     <button onClick={() => handleUnLike(post._id, i)}>
