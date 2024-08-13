@@ -153,7 +153,7 @@ function PostCard() {
           )
         }
       >
-        {posts.map((post, i) => (
+        {posts.map((post) => (
           <div key={post._id} className="mt-5 p-4">
             <div className="bg-white border-t-2 border-gray-200 shadow-2xl rounded-lg max-w-xl">
               <div className="flex items-center px-4 py-3">
@@ -224,14 +224,14 @@ function PostCard() {
                   <Typography color="gray" className="mb-8 pr-4 font-normal">
                     {post.tags && post.tags.length > 0 ? (
                       post.tags.map((user, index) => (
-                        <Link to={`/userprofile/${user._id}`} key={index}>
+                        <Link to={`/userprofile/${user?._id}`} key={index}>
                           <div className="flex gap-4 bg-gray-300 rounded-xl border-b border-gray-300 mb-2 text-black pl-12 p-2 transition-transform hover:scale-105 hover:bg-teal-500 hover:text-white">
                             <img
                               className="w-10 h-10 rounded-full"
-                              src={user.image || 'default-image-url'}
-                              alt={user.username || 'Default Username'}
+                              src={user?.image || 'default-image-url'}
+                              alt={user?.username || 'Default Username'}
                             />
-                            <span>{user.username || 'Default Username'}</span>
+                            <span>{user?.username || 'Default Username'}</span>
                           </div>
                         </Link>
                       ))
@@ -244,14 +244,11 @@ function PostCard() {
 
               <p className="ml-2 text-gray-600">{post.caption || 'No caption available'}</p>
               <div className="flex items-center justify-between mx-4 mt-3 mb-2">
-                <div className="flex gap-5">
-                  {post &&
-                  post?.likes?.find((like) => {
-                    return like.user._id.toString() === author.toString();
-                  }) ? (
-                    <button onClick={() => handleUnLike(post._id, i)}>
+                <div className="flex gap-4">
+                  {post.likes && post.likes.includes(userId) ? (
+                    <button onClick={() => handleUnLike(post._id)}>
                       <svg
-                        fill="#ff0000"
+                        fill="#f44336"
                         height="24px"
                         width="24px"
                         version="1.1"
@@ -261,15 +258,7 @@ function PostCard() {
                         xmlSpace="preserve"
                         stroke="#000000"
                       >
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          <path d="M42.5,3.8c-7.4,0-13.7,5.6-15.4,12.9c-1.7-7.3-8-12.9-15.4-12.9c-8.4,0-15.2,6.8-15.2,15.2 c0,5.1,2.6,9.5,6.4,12.5L32.1,43c0,1.3,0.8,2.4,2,2.8l7.3,2.2c1.2,0.4,2.5-0.1,3.2-1.2l11.7-16.2 c3.6-5.1,6.4-11.4,6.4-18.3C57.6,10.6,51.8,3.8,42.5,3.8z"></path>
-                        </g>
+                        <path d="M42.5,3.8c-7.4,0-13.7,5.6-15.4,12.9c-1.7-7.3-8-12.9-15.4-12.9c-8.4,0-15.2,6.8-15.2,15.2 c0,5.1,2.6,9.5,6.4,12.5L32.1,43c0,1.3,0.8,2.4,2,2.8l7.3,2.2c1.2,0.4,2.5-0.1,3.2-1.2l11.7-16.2 c3.6-5.1,6.4-11.4,6.4-18.3C57.6,10.6,51.8,3.8,42.5,3.8z"></path>
                       </svg>
                     </button>
                   ) : (
@@ -285,15 +274,7 @@ function PostCard() {
                         xmlSpace="preserve"
                         stroke="#000000"
                       >
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></g>
-                        <g id="SVGRepo_iconCarrier">
-                          <path d="M42.5,3.8c-7.4,0-13.7,5.6-15.4,12.9c-1.7-7.3-8-12.9-15.4-12.9c-8.4,0-15.2,6.8-15.2,15.2 c0,5.1,2.6,9.5,6.4,12.5L32.1,43c0,1.3,0.8,2.4,2,2.8l7.3,2.2c1.2,0.4,2.5-0.1,3.2-1.2l11.7-16.2 c3.6-5.1,6.4-11.4,6.4-18.3C57.6,10.6,51.8,3.8,42.5,3.8z"></path>
-                        </g>
+                        <path d="M42.5,3.8c-7.4,0-13.7,5.6-15.4,12.9c-1.7-7.3-8-12.9-15.4-12.9c-8.4,0-15.2,6.8-15.2,15.2 c0,5.1,2.6,9.5,6.4,12.5L32.1,43c0,1.3,0.8,2.4,2,2.8l7.3,2.2c1.2,0.4,2.5-0.1,3.2-1.2l11.7-16.2 c3.6-5.1,6.4-11.4,6.4-18.3C57.6,10.6,51.8,3.8,42.5,3.8z"></path>
                       </svg>
                     </button>
                   )}
@@ -312,15 +293,7 @@ function PostCard() {
                       xmlSpace="preserve"
                       stroke="#000000"
                     >
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                      <g
-                        id="SVGRepo_tracerCarrier"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></g>
-                      <g id="SVGRepo_iconCarrier">
-                        <path d="M52,6H12c-5.5,0-10,4.5-10,10v36c0,5.5,4.5,10,10,10h40c5.5,0,10-4.5,10-10V16C62,10.5,57.5,6,52,6z M51,48H13 c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,47.5,51.5,48,51,48z M51,42H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38 c0.5,0,1,0.5,1,1v3C52,41.5,51.5,42,51,42z M51,36H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,35.5,51.5,36,51,36z M51,30H13 c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,29.5,51.5,30,51,30z M51,24H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3 C52,23.5,51.5,24,51,24z M51,18H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,17.5,51.5,18,51,18z"></path>
-                      </g>
+                      <path d="M52,6H12c-5.5,0-10,4.5-10,10v36c0,5.5,4.5,10,10,10h40c5.5,0,10-4.5,10-10V16C62,10.5,57.5,6,52,6z M51,48H13 c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,47.5,51.5,48,51,48z M51,42H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38 c0.5,0,1,0.5,1,1v3C52,41.5,51.5,42,51,42z M51,36H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,35.5,51.5,36,51,36z M51,30H13 c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,29.5,51.5,30,51,30z M51,24H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3 C52,23.5,51.5,24,51,24z M51,18H13c-0.5,0-1-0.5-1-1v-3c0-0.5,0.5-1,1-1h38c0.5,0,1,0.5,1,1v3C52,17.5,51.5,18,51,18z"></path>
                     </svg>
                   </button>
                 </div>
