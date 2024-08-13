@@ -37,7 +37,7 @@ import ResetPassword from "./Components/User/SignupTest/resetpassword";
 function App() {
   const { token, loading } = useContext(AuthContext);
   const { adminToken, adminLoading } = useContext(AdminAuthContext);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state?.user?.user);
   const userId = user ? user._id : null;
   const { addNotification } = useContext(NotificationContext);
   const toast = useToast();
